@@ -1,8 +1,10 @@
 {
       "pages": [
-            "pages/start/start",
+
             "pages/index/index",
+            "pages/explore/explore",
             "pages/login/login",
+            "pages/cart/cart",
             "pages/publish/publish",
             "pages/my/my",
             "pages/detail/detail",
@@ -20,14 +22,15 @@
             "pages/search/search",
             "pages/edit/edit",
             "pages/web/web",
-            "pages/poster/poster"
+            "pages/poster/poster",
+            "pages/start/start"  
       ],
       "window": {
-            "backgroundColor": "#fbbd08",
+            "backgroundColor": "#3ADF00",
             "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fbbd08",
-            "navigationBarTitleText": "重庆大学二手书",
-            "navigationBarTextStyle": "white"
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTitleText": "QUST二手交易",
+            "navigationBarTextStyle": "black"
       },
       "sitemapLocation": "sitemap.json",
       "tabBar": {
@@ -37,20 +40,32 @@
                   {
                         "pagePath": "pages/index/index",
                         "text": "首页",
-                        "iconPath": "/images/tabbar/home.png",
-                        "selectedIconPath": "/images/tabbar/home_on.png"
+                        "iconPath": "/images/tabbar/index.png",
+                        "selectedIconPath": "/images/tabbar/index-selected.png"
+                  },
+                  {
+                        "pagePath": "pages/explore/explore",
+                        "text": "发现",
+                        "iconPath": "/images/tabbar/explore.png",
+                        "selectedIconPath": "/images/tabbar/explore-selected.png"
                   },
                   {
                         "pagePath": "pages/publish/publish",
                         "text": "发布",
                         "iconPath": "/images/tabbar/publish.png",
-                        "selectedIconPath": "/images/tabbar/publish_on.png"
+                        "selectedIconPath": "/images/tabbar/publish-selected.png"
+                  },
+                  {
+                        "pagePath": "pages/cart/cart",
+                        "text": "想买",
+                        "iconPath": "/images/tabbar/cart.png",
+                        "selectedIconPath": "/images/tabbar/cart-selected.png"
                   },
                   {
                         "pagePath": "pages/my/my",
                         "text": "我的",
                         "iconPath": "/images/tabbar/my.png",
-                        "selectedIconPath": "/images/tabbar/my_on.png"
+                        "selectedIconPath": "/images/tabbar/my-selected.png"
                   }
             ]
       },

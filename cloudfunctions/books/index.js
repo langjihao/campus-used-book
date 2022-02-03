@@ -1,28 +1,21 @@
 //此处填写在极速书籍那边申请的接口密钥
-const appkey = 'xxxxxxxxxxxxx'; 
+const appkey = '220d737bc380667b'; 
 
-/*
-下
-面
-不
-用
-管
-*/
 
 const cloud = require('wx-server-sdk')
-const TcbRouter = require('tcb-router'); 
-const rq = require('request');
+const TCB = require('tcb-router'); 
+const request = require('request');
 cloud.init()
 
 // 云函数入口函数
 exports.main = async(event, context) => {
-      const app = new TcbRouter({
+      const app = new TCB({
             event
       });
       //根据isbn码获取图书详情信息
       app.router('bookinfo', async(ctx) => {
             ctx.body = new Promise(resolve => {
-                  rq({
+                  request({
                         url: 'https://api.jisuapi.com/isbn/query?appkey=' + appkey + '&isbn=' + event.isbn,
                         method: "GET",
                         json: true,
