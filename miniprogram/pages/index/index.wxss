@@ -1,53 +1,15 @@
-.top_box {
-      width: 100%;
-      background: #fbbd08;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20rpx 30rpx;
-      box-sizing: border-box;
-}
-
-.top_list {
-      width: 50rpx;
-      height: 50rpx;
-}
-
-.search_box {
-      width: 620rpx;
-      height: 66rpx;
-      border-radius: 33rpx;
-      background: #fff;
-      display: flex;
-      align-items: center;
-}
-
-.search_ico {
-      padding-left: 30rpx;
-      width: 32rpx;
-      height: 32rpx;
-}
-
-.search_text {
-      padding-left: 10rpx;
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-      color: rgb(167, 167, 167);
-}
-
 .banner {
       width: 100%;
       display: flex;
-      box-sizing: border-box;
-      height: 184rpx;
+      box-sizing:border-box;
+      height: 186rpx;
 }
 
 .banner_image {
       width: 100%;
-      padding: 16rpx 16rpx 12rpx 16rpx;
       display: flex;
       box-sizing: border-box;
-      height: 160rpx;
+      height: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -70,38 +32,6 @@
       background: #fff;
       align-items: center;
       position: relative;
-}
-
-.nav {
-      width: calc(100% - 180rpx);
-      height: 100%;
-      white-space: nowrap;
-      display: flex;
-      box-sizing: border-box;
-}
-
-.nav-item {
-      width: 100rpx;
-      height: 100%;
-      display: inline-block;
-      font-size: 32rpx;
-}
-
-.nav-text {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: 4rpx;
-      box-sizing: border-box;
-}
-
-.tab-on {
-      color: #fbbd08;
-      font-size: 32rpx !important;
-      font-weight: 600;
-      border-bottom: 4rpx solid #fbbd08 !important;
 }
 
 .kind_img {
@@ -132,38 +62,6 @@
       box-sizing: border-box;
       background: #fff;
 }
-
-.list_grid {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-}
-
-.list_one {
-      width: 25%;
-      padding: 0 10rpx 20rpx 10rpx;
-      display: flex;
-      box-sizing: border-box;
-}
-
-.list_one view {
-      width: 100%;
-      height: 60rpx;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1rpx solid #eee;
-      border-radius: 10rpx;
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-}
-
-.list-on {
-      background: #fbbd08;
-      color: #fff;
-      border: none !important;
-}
-
 .card_grid {
       width: 100%;
       display: flex;
@@ -322,4 +220,11 @@
       height: 91rpx;
       width: 100%;
       background: #fff;
+}
+.contain {
+      top: 100rpx;
+      left: 0rpx;
+      width: 100%;
+      padding: 40rpx 40rpx 40rpx 40rpx;
+      box-sizing: border-box;
 }

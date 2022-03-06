@@ -1,7 +1,5 @@
 <view class="contain">
       <view style="height:20rpx;"></view>
-      <!--顶部图-->
-      <image src="{{banner}}" class="slide-image" />
       <!--在线咨询-->
       <view class="card">
             <view class="card1">
@@ -12,10 +10,10 @@
             </view>
             <view class="centercontain">
                   <view class="name">在线咨询</view>
-                  <view class="des">点击即可在线咨询客服</view>
+                  <view class="des">调用站内聊天(未完成)</view>
             </view>
             <view class="rightico">
-                        <image class="rightimg" src="/images/right.png" />
+                        <image class="rightimg" src="/images/enter.png" />
             </view>
             <button open-type="contact"></button>
       </view>
@@ -28,11 +26,11 @@
                   <view class="border"></view>
             </view>
             <view class="centercontain">
-                  <view class="name">官方微信</view>
+                  <view class="name">微信联系</view>
                   <view class="des">点击即可复制官方微信</view>
             </view>
             <view class="rightico">
-                  <image class="rightimg" src="/images/right.png" />
+                  <image class="rightimg" src="/images/enter.png" />
             </view>
       </view>
       <!--QQ联系-->
@@ -48,27 +46,11 @@
                   <view class="des">点击即可复制客服QQ</view>
             </view>
             <view class="rightico">
-                  <image class="rightimg" src="/images/right.png" />
+                  <image class="rightimg" src="/images/enter.png" />
             </view>
       </view>
-      <!--电话联系-->
-      <view wx:if="{{phone}}" class="card" bindtap="phone" data-phone="{{phone}}">
-            <view class="card1">
-                  <image class="wechatimg" src="/images/phone.png" />
-            </view>
-            <view class="borderbox">
-                  <view class="border"></view>
-            </view>
-            <view class="centercontain">
-                  <view class="name">24小时服务热线</view>
-                  <view class="des">{{phone}}</view>
-            </view>
-            <view class="rightico">
-                  <image class="rightimg" src="/images/right.png" />
-            </view>
-      </view>
-      <!--公众号-->
-      <view class="card" bindtap="preview" data-link="{{gzh}}">
+      <!-- 公众号 -->
+      <!-- <view class="card" bindtap="preview" data-link="{{gzh}}">
             <view class="card1">
                   <image class="wechatimg" src="/images/gzh.png" />
             </view>
@@ -80,7 +62,7 @@
                   <view class="des">识别二维码关注官方公众号</view>
             </view>
             <view class="rightico">
-                  <image class="rightimg" src="/images/right.png" />
+                  <image class="rightimg" src="/images/enter.png" />
             </view>
-      </view>
+      </view> -->
 </view>

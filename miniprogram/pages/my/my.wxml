@@ -1,26 +1,30 @@
 <view class="top_box">
       <view class="top_1">
-            <view wx:if="{{!userinfo}}" class="top_1_1" bindtap="go" data-go="/pages/login/login">点击登录</view>
+            <view wx:if="{{!userinfo}}" class="top_1_1" bindtap="go" data-go="/pages/wxlogin/wxlogin">点击登录</view>
             <view wx:if="{{userinfo}}" class="top_1_1">
-                  <open-data type="userNickName"></open-data>
+                  <view>{{userinfo.info.nickName}}</view>
             </view>
             <view class="top_1_2" wx:if="{{!userinfo}}">一秒登录，体验所有功能</view>
              <view class="top_1_2" wx:if="{{userinfo}}" bindtap="go" data-go="/pages/edit/edit" data-status="1">点击修改资料</view>
       </view>
       <view class="top_2">
-            <view class="avator">
-                  <open-data wx:if="{{userinfo}}" type="userAvatarUrl"></open-data>
+            <view class="avatar">
+                  <image wx:if="{{userinfo}}" lazy-load src="{{userinfo.info.avatarUrl}}"></image>
                   <image wx:if="{{!userinfo}}" src="/images/avator.png"></image>
             </view>
       </view>
 </view>
 <view class="center_box">
-      <view class="center_1" bindtap="go" data-go="/pages/sell/list/list" data-status="1">
+      <view class="center_1" bindtap="go" data-go="/pages/publist/publist" data-status="1">
             <image src="/images/history.png"></image>
             <view>我的发布</view>
       </view>
-      <view class="center_1" bindtap="go" data-go="/pages/order/list/list" data-status="1">
-            <image src="/images/publish.png"></image>
+      <!-- <view class="center_1" bindtap="go" data-go="/pages/orderlist/orderlist" data-status="1">
+            <image src="/images/order.png"></image>
+            <view>我的购买</view>
+      </view> -->
+      <view class="center_1">
+            <image src="/images/order.png"></image>
             <view>我的购买</view>
       </view>
       <view class="center_1" bindtap="go" data-go="/pages/help/help">
@@ -32,8 +36,10 @@
 <view class="bottom_box">
       <view class="bottom_card" bindtap="go" data-go="/pages/parse/parse" data-status="1">
             <view class="bottom_1">
-                  <image src="/images/parse.png"></image>
-                  <view>我的钱包</view>
+                  <image src="/images/carbon.png"></image>
+                  <view>我的碳积分</view>
+                  <view class='top_1_2'>认领一棵自己的树</view>
+                  <image src="/images/tree.png"></image>
             </view>
             <image src="/images/go.png"></image>
       </view>
@@ -52,22 +58,18 @@
             <image src="/images/go.png"></image>
             <button open-type="feedback"></button>
       </view>
-      <view class="bottom_card" bindtap="showShare">
+      <!-- <view class="bottom_card" bindtap="showShare">
             <view class="bottom_1">
                   <image src="/images/share.png"></image>
                   <view>好用分享</view>
             </view>
             <image src="/images/go.png"></image>
-      </view>
-      <view class="bottom_card" bindtap="go" data-go="/pages/about/about">
-            <view class="bottom_1">
-                  <image src="/images/about.png"></image>
-                  <view>关于程序</view>
-            </view>
-            <image src="/images/go.png"></image>
-      </view>
+      </view> -->
 </view>
+      <view class="blank"></view>
+      <view class="loginout" bindtap="loginout">退出登录</view>
 
+      
 <!--分享弹出层-->
 <van-popup show="{{ showShare }}" bind:close="closePop">
       <view class="share_contain">

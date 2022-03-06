@@ -13,41 +13,16 @@ Page({
             list: [],
             key: '',
             blank: false,
-            hislist: [],
             nomore:false,
       },
       onLoad: function(options) {
-            this.gethis();
             this.getnew();
-      },
-      //获取本地记录
-      gethis() {
-            let that = this;
-            wx.getStorage({
-                  key: 'history',
-                  success: function(res) {
-                        let hislist = JSON.parse(res.data);
-                        //限制长度
-                        if (hislist.length > 5) {
-                              hislist.length = 5
-                        }
-                        that.setData({
-                              hislist: hislist
-                        })
-                  },
-            })
-      },
-      //选择历史搜索关键词
-      choosekey(e) {
-            this.data.key = e.currentTarget.dataset.key;
-            this.search('his');
       },
       //最新推荐书籍
       getnew() {
             let that = this;
             db.collection('publish').where({
                   status: 0,
-                  dura: _.gt(new Date().getTime()),
             }).orderBy('creat', 'desc').get({
                   success: function(res) {
                         let newlist = res.data;
@@ -85,12 +60,8 @@ Page({
             wx.showLoading({
                   title: '加载中',
             })
-            if (n !== 'his') {
-                  that.history(key);
-            }
             db.collection('publish').where({
                   status: 0,
-                  dura: _.gt(new Date().getTime()),
                   key: db.RegExp({
                         regexp: '.*' + key + '.*',
                         options: 'i',
@@ -109,31 +80,6 @@ Page({
       },
       onReachBottom() {
             this.more();
-      },
-      //添加到搜索历史
-      history(key) {
-            let that = this;
-            wx.getStorage({
-                  key: 'history',
-                  success(res) {
-                        let oldarr = JSON.parse(res.data); //字符串转数组
-                        let newa = [key]; //对象转为数组
-                        let newarr = JSON.stringify(newa.concat(oldarr)); //连接数组\转字符串
-                        wx.setStorage({
-                              key: 'history',
-                              data: newarr,
-                        })
-                  },
-                  fail(res) {
-                        //第一次打开时获取为null
-                        let newa = [key]; //对象转为数组
-                        var newarr = JSON.stringify(newa); //数组转字符串
-                        wx.setStorage({
-                              key: 'history',
-                              data: newarr,
-                        })
-                  }
-            });
       },
       keyInput(e) {
             this.data.key = e.detail.value
@@ -157,14 +103,13 @@ Page({
                   return false
             }
             let page = that.data.page + 1;
-            if (that.data.collegeCur == -2) {
-                  var collegeid = _.neq(-2); //除-2之外所有
+            if (that.data.sort_1Cur == -2) {
+                  var sort_1id = _.neq(-2); //除-2之外所有
             } else {
-                  var collegeid = that.data.collegeCur + '' //小程序搜索必须对应格式
+                  var sort_1id = that.data.sort_1Cur + '' //小程序搜索必须对应格式
             }
             db.collection('publish').where({
                   status: 0,
-                  dura: _.gt(new Date().getTime()),
                   key: db.RegExp({
                         regexp: '.*' + that.data.key + '.*',
                         options: 'i',

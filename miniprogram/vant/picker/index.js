@@ -2,25 +2,29 @@ import { VantComponent } from '../common/component';
 import { pickerProps } from './shared';
 VantComponent({
     classes: ['active-class', 'toolbar-class', 'column-class'],
-    props: Object.assign({}, pickerProps, { valueKey: {
+    props: Object.assign(Object.assign({}, pickerProps), { valueKey: {
             type: String,
-            value: 'text'
+            value: 'text',
+        }, toolbarPosition: {
+            type: String,
+            value: 'top',
         }, defaultIndex: {
             type: Number,
-            value: 0
+            value: 0,
         }, columns: {
             type: Array,
             value: [],
             observer(columns = []) {
                 this.simple = columns.length && !columns[0].values;
-                this.children = this.selectAllComponents('.van-picker__column');
                 if (Array.isArray(this.children) && this.children.length) {
                     this.setColumns().catch(() => { });
                 }
-            }
+            },
         } }),
     beforeCreate() {
-        this.children = [];
+        Object.defineProperty(this, 'children', {
+            get: () => this.selectAllComponents('.van-picker__column') || [],
+        });
     },
     methods: {
         noop() { },
@@ -35,13 +39,13 @@ VantComponent({
             if (this.simple) {
                 this.$emit(type, {
                     value: this.getColumnValue(0),
-                    index: this.getColumnIndex(0)
+                    index: this.getColumnIndex(0),
                 });
             }
             else {
                 this.$emit(type, {
                     value: this.getValues(),
-                    index: this.getIndexes()
+                    index: this.getIndexes(),
                 });
             }
         },
@@ -50,14 +54,14 @@ VantComponent({
                 this.$emit('change', {
                     picker: this,
                     value: this.getColumnValue(0),
-                    index: this.getColumnIndex(0)
+                    index: this.getColumnIndex(0),
                 });
             }
             else {
                 this.$emit('change', {
                     picker: this,
                     value: this.getValues(),
-                    index: event.currentTarget.dataset.index
+                    index: event.currentTarget.dataset.index,
                 });
             }
         },
@@ -127,6 +131,6 @@ VantComponent({
         setIndexes(indexes) {
             const stack = indexes.map((optionIndex, columnIndex) => this.setColumnIndex(columnIndex, optionIndex));
             return Promise.all(stack);
-        }
-    }
+        },
+    },
 });

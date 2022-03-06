@@ -8,15 +8,36 @@ Page({
       data: {
             showShare: false,
             poster: JSON.parse(config.data).share_poster,
+            userinfo:{},
+            islogin:false
       },
       onShow() {
+            let user =wx.getStorageSync('userinfo')
             this.setData({
-                  userinfo: app.userinfo
+              userinfo:user,
+              islogin:true
             })
+            console.log(this.data.userinfo)
+      },
+      onLoad(){
+            let user =wx.getStorageSync('userinfo')
+            this.setData({
+              userinfo:user
+            })
+            console.log(this.data.userinfo)
+      },
+      loginout(){
+            wx.setStorageSync('userinfo', '')
+            let user =wx.getStorageSync('userinfo')
+            this.setData({
+              userinfo:user,
+              islogin:false
+            })
+            console.log(this.data.userinfo)
       },
       go(e) {
             if (e.currentTarget.dataset.status == '1') {
-                  if (!app.openid) {
+                  if (!this.data.islogin) {
                         wx.showModal({
                               title: '温馨提示',
                               content: '该功能需要注册方可使用，是否马上去注册',

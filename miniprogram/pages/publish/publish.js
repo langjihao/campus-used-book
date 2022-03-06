@@ -3,12 +3,13 @@ const app = getApp();
 const config = require("../../config.js");
 Page({
       data: {
-            systeminfo: app.systeminfo,
+            fileList:[],
+            piclist:[],
+            islogin:false,
             entime: {
                   enter: 600,
                   leave: 300
             }, //进入褪出动画时长
-            college: JSON.parse(config.data).college.splice(1),
             steps: [{
                         text: '步骤一',
                         desc: '扫描isbn码'
@@ -22,35 +23,91 @@ Page({
                         desc: '发布成功'
                   },
             ],
+            price: 15,
+            place: '',
+            choosemethod: 0,
+            cids: '-1', //学院选择的默认值
+            isbn: '',
+            step1: true,
+            step2: false,
+            step3: false,
+            active: 0,
+            choosesort_1: false,
+            note_counts: 0,
+            notes: '',
+            kindid: 0,
+            sort_1: JSON.parse(config.data).sort_1,
+            kind: [{
+                  name: '专业教材',
+                  id: 0,
+                  check: true,
+            }, {
+                  name: '其他',
+                  id: 1,
+                  check: false
+            }],
+            method: [{
+                  name: '自提',
+                  id: 0,
+                  check: true,
+            }, {
+                  name: '帮送',
+                  id: 1,
+                  check: false
+            }],
       },
-      //恢复初始态
-      initial() {
-            let that = this;
-            that.setData({
-                  dura: 30,
+      //获取该学生课程信息   未完成
+      // getcourse(){
+      //       let that = this;
+      //       let major = that.data.userinfo.stuinfo.MajorID
+      //       db.collection('major').where({
+      //             MajorID : major
+      //       }).get({
+      //             success(res){
+      //                   console.log(res)
+      //                   that.setData({
+      //                         flag:2,
+      //                   })
+      //       }})
+      // },
+      //重新发布，回到初始状态
+      initial(){
+            this.setData({
+                  fileList:[],
+                  piclist:[],
+                  islogin:false,
+                  entime: {
+                        enter: 600,
+                        leave: 300
+                  }, //进入褪出动画时长
+                  steps: [{
+                              text: '步骤一',
+                              desc: '扫描isbn码'
+                        },
+                        {
+                              text: '步骤二',
+                              desc: '补充图书信息'
+                        },
+                        {
+                              text: '步骤三',
+                              desc: '发布成功'
+                        },
+                  ],
                   price: 15,
                   place: '',
-                  chooseDelivery: 0,
+                  choosemethod: 0,
                   cids: '-1', //学院选择的默认值
                   isbn: '',
-                  show_a: true,
-                  show_b: false,
-                  show_c: false,
+                  step1: true,
+                  step2: false,
+                  step3: false,
                   active: 0,
-                  chooseCollege: false,
+                  choosesort_1: false,
                   note_counts: 0,
                   notes: '',
                   kindid: 0,
-                  kind: [{
-                        name: '通用',
-                        id: 0,
-                        check: true,
-                  }, {
-                        name: '专业',
-                        id: 1,
-                        check: false
-                  }],
-                  delivery: [{
+                  sort_1: JSON.parse(config.data).sort_1,
+                  method: [{
                         name: '自提',
                         id: 0,
                         check: true,
@@ -59,14 +116,39 @@ Page({
                         id: 1,
                         check: false
                   }],
+
             })
+            this.onShow()
       },
-      onLoad() {
-            this.initial();
+      onShow() {
+            let user =wx.getStorageSync('userinfo')
+            if(user){
+            this.setData({
+              userinfo:user,
+              islogin:true,
+              kind: [{
+                  name: user.stuinfo.Major+'专业教材',
+                  id: 0,
+                  check: true,
+            }, {
+                  name: '其他',
+                  id: 1,
+                  check: false
+            }],
+            })     
+            }
+            else{
+                  this.setData({
+                        islogin:false,
+                  })
+            }
+            //this.getcourse();
       },
       //手动输入isbn
       isbnInput(e) {
-            this.data.isbn = e.detail.value;
+            this.setData({
+                  isbn:e.detail.value
+            });
       },
       //打开摄像头扫码isbn
       scan() {
@@ -101,14 +183,14 @@ Page({
                   });
                   return false;
             }
-            if (!app.openid) {
+            if (!this.data.islogin) {
                   wx.showModal({
                         title: '温馨提示',
                         content: '该功能需要注册方可使用，是否马上去注册',
                         success(res) {
                               if (res.confirm) {
                                     wx.navigateTo({
-                                          url: '/pages/login/login',
+                                          url: '/pages/wxlogin/wxlogin',
                                     })
                               }
                         }
@@ -118,26 +200,26 @@ Page({
             that.get_book(isbn);
       },
       //查询书籍数据库详情
-      get_book(bn) {
+      get_book(isbn) {
             let that = this;
             wx.showLoading({
                   title: '正在获取'
             })
             //先检查是否存在该书记录，没有再进行云函数调用
             db.collection('books').where({
-                  isbn: bn
+                  isbn: isbn
             }).get({
                   success(res) {
                         //添加到数据库
                         if (res.data == "") {
-                              that.addbooks(bn);
+                              that.addbooks(isbn);
                         } else {
                               wx.hideLoading();
                               that.setData({
                                     bookinfo: res.data[0],
-                                    show_a: false,
-                                    show_b: true,
-                                    show_c: false,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
                                     active: 1,
                               })
                         }
@@ -154,35 +236,110 @@ Page({
                         isbn: bn
                   },
                   success: res => {
+                        console.log(res)
                         if (res.result.body.status == 0) {
+                              wx.hideLoading();
+                              if(res.result.body.result.pic==''){
+                                    res.result.body.result.pic='cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'
+                              }
+                              that.setData({
+                                    bookinfo: res.result.body.result,
+                                    step1: false,
+                                    step2: true,
+                                    step3: false,
+                                    active: 1,
+                              })
                               db.collection('books').add({
                                     data: res.result.body.result,
                                     success: function(res) {
-                                          wx.hideLoading();
-                                          that.setData({
-                                                bookinfo: res.result.body.result,
-                                                show_a: false,
-                                                show_b: true,
-                                                show_c: false,
-                                                active: 1,
-                                          })
                                     },
                                     fail: console.error
                               })
                         }
                   },
                   fail: err => {
+                        wx.hideLoading();
+                        wx.showToast({
+                          title: '查询失败',
+                        })
                         console.error(err)
                   }
             })
       },
+        //每次上传图片后，缓存图片
+      afterRead(event) {
+      let that = this;
+      console.log(event.detail)
+      const { fileList = [] } = that.data;
+      fileList.push({ ...event.detail, url: event.detail.file.url });
+      that.setData({ fileList });
+    },
+    //删除图片
+      delete(event){
+      for (let i = 0; i < this.data.fileList.length; i++) {
+            if (this.data.fileList[i].index==event.detail.file.index){
+            this.data.fileList.splice(i,1);
+            this.setData({
+            fileList:this.data.fileList
+            })
+            }
+      }},
+      //发布
+      upload(){
+      let that = this;
+      const { fileList } = that.data;
+      if (!fileList.length) {
+      wx.showModal({
+            title:"提示",
+            content:"上传宝贝图片更易卖出嗷",
+            confirmText:'我意已决',
+            cancelText:"容我想想",
+            cancelColor: 'cancelColor',
+            success: function (res) {
+
+            if (res.confirm) {//这里是点击了确定以后
+            
+            console.log('用户点击确定')
+            that.publish()
+
+            } else {//这里是点击了取消以后
+
+            console.log('用户点击取消')
+
+            }}
+      });
+      } else {
+      wx.showLoading({
+            title: '正在上传',
+      })
+      const uploadTasks = fileList.map((file, index) => this.uploadFilePromise(that.data.userinfo.UID+new Date().getTime()+`item.png`, file));
+      Promise.all(uploadTasks)
+            .then(data => {
+            wx.hideLoading()
+            wx.showToast({ title: '上传成功', icon: 'none' });
+            const newFileList = data.map(item => ({ url: item.fileID }));
+            that.setData({
+            piclist:newFileList
+            })
+            that.publish()
+            })
+            .catch(e => {
+            wx.hideLoading()
+            wx.showToast({ title: '上传失败', icon: 'none' });
+            console.log(e);
+            });
+      }
+      },
+      //上传图片
+      uploadFilePromise(fileName, chooseResult) {
+      return wx.cloud.uploadFile({
+      cloudPath: fileName,
+      filePath: chooseResult.url
+      });
+      },
       //价格输入改变
       priceChange(e) {
             this.data.price = e.detail;
-      },
-      //时才输入改变
-      duraChange(e) {
-            this.data.dura = e.detail;
       },
       //地址输入
       placeInput(e) {
@@ -201,20 +358,20 @@ Page({
             if (id == 1) {
                   that.setData({
                         kind: kind,
-                        chooseCollege: true,
+                        choosesort_1: true,
                         kindid: id
                   })
             } else {
                   that.setData({
                         kind: kind,
-                        cids: '-1',
-                        chooseCollege: false,
+                        cids: that.data.userinfo.stuinfo.MajorID,
+                        choosesort_1: false,
                         kindid: id
                   })
             }
       },
       //选择专业
-      choCollege(e) {
+      chosort_1(e) {
             let that = this;
             that.setData({
                   cids: e.detail.value
@@ -223,21 +380,21 @@ Page({
       //取货方式改变
       delChange(e) {
             let that = this;
-            let delivery = that.data.delivery;
+            let method = that.data.method;
             let id = e.detail.value;
-            for (let i = 0; i < delivery.length; i++) {
-                  delivery[i].check = false
+            for (let i = 0; i < method.length; i++) {
+                  method[i].check = false
             }
-            delivery[id].check = true;
+            method[id].check = true;
             if (id == 1) {
                   that.setData({
-                        delivery: delivery,
-                        chooseDelivery: 1
+                        method: method,
+                        choosemethod: 1
                   })
             } else {
                   that.setData({
-                        delivery: delivery,
-                        chooseDelivery: 0
+                        method: method,
+                        choosemethod: 0
                   })
             }
       },
@@ -252,18 +409,18 @@ Page({
       //发布校检
       check_pub() {
             let that = this;
-            //如果用户选择了专业类书籍，需要选择学院
+            //如果用户选择了其他类别，需要确认类别
             if (that.data.kind[1].check) {
                   if (that.data.cids == -1) {
                         wx.showToast({
-                              title: '请选择学院',
+                              title: '请选择类别',
                               icon: 'none',
                         });
                         return false;
                   }
             }
             //如果用户选择了自提，需要填入详细地址
-            if (that.data.delivery[0].check) {
+            if (that.data.method[0].check) {
                   if (that.data.place == '') {
                         wx.showToast({
                               title: '请输入地址',
@@ -272,7 +429,7 @@ Page({
                         return false;
                   }
             }
-            that.publish();
+            that.upload();
       },
       //正式发布
       publish() {
@@ -282,18 +439,17 @@ Page({
                   content: '经检测您填写的信息无误，是否马上发布？',
                   success(res) {
                         if (res.confirm) {
+                              console.log(10)
                               db.collection('publish').add({
                                     data: {
                                           creat: new Date().getTime(),
-                                          dura: new Date().getTime() + that.data.dura * (24 * 60 * 60 * 1000),
-                                          status: 0, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-                                          price: that.data.price, //售价
-                                          //分类
-                                          kindid: that.data.kindid, //区别通用还是专业
-                                          collegeid: that.data.cids, //学院id，-1表示通用类
-                                          deliveryid: that.data.chooseDelivery, //0自1配
+                                          status: 0, 
+                                          price: that.data.price, 
+                                          kindid: that.data.kindid, 
+                                          sort_1id: that.data.cids,
+                                          methodid: that.data.choosemethod, //0自1配
                                           place: that.data.place, //选择自提时地址
-                                          notes: that.data.notes, //备注
+                                          notes: that.data.notes,
                                           bookinfo: {
                                                 _id: that.data.bookinfo._id,
                                                 author: that.data.bookinfo.author,
@@ -302,14 +458,15 @@ Page({
                                                 price: that.data.bookinfo.price,
                                                 title: that.data.bookinfo.title,
                                           },
+                                          piclist:that.data.piclist,
                                           key: that.data.bookinfo.title + that.data.bookinfo.keyword
                                     },
                                     success(e) {
                                           console.log(e)
                                           that.setData({
-                                                show_a: false,
-                                                show_b: false,
-                                                show_c: true,
+                                                step1: false,
+                                                step2: false,
+                                                step3: true,
                                                 active: 2,
                                                 detail_id: e._id
                                           });
@@ -317,7 +474,9 @@ Page({
                                           wx.pageScrollTo({
                                                 scrollTop: 0,
                                           })
-                                    }
+                                    },
+                                    fail(e){
+                                          console.log(e)}
                               })
                         }
                   }

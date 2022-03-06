@@ -1,0 +1,13 @@
+<!--pages/quickpublish/quickpublish.wxml-->
+<view class="card">
+<view>
+<van-upload file-list="{{ fileList }}" bind:after-read="afterRead" max-count="3" accept="image" bind:delete="delete"/>
+</view>
+<view class="notes">
+  <view class="text">
+    <textarea value="{{info}}" bindinput="infoInput" maxlength="66" placeholder="描述商品类别、品牌、新旧程度、适用场景（宿舍、考研、教资、美妆……）"></textarea>
+    <view class="count">{{count}}/66</view>
+  </view>
+</view>
+</view>
+<button type="primary" bindtap="upload">发布</button>

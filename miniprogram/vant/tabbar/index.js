@@ -1,63 +1,65 @@
 import { VantComponent } from '../common/component';
-import { safeArea } from '../mixins/safe-area';
+import { useChildren } from '../common/relation';
+import { getRect } from '../common/utils';
 VantComponent({
-    mixins: [safeArea()],
-    relation: {
-        name: 'tabbar-item',
-        type: 'descendant',
-        linked(target) {
-            this.children.push(target);
-            target.parent = this;
-            target.updateFromParent();
-        },
-        unlinked(target) {
-            this.children = this.children.filter((item) => item !== target);
-            this.updateChildren();
-        }
-    },
+    relation: useChildren('tabbar-item', function () {
+        this.updateChildren();
+    }),
     props: {
         active: {
-            type: [Number, String],
-            observer: 'updateChildren'
+            type: null,
+            observer: 'updateChildren',
         },
         activeColor: {
             type: String,
-            observer: 'updateChildren'
+            observer: 'updateChildren',
         },
         inactiveColor: {
             type: String,
-            observer: 'updateChildren'
+            observer: 'updateChildren',
         },
         fixed: {
             type: Boolean,
-            value: true
+            value: true,
+            observer: 'setHeight',
+        },
+        placeholder: {
+            type: Boolean,
+            observer: 'setHeight',
         },
         border: {
             type: Boolean,
-            value: true
+            value: true,
         },
         zIndex: {
             type: Number,
-            value: 1
-        }
+            value: 1,
+        },
+        safeAreaInsetBottom: {
+            type: Boolean,
+            value: true,
+        },
     },
-    beforeCreate() {
-        this.children = [];
+    data: {
+        height: 50,
     },
     methods: {
         updateChildren() {
             const { children } = this;
             if (!Array.isArray(children) || !children.length) {
-                return Promise.resolve();
+                return;
             }
-            return Promise.all(children.map((child) => child.updateFromParent()));
+            children.forEach((child) => child.updateFromParent());
         },
-        onChange(child) {
-            const index = this.children.indexOf(child);
-            const active = child.data.name || index;
-            if (active !== this.data.active) {
-                this.$emit('change', active);
+        setHeight() {
+            if (!this.data.fixed || !this.data.placeholder) {
+                return;
             }
-        }
-    }
+            wx.nextTick(() => {
+                getRect(this, '.van-tabbar').then((res) => {
+                    this.setData({ height: res.height });
+                });
+            });
+        },
+    },
 });

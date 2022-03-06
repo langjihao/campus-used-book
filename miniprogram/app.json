@@ -1,82 +1,88 @@
 {
-      "pages": [
-
-            "pages/index/index",
-            "pages/explore/explore",
-            "pages/login/login",
-            "pages/cart/cart",
-            "pages/publish/publish",
-            "pages/my/my",
-            "pages/detail/detail",
-            "pages/success/success",
-            "pages/order/detail/detail",
-            "pages/order/list/list",
-            "pages/help/help",
-            "pages/kefu/kefu",
-            "pages/parse/parse",
-            "pages/reflect/reflect",
-            "pages/about/about",
-            "pages/sell/list/list",
-            "pages/sell/detail/detail",
-            "pages/recharge/recharge",
-            "pages/search/search",
-            "pages/edit/edit",
-            "pages/web/web",
-            "pages/poster/poster",
-            "pages/start/start"  
-      ],
-      "window": {
-            "backgroundColor": "#3ADF00",
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#ffffff",
-            "navigationBarTitleText": "QUST二手交易",
-            "navigationBarTextStyle": "black"
+  "pages": [
+    "pages/index/index",
+    "pages/explore/explore",
+    "pages/cart/cart",
+    "pages/publish/publish",
+    "pages/my/my",
+    "pages/detail/detail",
+    "pages/orderdetail/orderdetail",
+    "pages/orderlist/orderlist",
+    "pages/help/help",
+    "pages/kefu/kefu",
+    "pages/parse/parse",
+    "pages/publist/publist",
+    "pages/search/search",
+    "pages/edit/edit",
+    "pages/web/web",
+    "pages/wxlogin/wxlogin",
+    "pages/verify/verify",
+    "pages/quickpublish/quickpublish",
+    "pages/sell/list/list.json",
+    "pages/sell/list"
+  ],
+  "window": {
+    "backgroundColor": "#3ADF00",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "QUST二手交易",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/tabbar/index.png",
+        "selectedIconPath": "/images/tabbar/index-selected.png"
       },
-      "sitemapLocation": "sitemap.json",
-      "tabBar": {
-            "color": "#707070",
-            "selectedColor": "#000000",
-            "list": [
-                  {
-                        "pagePath": "pages/index/index",
-                        "text": "首页",
-                        "iconPath": "/images/tabbar/index.png",
-                        "selectedIconPath": "/images/tabbar/index-selected.png"
-                  },
-                  {
-                        "pagePath": "pages/explore/explore",
-                        "text": "发现",
-                        "iconPath": "/images/tabbar/explore.png",
-                        "selectedIconPath": "/images/tabbar/explore-selected.png"
-                  },
-                  {
-                        "pagePath": "pages/publish/publish",
-                        "text": "发布",
-                        "iconPath": "/images/tabbar/publish.png",
-                        "selectedIconPath": "/images/tabbar/publish-selected.png"
-                  },
-                  {
-                        "pagePath": "pages/cart/cart",
-                        "text": "想买",
-                        "iconPath": "/images/tabbar/cart.png",
-                        "selectedIconPath": "/images/tabbar/cart-selected.png"
-                  },
-                  {
-                        "pagePath": "pages/my/my",
-                        "text": "我的",
-                        "iconPath": "/images/tabbar/my.png",
-                        "selectedIconPath": "/images/tabbar/my-selected.png"
-                  }
-            ]
+      {
+        "pagePath": "pages/explore/explore",
+        "text": "发现",
+        "iconPath": "/images/tabbar/explore.png",
+        "selectedIconPath": "/images/tabbar/explore-selected.png"
       },
-      "usingComponents": {
-            "van-steps": "vant/steps/index",
-            "van-transition": "vant/transition/index",
-            "van-stepper": "vant/stepper/index",
-            "van-action-sheet": "vant/action-sheet/index",
-            "van-popup": "vant/popup/index",
-            "canvasdrawer": "/components/canvasdrawer/canvasdrawer",
-            "tips": "components/add_tips/index",
-            "van-dialog": "vant/dialog/index"
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "/images/tabbar/publish.png",
+        "selectedIconPath": "/images/tabbar/publish-selected.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "想买",
+        "iconPath": "/images/tabbar/cart.png",
+        "selectedIconPath": "/images/tabbar/cart-selected.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "/images/tabbar/my.png",
+        "selectedIconPath": "/images/tabbar/my-selected.png"
       }
+    ]
+  },
+  "usingComponents": {
+    "van-upload": "vant/uploader/index",
+    "van-steps": "vant/steps/index",
+    "van-transition": "vant/transition/index",
+    "van-stepper": "vant/stepper/index",
+    "van-action-sheet": "vant/action-sheet/index",
+    "van-popup": "vant/popup/index",
+    "van-dialog": "vant/dialog/index",
+    "van-search-bar": "vant/search/index",
+    "van-tabs": "vant/tabs/index",
+    "van-tab": "vant/tab/index",
+    "van-card": "vant/card/index",
+    "van-goods-action": "vant/goods-action/index",
+    "van-goods-action-icon": "vant/goods-action-icon/index",
+    "van-goods-action-button": "vant/goods-action-button/index",
+    "van-icon": "vant/icon/index",
+    "van-share-sheet": "vant/share-sheet/index",
+    "van-swipe-cell": "vant/swipe-cell/index",
+    "van-tag": "vant/tag/index"
+  }
 }

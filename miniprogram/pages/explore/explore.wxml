@@ -1,2 +1,4 @@
 <!--pages/explore/explore.wxml-->
-<text>pages/explore/explore.wxml</text>
+<text>测试功能快速路径</text>
+
+<navigator url="/pages/quickpublish/quickpublish">快速发布</navigator>

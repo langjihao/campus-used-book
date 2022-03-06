@@ -1,5 +1,6 @@
 import { VantComponent } from '../common/component';
-import { isObj, range } from '../common/utils';
+import { range } from '../common/utils';
+import { isObj } from '../common/validator';
 const DEFAULT_DURATION = 200;
 VantComponent({
     classes: ['active-class'],
@@ -10,12 +11,15 @@ VantComponent({
         visibleItemCount: Number,
         initialOptions: {
             type: Array,
-            value: []
+            value: [],
         },
         defaultIndex: {
             type: Number,
-            value: 0
-        }
+            value: 0,
+            observer(value) {
+                this.setIndex(value);
+            },
+        },
     },
     data: {
         startY: 0,
@@ -23,61 +27,40 @@ VantComponent({
         duration: 0,
         startOffset: 0,
         options: [],
-        currentIndex: 0
+        currentIndex: 0,
     },
     created() {
         const { defaultIndex, initialOptions } = this.data;
         this.set({
             currentIndex: defaultIndex,
-            options: initialOptions
+            options: initialOptions,
         }).then(() => {
             this.setIndex(defaultIndex);
         });
     },
-    computed: {
-        count() {
+    methods: {
+        getCount() {
             return this.data.options.length;
         },
-        baseOffset() {
-            const { data } = this;
-            return (data.itemHeight * (data.visibleItemCount - 1)) / 2;
-        },
-        wrapperStyle() {
-            const { data } = this;
-            return [
-                `transition: ${data.duration}ms`,
-                `transform: translate3d(0, ${data.offset + data.baseOffset}px, 0)`,
-                `line-height: ${data.itemHeight}px`
-            ].join('; ');
-        }
-    },
-    watch: {
-        defaultIndex(value) {
-            this.setIndex(value);
-        }
-    },
-    methods: {
         onTouchStart(event) {
-            this.set({
+            this.setData({
                 startY: event.touches[0].clientY,
                 startOffset: this.data.offset,
-                duration: 0
+                duration: 0,
             });
         },
         onTouchMove(event) {
             const { data } = this;
             const deltaY = event.touches[0].clientY - data.startY;
-            this.set({
-                offset: range(data.startOffset + deltaY, -(data.count * data.itemHeight), data.itemHeight)
+            this.setData({
+                offset: range(data.startOffset + deltaY, -(this.getCount() * data.itemHeight), data.itemHeight),
             });
         },
         onTouchEnd() {
             const { data } = this;
             if (data.offset !== data.startOffset) {
-                this.set({
-                    duration: DEFAULT_DURATION
-                });
-                const index = range(Math.round(-data.offset / data.itemHeight), 0, data.count - 1);
+                this.setData({ duration: DEFAULT_DURATION });
+                const index = range(Math.round(-data.offset / data.itemHeight), 0, this.getCount() - 1);
                 this.setIndex(index, true);
             }
         },
@@ -87,8 +70,9 @@ VantComponent({
         },
         adjustIndex(index) {
             const { data } = this;
-            index = range(index, 0, data.count);
-            for (let i = index; i < data.count; i++) {
+            const count = this.getCount();
+            index = range(index, 0, count);
+            for (let i = index; i < count; i++) {
                 if (!this.isDisabled(data.options[i]))
                     return i;
             }
@@ -129,6 +113,6 @@ VantComponent({
         getValue() {
             const { data } = this;
             return data.options[data.currentIndex];
-        }
-    }
+        },
+    },
 });

@@ -4,15 +4,16 @@ const config = require("../../config.js");
 const _ = db.command;
 Page({
       data: {
-            college: JSON.parse(config.data).college,
-            collegeCur: -2,
-            showList: false,
+            sort_1: JSON.parse(config.data).sort_1,
             scrollTop: 0,
             nomore: false,
             list: [],
+            key:'',
+            userinfo:'',
+            islogin:false,
+            currentList : 0
       },
       onLoad() {
-            this.listkind();
             this.getbanner();
             this.getList();
       },
@@ -22,92 +23,59 @@ Page({
                   scrollTop: parseInt((e.scrollTop) * wx.getSystemInfoSync().pixelRatio)
             })
       },
-      //获取上次布局记忆
-      listkind() {
-            let that = this;
-            wx.getStorage({
-                  key: 'iscard',
-                  success: function(res) {
-                        that.setData({
-                              iscard: res.data
-                        })
-                  },
-                  fail() {
-                        that.setData({
-                              iscard: true,
-                        })
-                  }
-            })
-      },
-      //布局方式选择
-      changeCard() {
-            let that = this;
-            if (that.data.iscard) {
-                  that.setData({
-                        iscard: false
-                  })
-                  wx.setStorage({
-                        key: 'iscard',
-                        data: false,
-                  })
-            } else {
-                  that.setData({
-                        iscard: true
-                  })
-                  wx.setStorage({
-                        key: 'iscard',
-                        data: true,
-                  })
-            }
+      onChange(e){
+            this.setData({
+                  key: e.detail,
+            });
       },
       //跳转搜索
-      search() {
-            wx.navigateTo({
-                  url: '/pages/search/search',
+      onSearch() {
+            wx.showToast({
+              title: this.data.key,
             })
       },
-      //学院选择
-      collegeSelect(e) {
+      onShow(){
+            let user =wx.getStorageSync('userinfo')
             this.setData({
-                  collegeCur: e.currentTarget.dataset.id - 1,
-                  scrollLeft: (e.currentTarget.dataset.id - 3) * 100,
-                  showList: false,
+              userinfo:user,
+              islogin:false
             })
-            this.getList();
+            if(this.data.userinfo!=''){
+                  this.setData({
+                        islogin:true
+            })
+      }},
+      onClick() {
+            wx.showToast({
+              title: '搜索'+this.data.key,
+            })
       },
-      //选择全部
-      selectAll() {
+
+      gettab(e){
+            wx.showToast({
+                  title: `点击标签 ${e.detail.name}`,
+                  icon: 'none',
+                });
             this.setData({
-                  collegeCur: -2,
-                  scrollLeft: -200,
-                  showList: false,
+                  currentList:e.detail.name - 1
             })
-            this.getList();
+            this.getList(e.detail.name - 1)
       },
-      //展示列表小面板
-      showlist() {
-            let that = this;
-            if (that.data.showList) {
-                  that.setData({
-                        showList: false,
-                  })
-            } else {
-                  that.setData({
-                        showList: true,
-                  })
+      getList(c) {
+            //0表示通用商品
+            if (c==0){
+
+            } 
+            //1表示同专业号推荐商品
+            else if(c==1){
+
             }
-      },
-      getList() {
+            //其余表示该品类的商品
+            else{}
             let that = this;
-            if (that.data.collegeCur == -2) {
-                  var collegeid = _.neq(-2); //除-2之外所有
-            } else {
-                  var collegeid = that.data.collegeCur + '' //小程序搜索必须对应格式
-            }
+            //一会儿加上本校区优选
             db.collection('publish').where({
                   status: 0,
-                  dura: _.gt(new Date().getTime()),
-                  collegeid: collegeid
             }).orderBy('creat', 'desc').limit(20).get({
                   success: function(res) {
                         wx.stopPullDownRefresh(); //暂停刷新动作
@@ -140,15 +108,8 @@ Page({
                   return false
             }
             let page = that.data.page + 1;
-            if (that.data.collegeCur == -2) {
-                  var collegeid = _.neq(-2); //除-2之外所有
-            } else {
-                  var collegeid = that.data.collegeCur + '' //小程序搜索必须对应格式
-            }
             db.collection('publish').where({
                   status: 0,
-                  dura: _.gt(new Date().getTime()),
-                  collegeid: collegeid
             }).orderBy('creat', 'desc').skip(page * 20).limit(20).get({
                   success: function(res) {
                         if (res.data.length == 0) {
@@ -189,7 +150,7 @@ Page({
       },
       //跳转详情
       detail(e) {
-            let that = this;
+            console.log(e)
             wx.navigateTo({
                   url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
             })

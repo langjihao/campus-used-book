@@ -1,0 +1,42 @@
+<!--pages/verify/verify.wxml-->
+<van-steps steps="{{steps}}" active="{{active}}" active-icon="success" active-color="#38f"/>
+
+<van-transition show="{{step1}}" name="fade-right" custom-class="block">
+  <view class="contain">
+    <view class="card">
+      <view class="title">{{userinfo.nickName}}</view>
+      <view class="title">校内实名认证</view>           
+      <input class="inputbar" bindinput="uidinput" value="{{UID}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的学号"/>
+    <view class='des'>我们会往您的校园邮箱发送一个验证码，请自行前往智慧青科大或校园邮箱登录查看</view>
+    </view>
+    <view class="distance"></view>
+    <view class="loginbutton">
+      <image  bindtap="match" src="/images/login.png"></image>
+    </view>
+  </view> </van-transition>
+
+<van-transition show="{{step2}}"
+name="fade-right" custom-class="block">
+  <view class="contain">
+    <view class="card">
+      <view class="title">检查补充信息</view>           
+      <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="校区：{{stuinfo.Distinct}}"/>
+      <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="班级：{{stuinfo.Class}}"/>
+      <input class="inputbar" bindinput="qqinput" value="{{QQ}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的QQ"/>
+      <input class="inputbar" bindinput="telinput" value="{{TEL}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的手机号（选填）"/>
+      <input class="inputbar" bindinput="wxinput" value="{{WX}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的微信号（选填）"/>
+      <input class="inputbar" bindinput="codeinput" value="{{codeinput}}"  maxlength="11" placeholder-class="pache" placeholder="请输入您的验证码"/>
+      </view>
+      <view class="loginbutton">
+        <image  bindtap="otherinfoconfirm" src="/images/login.png"></image>
+      </view>
+  </view>
+</van-transition>
+
+<van-transition show="{{step3}}" name="fade-right" custom-class="block">
+  <view class="contain">
+      <view class="card">
+      <image class="success" src="/images/success.png"></image>
+            <view class="ok">恭喜您 注册成功</view>
+      </view>
+  </view> </van-transition>
