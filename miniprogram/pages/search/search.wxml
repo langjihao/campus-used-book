@@ -1,21 +1,61 @@
 <wxs src="../../common.wxs" module="morejs" />
-<view class="top_contain">
-      <view class="search_box">
-            <image src="/images/search.png"></image>
-            <input bindinput="keyInput" bindconfirm="search" placeholder="输入您感兴趣的内容"></input>
-      </view>
-      <view class="search" bindtap="search">搜索</view>
-</view>
+<!-- 搜索栏 -->
+<van-search-bar 
+      value = "{{value}}"
+      input-align = "center"
+      placeholder = "搜索 书名 作者 对应课程"
+      use-action-slot
+      bind:change = "keyInput"
+      bind:search = "search"
+>
+     <view slot = "action" bind:tap = "search">搜索</view>
+</van-search-bar>
 
+<!-- 筛选和排序框 -->
+<block wx:if="{{list.length!=0}}">
+      <van-dropdown-menu>
+  <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+  <van-dropdown-item id="item" title="{{ itemTitle }}">
+    <van-cell title="{{ switchTitle1 }}">
+      <van-switch
+        slot="right-icon"
+        size="24px"
+        style="height: 26px"
+        checked="{{ switch1 }}"
+        active-color="#ee0a24"
+        bind:change="onSwitch1Change"
+      />
+    </van-cell>
+    <van-cell title="{{ switchTitle2 }}">
+      <van-switch
+        slot="right-icon"
+        size="24px"
+        style="height: 26px"
+        checked="{{ switch2 }}"
+        active-color="#ee0a24"
+        bind:change="onSwitch2Change"
+      />
+    </van-cell>
+    <view style="padding: 5px 16px;">
+      <van-button type="danger" block round bind:click="onConfirm">
+        确认
+      </van-button>
+    </view>
+  </van-dropdown-item>
+      </van-dropdown-menu>
+
+</block>
+
+<!-- 搜索历史和相关推荐 -->
 <view class="contain">
       <block wx:if="{{list.length==0}}">
             <block wx:if="{{!blank}}">
                   <view class="a">
-                        <image src="/images/his.png"></image>
+                        <image src="/images/history.png"></image>
                         <view>搜索历史</view>
                   </view>
                   <block wx:if="{{hislist.length==0}}">
-                        <view class="nosearch">您还没搜索过哟，赶快试试吧</view>
+                        <view class="nosearch">您啥也没搜过，还不快试试</view>
                   </block>
                   <block wx:if="{{hislist.length>0}}">
                         <block wx:for="{{hislist}}" wx:key="*this">

@@ -12,16 +12,14 @@
       value = "{{value}}"
       input-align = "center"
       placeholder = "搜索 书名 作者 对应课程"
-      use-action-slot
-      bind:change = "onChange"
-      bind:search = "onSearch"
+      bind:change = "keyInput"
+      bind:search = "search"
 >
-     <view slot = "action" bind:tap = "onClick">搜索</view>
 </van-search-bar>
 
 <!--分类导航-->
 <van-tabs sticky swipeable color = "#02C39A" active="{{active}}" bind:click = "gettab">
-      <van-tab wx:for="{{sort_1}}" wx:key="id" title = "{{item.name}}"></van-tab>
+      <van-tab wx:for="{{sort}}" wx:key="id" title = "{{item.name}}"></van-tab>
 </van-tabs>
 <view></view>
 

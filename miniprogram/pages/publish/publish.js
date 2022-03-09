@@ -3,8 +3,8 @@ const app = getApp();
 const config = require("../../config.js");
 Page({
       data: {
-            fileList:[],
-            piclist:[],
+            fileList:[],//暂存图片区
+            piclist:[],//实际上传区
             islogin:false,
             entime: {
                   enter: 600,
@@ -23,29 +23,19 @@ Page({
                         desc: '发布成功'
                   },
             ],
-            price: 15,
-            place: '',
-            choosemethod: 0,
-            cids: '-1', //学院选择的默认值
+            price: 8,
+            choosemethod: 0,//选择配送方式
+            cids: '-1', //种类
             isbn: '',
             step1: true,
             step2: false,
             step3: false,
             active: 0,
-            choosesort_1: false,
+            choosesort: false,
             note_counts: 0,
             notes: '',
             kindid: 0,
-            sort_1: JSON.parse(config.data).sort_1,
-            kind: [{
-                  name: '专业教材',
-                  id: 0,
-                  check: true,
-            }, {
-                  name: '其他',
-                  id: 1,
-                  check: false
-            }],
+            sort: JSON.parse(config.data).sort,
             method: [{
                   name: '自提',
                   id: 0,
@@ -56,21 +46,6 @@ Page({
                   check: false
             }],
       },
-      //获取该学生课程信息   未完成
-      // getcourse(){
-      //       let that = this;
-      //       let major = that.data.userinfo.stuinfo.MajorID
-      //       db.collection('major').where({
-      //             MajorID : major
-      //       }).get({
-      //             success(res){
-      //                   console.log(res)
-      //                   that.setData({
-      //                         flag:2,
-      //                   })
-      //       }})
-      // },
-      //重新发布，回到初始状态
       initial(){
             this.setData({
                   fileList:[],
@@ -93,8 +68,7 @@ Page({
                               desc: '发布成功'
                         },
                   ],
-                  price: 15,
-                  place: '',
+                  price: 8,
                   choosemethod: 0,
                   cids: '-1', //学院选择的默认值
                   isbn: '',
@@ -102,11 +76,11 @@ Page({
                   step2: false,
                   step3: false,
                   active: 0,
-                  choosesort_1: false,
+                  choosesort: false,
                   note_counts: 0,
                   notes: '',
                   kindid: 0,
-                  sort_1: JSON.parse(config.data).sort_1,
+                  sort: JSON.parse(config.data).sort,
                   method: [{
                         name: '自提',
                         id: 0,
@@ -266,15 +240,15 @@ Page({
                   }
             })
       },
-        //每次上传图片后，缓存图片
+      //每次上传图片后，缓存图片
       afterRead(event) {
       let that = this;
       console.log(event.detail)
       const { fileList = [] } = that.data;
       fileList.push({ ...event.detail, url: event.detail.file.url });
       that.setData({ fileList });
-    },
-    //删除图片
+      },
+      //删除图片
       delete(event){
       for (let i = 0; i < this.data.fileList.length; i++) {
             if (this.data.fileList[i].index==event.detail.file.index){
@@ -341,11 +315,7 @@ Page({
       priceChange(e) {
             this.data.price = e.detail;
       },
-      //地址输入
-      placeInput(e) {
-            console.log(e)
-            this.data.place = e.detail.value
-      },
+
       //书籍类别选择
       kindChange(e) {
             let that = this;
@@ -358,20 +328,20 @@ Page({
             if (id == 1) {
                   that.setData({
                         kind: kind,
-                        choosesort_1: true,
+                        choosesort: true,
                         kindid: id
                   })
             } else {
                   that.setData({
                         kind: kind,
                         cids: that.data.userinfo.stuinfo.MajorID,
-                        choosesort_1: false,
+                        choosesort: false,
                         kindid: id
                   })
             }
       },
       //选择专业
-      chosort_1(e) {
+      chosort(e) {
             let that = this;
             that.setData({
                   cids: e.detail.value
@@ -439,14 +409,13 @@ Page({
                   content: '经检测您填写的信息无误，是否马上发布？',
                   success(res) {
                         if (res.confirm) {
-                              console.log(10)
                               db.collection('publish').add({
                                     data: {
                                           creat: new Date().getTime(),
                                           status: 0, 
                                           price: that.data.price, 
                                           kindid: that.data.kindid, 
-                                          sort_1id: that.data.cids,
+                                          sortid: parseInt(that.data.cids),
                                           methodid: that.data.choosemethod, //0自1配
                                           place: that.data.place, //选择自提时地址
                                           notes: that.data.notes,
@@ -482,10 +451,46 @@ Page({
                   }
             })
       },
+      //查看详情
       detail() {
             let that = this;
             wx.navigateTo({
                   url: '/pages/detail/detail?scene=' + that.data.detail_id,
             })
-      }
+      },
+      //获取地理位置
+      getlocation(){
+            let that = this;
+            wx.getSetting({
+              withSubscriptions: true,
+              success(res){
+                    console.log(res)
+              }
+            })
+            wx.chooseLocation({
+
+              success(res){
+                    console.log(res)
+                    that.setData({
+                        place:res.name,
+                        lat:res.latitude,
+                        lon:res.longitude
+                    })
+              },
+              fail(res){
+                    wx.showToast({
+                      title: '请选择或输入地址',
+                    })
+              }
+            })
+      },
+      //地址输入
+      placeInput(e) {
+            console.log(e)
+            this.setData({
+                  place:e.detail.value,
+                  lat:0,
+                  lon:0
+            })
+      },
 })

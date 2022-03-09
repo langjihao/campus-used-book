@@ -4,7 +4,7 @@ const config = require("../../config.js");
 const _ = db.command;
 Page({
       data: {
-            sort_1: JSON.parse(config.data).sort_1,
+            sort: JSON.parse(config.data).sort,
             scrollTop: 0,
             nomore: false,
             list: [],
@@ -28,10 +28,15 @@ Page({
                   key: e.detail,
             });
       },
-      //跳转搜索
-      onSearch() {
-            wx.showToast({
-              title: this.data.key,
+      //获取搜索关键字
+      keyInput(e) {
+            this.data.key = e.detail
+      },
+      //跳转搜索页
+      search(e) {
+            console.log(e)
+            wx.navigateTo({
+                  url: '/pages/search/search?key=' + e.detail
             })
       },
       onShow(){
@@ -45,33 +50,62 @@ Page({
                         islogin:true
             })
       }},
-      onClick() {
-            wx.showToast({
-              title: '搜索'+this.data.key,
-            })
-      },
 
+      //获取当前标签页
       gettab(e){
-            wx.showToast({
-                  title: `点击标签 ${e.detail.name}`,
-                  icon: 'none',
-                });
-            this.setData({
-                  currentList:e.detail.name - 1
-            })
-            this.getList(e.detail.name - 1)
-      },
-      getList(c) {
             //0表示通用商品
+            let c = e.detail.index;
             if (c==0){
-
+                  this.getList();
+                  this.onShow()
             } 
             //1表示同专业号推荐商品
             else if(c==1){
-
+                  let major = this.data.userinfo.stuinfo.MajorID;
+                  this.getkindList(major),
+                  this.onShow()
             }
             //其余表示该品类的商品
-            else{}
+            else{
+                  this.getkindList(c),
+                  this.onShow()
+            }
+      },
+      //获取某类商品
+      getkindList(e) {
+            let that = this;
+            db.collection('publish').where({
+                  status: 0,
+                  sortid: e,
+            }).orderBy('creat', 'desc').limit(20).get({
+                  success: function(res) {
+                        wx.stopPullDownRefresh(); //暂停刷新动作
+                        if (res.data.length == 0) {
+                              that.setData({
+                                    nomore: true,
+                                    list: [],
+                              })
+                              return false;
+                        }
+                        if (res.data.length < 20) {
+                              that.setData({
+                                    nomore: true,
+                                    page: 0,
+                                    list: res.data,
+                              })
+                        } else {
+                              that.setData({
+                                    page: 0,
+                                    list: res.data,
+                                    nomore: false,
+                              })
+                        }
+                  }
+            })
+      },
+
+      //获取全部商品
+      getList() {
             let that = this;
             //一会儿加上本校区优选
             db.collection('publish').where({
@@ -150,7 +184,6 @@ Page({
       },
       //跳转详情
       detail(e) {
-            console.log(e)
             wx.navigateTo({
                   url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
             })

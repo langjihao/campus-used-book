@@ -14,12 +14,6 @@
       "list": [
         {
           "id": -1,
-          "name": "db guide",
-          "pathName": "pages/databaseGuide/databaseGuide",
-          "query": ""
-        },
-        {
-          "id": -1,
           "name": "注册",
           "pathName": "pages/login/login",
           "query": "",
@@ -162,8 +156,8 @@
           "name": "快速发布",
           "pathName": "pages/quickpublish/quickpublish",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

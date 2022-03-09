@@ -34,7 +34,7 @@ Page({
             db.collection('publish').doc(e).get({
                   success: function(res) {
                         that.setData({
-                              sort_1Name: JSON.parse(config.data).sort_1[parseInt(res.data.sort_1id) + 1],
+                              sortName: JSON.parse(config.data).sort[parseInt(res.data.sortid) + 1],
                               publishinfo: res.data
                         })
                         that.getSeller(res.data._openid, res.data.bookinfo._id)
@@ -85,6 +85,7 @@ Page({
                   url: '/pages/index/index',
             })
       },
+      //跳转到购物车页面
       navitocart(){
             wx.switchTab({
                   url: '/pages/cart/cart',

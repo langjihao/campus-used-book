@@ -21,6 +21,10 @@
     "pages/sell/list/list.json",
     "pages/sell/list"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的定位信息将用于获取图书位置"
+    }},
   "window": {
     "backgroundColor": "#3ADF00",
     "backgroundTextStyle": "light",
@@ -83,6 +87,8 @@
     "van-icon": "vant/icon/index",
     "van-share-sheet": "vant/share-sheet/index",
     "van-swipe-cell": "vant/swipe-cell/index",
-    "van-tag": "vant/tag/index"
+    "van-tag": "vant/tag/index",
+    "van-dropdown-menu": "vant/dropdown-menu/index",
+    "van-dropdown-item": "vant/dropdown-item/index"
   }
 }

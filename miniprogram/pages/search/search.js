@@ -14,28 +14,27 @@ Page({
             key: '',
             blank: false,
             nomore:false,
+            switchTitle1: '全部商品',
+            switchTitle2: '排序',
+            itemTitle: '筛选',
+            option1: [
+              { text: '崂山校区', value: 0 },
+              { text: '四方校区', value: 1 },
+            ],
+            value1: 0,
       },
-      onLoad: function(options) {
-            this.getnew();
+      onLoad: function(e) {
+            if(e){
+                  this.setData({
+                        key:e.key
+                  })
+                  this.search()    
+            }
+            else{
+                  this.getnew();
+            }
       },
-      //最新推荐书籍
-      getnew() {
-            let that = this;
-            db.collection('publish').where({
-                  status: 0,
-            }).orderBy('creat', 'desc').get({
-                  success: function(res) {
-                        let newlist = res.data;
-                        //限定5个推荐内容
-                        if (newlist.length > 5) {
-                              newlist.length = 5;
-                        }
-                        that.setData({
-                              newlist: newlist,
-                        })
-                  }
-            })
-      },
+      //同学都在搜
       //跳转详情
       detail(e) {
             let that = this;
@@ -44,7 +43,7 @@ Page({
             })
       },
       //搜索结果
-      search(n) {
+      search() {
             let that = this;
             let key = that.data.key;
             if (key == '') {
@@ -81,8 +80,9 @@ Page({
       onReachBottom() {
             this.more();
       },
+      //获取输入的关键词
       keyInput(e) {
-            this.data.key = e.detail.value
+            this.data.key = e.detail
       },
       //至顶
       gotop() {
@@ -103,10 +103,10 @@ Page({
                   return false
             }
             let page = that.data.page + 1;
-            if (that.data.sort_1Cur == -2) {
-                  var sort_1id = _.neq(-2); //除-2之外所有
+            if (that.data.sortCur == -2) {
+                  var sortid = _.neq(-2); //除-2之外所有
             } else {
-                  var sort_1id = that.data.sort_1Cur + '' //小程序搜索必须对应格式
+                  var sortid = that.data.sortCur + '' //小程序搜索必须对应格式
             }
             db.collection('publish').where({
                   status: 0,

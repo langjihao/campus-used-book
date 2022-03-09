@@ -185,6 +185,11 @@ page {
       text-overflow: ellipsis;
       color: #aaaaab;
 }
+.b_right {
+      width: 70rpx;
+      height: 70rpx;
+      justify-content:space-around
+}
 
 /*步骤二输入内容*/
 

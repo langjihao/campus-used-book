@@ -55,13 +55,13 @@
                         </radio-group>
                   </view>
                   <!--选择其他时候-->
-                  <block wx:if="{{choosesort_1}}">
+                  <block wx:if="{{choosesort}}">
                         <view class="b_border"></view>
                         <view class="b_bar">
                               <view class="b_name">选择大类</view>
-                              <picker range="{{sort_1}}" range-key="name" value="{{classID}}" bindchange="chosort_1">
+                              <picker range="{{sort}}" range-key="name" value="{{classID}}" bindchange="chosort">
                                     <view class="b_picker">
-                                          <block wx:if="{{cids!==-1}}">当前选择：{{sort_1[cids].name}}</block>
+                                          <block wx:if="{{cids!==-1}}">当前选择：{{sort[cids].name}}</block>
                                           <block wx:if="{{cids==-1}}">请选择类别</block>
                                           <image class="right" src="/images/enter.png" />
                                     </view>
@@ -80,7 +80,15 @@
                   <block wx:if="{{choosemethod==0}}">
                         <view class="b_place">
                               <view class="b_plecebox">
-                                    <input maxlength="20" placeholder="请输入您的校内地址" value="{{place}}" bindinput="placeInput" />
+                              <block wx:if="{{!place}}">
+                                    <input maxlength="20" placeholder="请输入您的校内地址,或点击右侧定位" value="{{place}}" bindinput="placeInput" />
+                              </block>
+                              <block wx:else>
+                                    <input maxlength="20" placeholder="{{place}}" value="{{place}}" bindinput="placeInput" />
+                              </block>
+                              </view>
+                              <view bindtap="getlocation">
+                                          <image class="b_right" src="/images/local.png" />                                      
                               </view>
                         </view>
                   </block>
