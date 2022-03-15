@@ -9,8 +9,8 @@
       </view>
       <view class="top_2">
             <view class="avatar">
-                  <image wx:if="{{userinfo}}" lazy-load src="{{userinfo.info.avatarUrl}}"></image>
-                  <image wx:if="{{!userinfo}}" src="/images/avator.png"></image>
+                  <avatar wx:if="{{userinfo}}" lazy-load src="{{userinfo.info.avatarUrl}}" size = "120"></avatar>
+                  <avatar wx:if="{{!userinfo}}" src="/images/avator.png" size="120"></avatar>
             </view>
       </view>
 </view>

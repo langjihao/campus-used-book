@@ -18,16 +18,18 @@
     "pages/wxlogin/wxlogin",
     "pages/verify/verify",
     "pages/quickpublish/quickpublish",
-    "pages/sell/list/list.json",
-    "pages/sell/list"
+    "pages/sell/list",
+    "pages/modify/modify",
+    "pages/home/home"
   ],
   "permission": {
     "scope.userLocation": {
       "desc": "你的定位信息将用于获取图书位置"
-    }},
+    }
+  },
   "window": {
-    "backgroundColor": "#3ADF00",
-    "backgroundTextStyle": "light",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTitleText": "QUST二手交易",
     "navigationBarTextStyle": "black"
@@ -70,6 +72,7 @@
     ]
   },
   "usingComponents": {
+    "avatar": "./components/avatar/index",
     "van-upload": "vant/uploader/index",
     "van-steps": "vant/steps/index",
     "van-transition": "vant/transition/index",

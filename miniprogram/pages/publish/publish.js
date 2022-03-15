@@ -428,7 +428,11 @@ Page({
                                                 title: that.data.bookinfo.title,
                                           },
                                           piclist:that.data.piclist,
-                                          key: that.data.bookinfo.title + that.data.bookinfo.keyword
+                                          key: that.data.bookinfo.title + that.data.bookinfo.keyword,
+                                          campus:that.data.userinfo.stuinfo.Distinct,
+                                          publisherinfo:{avatar:that.data.userinfo.info.avatarUrl,snickname:that.data.userinfo.snickname,
+                                          isauth:that.data.userinfo.isauth,
+                                          }
                                     },
                                     success(e) {
                                           console.log(e)

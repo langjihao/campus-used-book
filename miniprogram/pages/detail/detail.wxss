@@ -14,8 +14,7 @@
 }
 
 .top_img image {
-      width: 70%;
-      height: 120%;
+      width: 100%;
 }
 
 .title {
@@ -117,10 +116,18 @@
       display: flex;
       align-items: center;
 }
+.auth_box {
+      display: flex;
+      align-items: center;
+}
+.auth_box image{
+      width: 50rpx;
+      height: 50rpx;
+}
 
 .local_box image {
-      width: 30rpx;
-      height: 30rpx;
+      width: 40rpx;
+      height: 40rpx;
 }
 
 .local_box view {

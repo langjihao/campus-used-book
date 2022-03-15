@@ -21,7 +21,9 @@ Page({
             this.setData({
               userinfo:user,
               islogin:true,
-            })}},
+            })
+      }
+      },
       changeTitle(e) {
             let that = this;
             that.setData({
@@ -34,11 +36,33 @@ Page({
             db.collection('publish').doc(e).get({
                   success: function(res) {
                         that.setData({
-                              sortName: JSON.parse(config.data).sort[parseInt(res.data.sortid) + 1],
+                              sortName: JSON.parse(config.data).sort[parseInt(res.data.sortid)],
                               publishinfo: res.data
                         })
                         that.getSeller(res.data._openid, res.data.bookinfo._id)
 
+                  },
+                  //主要是购物车跳转 但原商品已经被删除的情况，或许以后得加上清除购物车记录或者改变商品状态标记
+                  fail(res){
+                        wx.showModal({
+                              cancelColor: 'cancelColor',
+                              content:'该商品已被卖家删除，快去看看其他宝贝吧',
+                              confirmText:'好滴吧',
+                              cancelText:"还能咋地",
+                              cancelColor: 'cancelColor',
+                              success: function (res) {
+                  
+                              if (res.confirm) {//这里是点击了确定以后
+                              
+                              console.log('用户点击确定')
+
+                  
+                              } else {//这里是点击了取消以后
+                  
+                              console.log('用户点击取消')
+                  
+                              }}
+                            })
                   }
             })
       },
@@ -83,6 +107,22 @@ Page({
       home() {
             wx.switchTab({
                   url: '/pages/index/index',
+            })
+      },
+      //点击图片预览
+      picview(e){
+            var that = this;
+            var src = e.currentTarget.dataset.src;
+            console.log(src)
+            var piclist=[]
+            var imgList = that.data.publishinfo.piclist;
+            for(var i=0;i<imgList.length;i++){
+                  piclist.push(imgList[i].url)
+            }
+            console.log(piclist)
+            wx.previewImage({
+                  current: src, // 当前显示图片的http链接
+                  urls: piclist // 需要预览的图片http链接列表
             })
       },
       //跳转到购物车页面
@@ -159,6 +199,7 @@ Page({
                   }
             })
       },
+      //生成分享相关内容
       onShareAppMessage() {
             return {
                   title: '这本《' + this.data.bookinfo.title + '》只要￥' + this.data.publishinfo.price + '元，快来看看吧',

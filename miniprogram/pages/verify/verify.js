@@ -90,26 +90,29 @@ Page({
   //认证比对验证码 成功则入库
   auth(){
     if(this.data.code === this.data.codeinput){
+      let that = this;
       db.collection("user").where({
-        _openid:this.data.openid
+        _openid:that.data.openid
       }).update({
         data: {
-        stuinfo: this.data.stuinfo,
+        stuinfo: that.data.stuinfo,
         isauth:true,
-        UID:this.data.UID,
+        UID:that.data.UID,
         carbonaccont:0,
-        QQ:this.data.QQ,
-        WX:this.data.WX,
-        TEL:this.data.TEL,
+        QQ:that.data.QQ,
+        WX:that.data.WX,
+        TEL:that.data.TEL,
         },
+        success(res){
+          db.collection('user').where({
+            _openid:that.data.openID
+          }).get({
+            success(res){    
+            wx.setStorageSync('userinfo', res.data[0])
+          }
         })
-        this.data.userinfo.UID = this.data.UID
-        this.data.userinfo.stuinfo = this.data.stuinfo
-        this.data.userinfo.QQ = this.data.QQ
-        this.data.userinfo.TEL = this.data.TEL
-        this.data.userinfo.WX = this.data.WX
-        console.log(this.data.userinfo)
-        wx.setStorageSync('userinfo', this.data.userinfo)
+        }
+        });
       this.setData({
         step3:true,
         step2:false,

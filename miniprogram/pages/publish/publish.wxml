@@ -38,9 +38,10 @@
       <view class="b_ccontain">
             <view class="b_card">
                   <view class="b_photo">
-                        <view class="b_name">实拍图</view>
+                  <view class="b_name">实拍图</view>
                   <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" max-count="2" accept="image" bind:delete="delete"/>
                   </view>
+
                   <view class="b_bar">
                         <view class="b_name">价格</view>
                         <van-stepper value="{{price}}" integer bind:change="priceChange" min="1" max="100" />

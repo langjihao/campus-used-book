@@ -8,6 +8,13 @@
       background-repeat: no-repeat;
       background-size: 100%;
 }
+.status-bar{
+      position: fixed;
+      margin: 0;
+      padding: 0;
+      background-color:#02C39A;
+      width: 100%;
+}
 
 .contain {
       position: absolute;
@@ -110,7 +117,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(#fae74e, #ff9a2f);
+      background: linear-gradient(#0bc59d,#1fc8a4);
       border-radius: 60rpx;
       color: #fff;
       font-size: 40rpx;

@@ -2,3 +2,4 @@
 <text>测试功能快速路径</text>
 
 <navigator url="/pages/quickpublish/quickpublish">快速发布</navigator>
+<navigator url="/pages/home/home">新版主页</navigator>
