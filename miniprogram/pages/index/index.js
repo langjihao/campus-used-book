@@ -11,7 +11,8 @@ Page({
             key:'',
             userinfo:'',
             islogin:false,
-            currentList : 0
+            currentList : 0,
+            showtype:2
       },
       onLoad() {
             this.getbanner();
@@ -23,23 +24,24 @@ Page({
                   scrollTop: parseInt((e.scrollTop) * wx.getSystemInfoSync().pixelRatio)
             })
       },
-      onChange(e){
-            this.setData({
-                  key: e.detail,
-            });
+      changeshowtype(){
+        if(this.data.showtype==3){
+          this.setData({
+            showtype:1
+          })
+        }
+        else{
+          this.setData({
+            showtype:this.data.showtype+1
+          })
+        }
       },
       //获取搜索关键字
       keyInput(e) {
             this.data.key = e.detail
       },
-      //跳转搜索页
-      search(e) {
-            console.log(e)
-            wx.navigateTo({
-                  url: '/pages/search/search?key=' + e.detail
-            })
-      },
       onShow(){
+        console.log(11)
             let user =wx.getStorageSync('userinfo')
             this.setData({
               userinfo:user,
@@ -50,21 +52,14 @@ Page({
                         islogin:true
             })
       }},
-
       //获取当前标签页
       gettab(e){
-            //0表示通用商品
+            //0表示通用商品,获取所有商品
             let c = e.detail.index;
             if (c==0){
                   this.getList();
                   this.onShow()
             } 
-            //1表示同专业号推荐商品
-            else if(c==1){
-                  let major = this.data.userinfo.stuinfo.MajorID;
-                  this.getkindList(major),
-                  this.onShow()
-            }
             //其余表示该品类的商品
             else{
                   this.getkindList(c),
@@ -76,9 +71,9 @@ Page({
             let that = this;
             db.collection('publish').where({
                   status: 0,
-                  sortid: e,
+                  kind: e,
             }).orderBy('creat', 'desc').limit(20).get({
-                  success: function(res) {
+                  success(res) {
                         wx.stopPullDownRefresh(); //暂停刷新动作
                         if (res.data.length == 0) {
                               that.setData({
@@ -103,7 +98,6 @@ Page({
                   }
             })
       },
-
       //获取全部商品
       getList() {
             let that = this;
@@ -206,6 +200,12 @@ Page({
                         url: '/pages/web/web?url='+e.currentTarget.dataset.web.url,
                   })
             }
+      },
+      //跳转搜索
+      gotoserach(){
+        wx.navigateTo({
+          url: '/pages/search/search',
+        })
       },
       onShareAppMessage() {
             return {

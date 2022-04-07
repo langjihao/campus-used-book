@@ -26,17 +26,17 @@
 
 <!--宫格显示-->
 <view hidden="{{!iscard}}">
-      <view class="card_grid" wx:if="{{list.length>0}}">
+      <view class="waterfall_grid" wx:if="{{list.length>0}}">
             <block wx:for="{{list}}" wx:key="_id">
-                  <view class="card_one" bindtap="detail" data-id="{{item._id}}">
-                        <image lazy-load class="card_poster" src="{{item.bookinfo.pic}}"></image>
-                        <view class="card_title text-cut">{{item.bookinfo.title}}
+                  <view class="waterfall_one" bindtap="detail" data-id="{{item._id}}">
+                        <image lazy-load class="waterfall_poster" src="{{item.bookinfo.pic}}"></image>
+                        <view class="waterfall_title text-cut">{{item.bookinfo.title}}
                         </view>
-                        <view class="card_author text-cut">{{item.bookinfo.author}}
+                        <view class="waterfall_author text-cut">{{item.bookinfo.author}}
                         </view>
-                        <view class="card_between">
-                              <view class="card_price">￥{{item.price}}.00元</view>
-                              <image lazy-load class="card_buy" src="/images/buy.png"></image>
+                        <view class="waterfall_between">
+                              <view class="waterfall_price">￥{{item.price}}.00元</view>
+                              <image lazy-load class="waterfall_buy" src="/images/buy.png"></image>
                         </view>
                   </view>
             </block>

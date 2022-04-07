@@ -11,13 +11,13 @@
                         <view class="a2">{{morejs.timelog(item.creat)}}</view>
                   </view>
                   <view class="b">
-                        <image lazy-load src="{{item.bookinfo.pic}}"></image>
+                        <image lazy-load src="{{item.piclist[0]}}"></image>
                         <view class="b1">
                               <view class="b11">
-                                    <view class="b111 text-cut">{{item.bookinfo.title}}</view>
+                                    <view class="b111 text-cut">{{item.title}}</view>
                                     <view class="b112 text-cut">{{item.bookinfo.author}}</view>
                               </view>
-                              <view class="b12">￥{{item.price}}.00元</view>
+                              <view class="b12">￥{{item.price}}</view>
                         </view>
                   </view>
                   <view class="c">

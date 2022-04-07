@@ -13,6 +13,7 @@ Page({
       },
       onShow() {
             let user =wx.getStorageSync('userinfo')
+            console.log(user)
             this.setData({
               userinfo:user,
               islogin:true
@@ -21,6 +22,7 @@ Page({
       },
       onLoad(){
             let user =wx.getStorageSync('userinfo')
+            console.log(user)
             this.setData({
               userinfo:user
             })

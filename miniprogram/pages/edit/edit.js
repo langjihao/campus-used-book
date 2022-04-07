@@ -126,7 +126,7 @@ Page({
             } ,
             fail(res){
                   that.setData({
-                        userInfo: that.data.userinfo.info
+                        userInfo: that.data.userinfo
                   })
             }
       }),

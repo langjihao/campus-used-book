@@ -1,6 +1,7 @@
+const { data } = require("../../config");
+
 const app = getApp()
 const db = wx.cloud.database();
-const config = require("../../config.js");
 const _ = db.command;
 Page({
 
@@ -11,7 +12,8 @@ Page({
             show:false,
             first_title: true,
             place: '',
-            islogin:false
+            islogin:false,
+            morepub:false
       },
       onLoad(e) {
             this.data.id = e.scene;
@@ -36,11 +38,9 @@ Page({
             db.collection('publish').doc(e).get({
                   success: function(res) {
                         that.setData({
-                              sortName: JSON.parse(config.data).sort[parseInt(res.data.sortid)],
                               publishinfo: res.data
                         })
-                        that.getSeller(res.data._openid, res.data.bookinfo._id)
-
+                        that.getSeller(res.data._openid)
                   },
                   //主要是购物车跳转 但原商品已经被删除的情况，或许以后得加上清除购物车记录或者改变商品状态标记
                   fail(res){
@@ -52,14 +52,13 @@ Page({
                               cancelColor: 'cancelColor',
                               success: function (res) {
                   
-                              if (res.confirm) {//这里是点击了确定以后
+                              if (res.confirm) {
                               
-                              console.log('用户点击确定')
-
+                              wx.navigateBack({})
                   
-                              } else {//这里是点击了取消以后
+                              } else {
                   
-                              console.log('用户点击取消')
+                              wx.navigateBack({})
                   
                               }}
                             })
@@ -67,39 +66,35 @@ Page({
             })
       },
       //获取卖家信息
-      getSeller(m, n) {
+      getSeller() {
             let that = this;
+            let data = that.data.publishinfo;
+            let actions0 = [
+              {
+                name: '站内信',
+                subname: '暂未开通',
+              },
+            ];
             db.collection('user').where({
-                  _openid:m
+                  _openid:data._openid
             }).get({
-                  success: res => {
+                  success(res){
+                        if (data.isQQ){
+                          var actions1 = actions0.concat({name:'QQ'})
+                        }
+                        else{
+                          var actions1 = actions0
+                        }
+                        if (data.isWX){
+                          var actions2 = actions1.concat({name:'微信'})
+                        }
+                        else{
+                          var actions2 = actions1
+                        }
                         that.setData({
-                              selleruserinfo: res.data[0],
-                              actions: [
-                                    {
-                                      name: 'QQ',
-                                    },
-                                    {
-                                      name: '微信',
-                                    },
-                                    {
-                                      name: '站内信',
-                                      subname: '暂未开通',
-                                    },
-                                  ],
-                        })
-                        that.getBook(n)
-                  }
-            })
-      },
-      //获取书本信息
-      getBook(e) {
-            let that = this;
-            db.collection('books').doc(e).get({
-                  success: function(res) {
-                        that.setData({
-                              bookinfo: res.data
-                        })
+                          selleruserinfo: res.data[0],
+                          actions:actions2
+                    })
                   }
             })
       },
@@ -113,16 +108,34 @@ Page({
       picview(e){
             var that = this;
             var src = e.currentTarget.dataset.src;
-            console.log(src)
             var piclist=[]
             var imgList = that.data.publishinfo.piclist;
             for(var i=0;i<imgList.length;i++){
-                  piclist.push(imgList[i].url)
+                  piclist.push(imgList[i])
             }
             console.log(piclist)
             wx.previewImage({
                   current: src, // 当前显示图片的http链接
                   urls: piclist // 需要预览的图片http链接列表
+            })
+      },
+      //获取该发布人更多商品
+      getmorepub(openid){
+            let that = this;
+            db.collection('publish').where({
+                  _openid: openid
+            }).limit(6).get({
+                  success(res) {
+                        if(res.data.length===0){}
+                        else{
+                              that.setData({
+                              morepublist: res.data,
+                              morepub:true
+                        })}
+                  },
+                  fail(res){
+                        console.log(res)
+                  }
             })
       },
       //跳转到购物车页面
@@ -137,8 +150,19 @@ Page({
                   show:true
             })
       },
+      //展示用户实名状态
+      showauth(){
+            wx.showToast({
+              title: '该用户已实名认证',
+            })
+      },
+      //跳转详情
+      detail(e) {
+            wx.navigateTo({
+                  url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
+            })
+      },
       onClose(){
-            console.log(111)
             this.setData({ show : false });
       },
       //选择复制某种联系方式
@@ -167,26 +191,14 @@ Page({
       })},
       //添加到购物车
       add(){
-            if(this.data.publishinfo.piclist==[]){
-                  this.setData({
-                        pic:'cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'
-                  })
-                  
-            }
-            else{
-                  this.setData({
-                        pic:this.data.publishinfo.piclist[0].url
-                  })
-            }
-            console.log(this.data.userinfo._openid)
             db.collection('cart').add({
                   data:{
                         itemid : this.data.id,
-                        pic : this.data.pic,
-                        sellerpic : this.data.selleruserinfo.info.avatarUrl,
-                        sellername: this.data.selleruserinfo.info.nickName,
+                        pic : this.data.publishinfo.piclist[0],
+                        sellerpic : this.data.selleruserinfo.avatarUrl,
+                        sellername: this.data.selleruserinfo.nickName,
                         price : this.data.publishinfo.price,
-                        title : this.data.publishinfo.bookinfo.title,
+                        title : this.data.publishinfo.title,
                         creat : new Date().getTime()
                   },
                   success(res){

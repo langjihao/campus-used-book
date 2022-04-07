@@ -2,16 +2,14 @@
       <view class="top_1">
             <view wx:if="{{!userinfo}}" class="top_1_1" bindtap="go" data-go="/pages/wxlogin/wxlogin">点击登录</view>
             <view wx:if="{{userinfo}}" class="top_1_1">
-                  <view>{{userinfo.info.nickName}}</view>
+                  <view>{{userinfo.nickName}}</view>
             </view>
             <view class="top_1_2" wx:if="{{!userinfo}}">一秒登录，体验所有功能</view>
              <view class="top_1_2" wx:if="{{userinfo}}" bindtap="go" data-go="/pages/edit/edit" data-status="1">点击修改资料</view>
       </view>
       <view class="top_2">
-            <view class="avatar">
-                  <avatar wx:if="{{userinfo}}" lazy-load src="{{userinfo.info.avatarUrl}}" size = "120"></avatar>
-                  <avatar wx:if="{{!userinfo}}" src="/images/avator.png" size="120"></avatar>
-            </view>
+            <avatar wx:if="{{userinfo}}" lazy-load src="{{userinfo.avatarUrl}}" size = "120" ></avatar>
+            <avatar wx:if="{{!userinfo}}" src="/images/avator.png" size="120"></avatar>
       </view>
 </view>
 <view class="center_box">

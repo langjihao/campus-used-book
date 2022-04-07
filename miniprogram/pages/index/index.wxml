@@ -8,45 +8,79 @@
       </block>
 </swiper>
 <!-- 搜索栏 -->
+<view class="searchbar" bindtap="gotosearch">
 <van-search-bar 
       value = "{{value}}"
+      round
+      bindtap="gotoserach"
+      use-action-slot
       input-align = "center"
       placeholder = "搜索 书名 作者 对应课程"
-      bind:change = "keyInput"
-      bind:search = "search"
 >
+<view slot="action" catch:tap="changeshowtype">
+<image src="/images/list.png" style="height: 40rpx;width: 40rpx;"></image> 
+</view>
 </van-search-bar>
+</view>
 
 <!--分类导航-->
-<van-tabs sticky swipeable color = "#02C39A" active="{{active}}" bind:click = "gettab">
+<van-tabs sticky swipeable color = "#02C39A"  active="{{active}}" bind:click = "gettab">
       <van-tab wx:for="{{sort}}" wx:key="id" title = "{{item.name}}"></van-tab>
 </van-tabs>
-<view></view>
+<view style="height: 20rpx"></view>
+<!-- 有内容展示,有三种信息排布方式 -->
+<block wx:if="{{list.length>0}}" class="contain">
+  <!--列表显示-->
+  <block wx:if="{{showtype==1}}" wx:for="{{list}}" wx:key="_id">
+        <van-card price = "{{item.price}}" bind:tap="detail" data-id="{{item._id}}"thumb="{{item.piclist[0]}}" thumb-mode="aspectFill" title="{{item.title}}" tag="{{item.sort}}">
+        <view slot="tags">
+          <van-tag plain type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag> 
+        </view>
+        </van-card>
+  </block>
+  <!--瀑布流布局-->
+  <block wx:if="{{showtype==2}}">
+        <view class="waterfall_grid">
+              <block wx:for="{{list}}" wx:key="_id">
+                    <view class="waterfall_one" bindtap="detail" data-id="{{item._id}}">
+                          <image lazy-load mode="aspectFill" src="{{item.piclist[0]}}"></image>
+                          <view class="waterfall_title">{{item.title}}
+                          </view>
+                          <view class="waterfall_between">
+                            <image lazy-load  src="{{item.avatar}}"></image>
+                            <view class="waterfall_author text-cut">{{item.nickName}}
+                            </view>
+                            <view class="waterfall_price">￥{{item.price}}</view>
 
+                          </view>
+                    </view>
+              </block>
+        </view>
+  </block>
+  <!-- 朋友圈布局 -->
+  <block wx:if="{{showtype==3}}">
+<view wx:for="{{list}}" wx:key="_id">
+    <view class="album" bind:tap="detail" data-id="{{item._id}}">
+        <avatar class="avatar" size='80' shape="square" src="{{item.avatar}}" />
+        <view class="right">
+            <view class="namebar">
+              <view class="name">{{item.nickName}}</view>
+              <view class="price">¥{{item.price}}</view>
+            </view>
+            <view class='content'>{{item.title}}</view>
+            <l-album urls='{{item.piclist}}'></l-album>
+            <view class="tagarea">
+            <van-tag type="danger">{{item.sort}}</van-tag>
+            <van-tag wx:for="{{item.tag}}" type="danger" plain round>#{{item}}</van-tag>
+            </view>
 
-<!--宫格显示-->
-<view hidden="{{!iscard}}">
-      <view class="card_grid" wx:if="{{list.length>0}}">
-            <block wx:for="{{list}}" wx:key="_id">
-                  <view class="card_one" bindtap="detail" data-id="{{item._id}}">
-                        <image lazy-load class="card_poster" src="{{item.bookinfo.pic}}"></image>
-                        <view class="card_title text-cut">{{item.bookinfo.title}}
-                        </view>
-                        <view class="card_author text-cut">{{item.bookinfo.author}}
-                        </view>
-                        <view class="card_between">
-                              <view class="card_price">￥{{item.price}}.00元</view>
-                              <image lazy-load class="card_buy" src="/images/buy.png"></image>
-                        </view>
-                  </view>
-            </block>
-      </view>
+        </view>
+    </view>
+    
+    <view class="line"></view>
 </view>
-<!--列表显示-->
-<block wx:if="{{list.length>0}}">
-      <block wx:for="{{list}}" wx:key="_id">
-            <van-card price = "{{item.price}}" bind:tap="detail" data-id="{{item._id}}" thumb= "{{item.bookinfo.pic}}" title="{{item.bookinfo.title}}" desc="{{item.bookinfo.author}}"></van-card>
-      </block>
+</block>
+
 </block>
 <!--无内容显示-->
 <view class="nocontent" wx:if="{{list.length==0}}">
@@ -54,7 +88,9 @@
       <view class="blank_text">这里空空如也~</view>
 </view>
 <!-- 未登录提示 -->
-<navigator url='/pages/wxlogin/wxlogin' class="nologin" wx:if="{{!islogin}}" >未登录</navigator>
+<navigator url='/pages/wxlogin/wxlogin' class="nologin" wx:if="{{!islogin}}" >
+      <button style='position:fixed;width:100%;bottom:0'>当前未登录,点我去登陆</button>
+</navigator>
 
 <block wx:if="{{list.length>10}}">
       <import src="/common.wxml" />

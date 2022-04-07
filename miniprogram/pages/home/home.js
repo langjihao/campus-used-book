@@ -61,7 +61,7 @@ Page({
             } 
             //1表示同专业号推荐商品
             else if(c==1){
-                  let major = this.data.userinfo.stuinfo.MajorID;
+                  let major = this.data.userinfo.MajorID;
                   this.getkindList(major),
                   this.onShow()
             }

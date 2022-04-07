@@ -91,39 +91,36 @@ Page({
   auth(){
     if(this.data.code === this.data.codeinput){
       let that = this;
+      let openid=that.data.openid;
+      let stuinfo = that.data.stuinfo;
       db.collection("user").where({
-        _openid:that.data.openid
+        _openid:openid
       }).update({
         data: {
-        stuinfo: that.data.stuinfo,
+        class:stuinfo.Class,
+        major:stuinfo.Major,
+        school:stuinfo.School,
+        campus:stuinfo.Distinct,
+        grade:stuinfo.Grade,
+        majorID:stuinfo.MajorID,
+        classID:stuinfo.ClassID,
         isauth:true,
         UID:that.data.UID,
-        carbonaccont:0,
+        carbonaccount:0,//碳账户
+        account:0,//初始化钱包
         QQ:that.data.QQ,
         WX:that.data.WX,
         TEL:that.data.TEL,
         },
         success(res){
-          db.collection('user').where({
-            _openid:that.data.openID
-          }).get({
-            success(res){    
-            wx.setStorageSync('userinfo', res.data[0])
-          }
-        })
-        }
-        });
-      this.setData({
-        step3:true,
-        step2:false,
-        active:2
-        })
-      }
+          that.login()
+        }})}
     else{
       wx.showToast({
         title: '验证码错误，请重新输入',
       })
-    }},
+    }
+  },
   //验证联系方式
   otherinfoconfirm(){
     //三种联系方式不能均为空
@@ -137,12 +134,30 @@ Page({
     this.auth()
 
   },
-  onLoad: function (options) {
-    let user =wx.getStorageSync('userinfo')
+  //认证成功后自动登录
+  login(){
+    db.collection('user').where({
+      _openid:this.data.openid
+    }).get({
+      success(res){
+      console.log(res)    
+      wx.setStorageSync('userinfo', res.data[0])
+      wx.setStorageSync('history', [])
+      }
+        })
+
     this.setData({
-      userinfo:user
-    })
-    console.log(this.data.userinfo)
-  
+      step3:true,
+      step2:false,
+      active:2
+      })
+    },
+  onLoad() {
+    let user =wx.getStorageSync('userinfo');
+    let openid =wx.getStorageSync('openid')
+    this.setData({
+      userinfo:user,
+      openid:openid
+      })
   },
 })

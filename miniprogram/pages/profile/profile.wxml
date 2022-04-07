@@ -1,0 +1,84 @@
+<!--pages/profile/profile.wxml-->
+<!-- 已登录状态 -->
+<!-- 顶部信息栏 -->
+<view class="profile-card">
+  <!-- 封面 -->
+  <image class="poster" src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/banner/10001.jpg" mode="aspectFill" />
+
+  <!-- 用户 -->
+  <view class="user-info">
+    <view class="avatar-info" bindtap="onAvatarTap">
+      <image wx:if="{{userinfo}}" class="avatar" src="{{userinfo.avatarUrl}}"/>
+      <image wx:if="{{!userinfo}}" class="avatar" src="/images/avator.png"/>
+      <!-- 用户性别 -->
+      <!-- <view wx:if="{{userinfo.gender && userinfo.gender !== 0}}" class="gender-box {{userinfo.gender === 1 ? 'male' : 'female'}}">
+        <image class="gender-icon" src="../../images/icon_gender/{{userinfo.gender === 1 ? 'icon_male' : 'icon_female'}}.png" />
+      </view> -->
+    </view>
+
+    <view class="btn-group">
+      <van-button wx:if="{{userinfo}}" color="#02c39a" round size="mini" width="180" height="58" bindtap="go" data-go="/pages/edit/edit" data-status="1">修改信息</van-button>
+      <view>
+        <view class="child-circle"></view>
+      </view>
+    </view>
+    <text wx:if="{{userinfo}}" class="nickname">{{userinfo.nickName}}</text>
+    <text wx:if="{{!userinfo}}" class="nickname" bindtap="go" data-go="/pages/wxlogin/wxlogin" data-status="1">点击登录</text>
+    <text class="signature">用户签名区</text>
+  </view>
+</view>
+<view class="blank"></view>
+
+<!-- 中间买卖管理分区 -->
+<view class="center_box">
+      <view class="center_1" bindtap="go" data-go="/pages/publist/publist" data-status="1">
+            <image src="/images/history.png"></image>
+            <view>我的发布</view>
+      </view>
+      <!-- <view class="center_1" bindtap="go" data-go="/pages/orderlist/orderlist" data-status="1">
+            <image src="/images/order.png"></image>
+            <view>我的购买</view>
+      </view> -->
+      <view class="center_1">
+            <image src="/images/order.png"></image>
+            <view>我的购买</view>
+      </view>
+      <view class="center_1" bindtap="go" data-go="/pages/help/help">
+            <image src="/images/help.png"></image>
+            <view>帮助中心</view>
+      </view>
+</view>
+<view class="blank"></view>
+
+<!-- 列表功能分区 -->
+<view class="bottom_box">
+      <view class="bottom_card" bindtap="go" data-go="/pages/parse/parse" data-status="1">
+            <view class="bottom_1">
+                  <image src="/images/carbon.png"></image>
+                  <view>我的碳积分</view>
+                  <view class='top_1_2'>认领一棵自己的树</view>
+                  <image src="/images/tree.png"></image>
+            </view>
+            <image src="/images/go.png"></image>
+      </view>
+      <view class="bottom_card" bindtap="go" data-go="/pages/kefu/kefu" data-status="1">
+            <view class="bottom_1">
+                  <image src="/images/kefu.png"></image>
+                  <view>联系客服</view>
+            </view>
+            <image src="/images/go.png"></image>
+      </view>
+      <view class="bottom_card">
+            <view class="bottom_1">
+                  <image src="/images/feedback.png"></image>
+                  <view>问题反馈</view>
+            </view>
+            <image src="/images/go.png"></image>
+            <button open-type="feedback"></button>
+      </view>
+</view>
+<view class="blank"></view>
+<view class="loginout" bindtap="loginout">退出登录</view>
+
+
+

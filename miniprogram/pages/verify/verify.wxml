@@ -36,7 +36,9 @@ name="fade-right" custom-class="block">
 <van-transition show="{{step3}}" name="fade-right" custom-class="block">
   <view class="contain">
       <view class="card">
-      <image class="success" src="/images/success.png"></image>
-            <view class="ok">恭喜您 注册成功</view>
+      <view class="success">
+      <image  src="/images/success.png"></image>
+      <text>恭喜您 注册成功</text>
+      </view>
       </view>
   </view> </van-transition>

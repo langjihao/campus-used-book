@@ -5,8 +5,8 @@
       <block wx:for="{{list}}" wx:key="_id">
             <view class="card" bindtap="detail" data-detail="{{item.itemid}}">
                   <view class="a">
-                        <view class="a1 {{item.status==1?'text-red':''}}">
-                              <image   lazy-load src="{{item.sellerpic}}"></image>
+                        <view class="a1">
+                              <image lazy-load src="{{item.sellerpic}}"></image>
                               {{item.sellername}}
                         </view>
                         <view class="a2">{{morejs.timelog(item.creat)}}加购</view>

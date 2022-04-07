@@ -3,7 +3,6 @@
     "pages/index/index",
     "pages/explore/explore",
     "pages/cart/cart",
-    "pages/publish/publish",
     "pages/my/my",
     "pages/detail/detail",
     "pages/orderdetail/orderdetail",
@@ -20,7 +19,8 @@
     "pages/quickpublish/quickpublish",
     "pages/sell/list",
     "pages/modify/modify",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/profile/profile"
   ],
   "permission": {
     "scope.userLocation": {
@@ -52,7 +52,7 @@
         "selectedIconPath": "/images/tabbar/explore-selected.png"
       },
       {
-        "pagePath": "pages/publish/publish",
+        "pagePath": "pages/quickpublish/quickpublish",
         "text": "发布",
         "iconPath": "/images/tabbar/publish.png",
         "selectedIconPath": "/images/tabbar/publish-selected.png"
@@ -64,7 +64,7 @@
         "selectedIconPath": "/images/tabbar/cart-selected.png"
       },
       {
-        "pagePath": "pages/my/my",
+        "pagePath": "pages/profile/profile",
         "text": "我的",
         "iconPath": "/images/tabbar/my.png",
         "selectedIconPath": "/images/tabbar/my-selected.png"
@@ -72,7 +72,9 @@
     ]
   },
   "usingComponents": {
-    "avatar": "./components/avatar/index",
+    "van-overlay": "vant/overlay/index",
+    "l-album":"lin/album/index",
+    "avatar": "lin/avatar/index",
     "van-upload": "vant/uploader/index",
     "van-steps": "vant/steps/index",
     "van-transition": "vant/transition/index",
@@ -92,6 +94,15 @@
     "van-swipe-cell": "vant/swipe-cell/index",
     "van-tag": "vant/tag/index",
     "van-dropdown-menu": "vant/dropdown-menu/index",
-    "van-dropdown-item": "vant/dropdown-item/index"
+    "van-dropdown-item": "vant/dropdown-item/index",
+    "van-cell":"vant/cell/index",
+    "van-cell-group":"vant/cell-group/index",
+    "van-button": "vant/button/index",
+    "van-checkbox": "vant/checkbox/index",
+    "van-checkbox-group": "vant/checkbox-group/index",
+    "van-radio": "vant/radio/index",
+    "van-radio-group": "vant/radio-group/index",
+    "van-field": "vant/field/index",
+    "van-picker": "vant/picker/index"
   }
 }

@@ -1,0 +1,285 @@
+
+.profile-card{
+  width: 100% ;
+}
+
+.poster {
+  width: 100% ;
+  height: 365rpx;
+}
+
+.user-info {
+  position: relative;
+  z-index: 99;
+  margin-top: -30rpx;
+  padding: 30rpx;
+  background: #fff;
+  border-radius: 30rpx 30rpx;
+}
+
+.avatar-info {
+  position: relative;
+  width: 150rpx;
+  height: 150rpx;
+  margin-top: -100rpx;
+  border-radius: 50%;
+  border: 4rpx #fff solid;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.gender-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 36rpx;
+  height: 36rpx;
+  right: 0;
+  bottom: 5rpx;
+  border-radius: 50%;
+  border: 4rpx #fff solid;
+}
+
+.gender-icon {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.male {
+  background: #eaf2ff;
+}
+
+.female {
+  background: #f8eff0;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 30rpx;
+  top: 30rpx;
+}
+
+.btn-unfollow {
+  border-color: #337559 !important;
+  color: #337559 !important;
+}
+
+.setting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 58rpx;
+  height: 58rpx;
+  margin-left: 20rpx;
+  border-radius: 50%;
+  background: #88929e;
+}
+
+.child-circle {
+  box-sizing: border-box;
+  width: 34rpx;
+  height: 34rpx;
+  border: 4rpx solid #fff;
+  border-radius: 50%;
+}
+
+.nickname {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.signature {
+  display: block;
+  width: 550rpx;
+  margin-top: 10rpx;
+  text-align: justify;
+  color: #7d7d7d;
+}
+
+.follow-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.following {
+  margin-left: 30rpx;
+}
+
+.follow-num {
+  font-size: 30rpx;
+  color: #337559;
+  font-weight: bold;
+}
+
+.follow-text {
+  color: #7d7d7d;
+  margin-left: 10rpx;
+}
+
+.center_box {
+  width: 100%;
+  padding: 20rpx 0;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+}
+
+.center_1 {
+  width: 160rpx;
+  height: 160rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.center_1 view {
+  font-size: 26rpx;
+  padding-top: 20rpx;
+}
+
+.center_1 image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.blank {
+  width: 100%;
+  height: 20rpx;
+  background: #f4f4f4;
+}
+
+.bottom_box {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 40rpx;
+  flex-direction: column;
+}
+
+.bottom_card {
+  position: relative;
+  width: 100%;
+  height: 124rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #eee;
+  background: #fff;
+}
+.bottom_card button{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.01;
+}
+.bottom_card image {
+  width: 14rpx;
+  height: 25rpx;
+}
+
+.bottom_1 {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.bottom_1 image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.bottom_1 view {
+  font-size: 30rpx;
+  letter-spacing: 3rpx;
+  padding-left: 30rpx;
+}
+
+
+.share_contain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share_box {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx 25rpx 20rpx;
+  box-sizing: border-box;
+  width: 500rpx;
+  justify-content: space-around;
+}
+
+.share_one {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share_one image {
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.share_one view {
+  padding-top: 20rpx;
+  font-size: 26rpx;
+}
+
+.share_title {
+  font-size: 30rpx;
+  letter-spacing: 3rpx;
+  padding: 16rpx;
+}
+
+.share_border {
+  margin-top: 20rpx;
+  display: flex;
+  box-sizing: border-box;
+  height: 6rpx;
+  width: 60rpx;
+  border-radius: 3rpx;
+  border-bottom:6rpx solid #02C39A;
+}
+
+.share_button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.01;
+  border: none;
+}
+
+.share_button::after {
+  border: none;
+}
+
+.share_bor {
+  height: 60rpx;
+  width: 1rpx;
+  border-left: 1rpx solid #e7e7e7;
+}
+.loginout{
+  display: flex;
+  color: red;
+  justify-content: center;
+}

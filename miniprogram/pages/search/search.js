@@ -11,7 +11,7 @@ Page({
             scrollTop: 0,
             newlist: [],
             list: [],
-            key: '',
+            key:"",
             blank: false,
             nomore:false,
             switchTitle1: '全部商品',
@@ -23,18 +23,9 @@ Page({
             ],
             value1: 0,
       },
-      onLoad: function(e) {
-            if(e){
-                  this.setData({
-                        key:e.key
-                  })
-                  this.search()    
-            }
-            else{
-                  this.getnew();
-            }
+      onShow(e){
+        this.gethistory();
       },
-      //同学都在搜
       //跳转详情
       detail(e) {
             let that = this;
@@ -56,17 +47,23 @@ Page({
             wx.setNavigationBarTitle({
                   title:'"'+ that.data.key + '"的搜索结果',
             })
+            let history = that.data.hislist.concat(that.data.key);
+            //去重
+            var his = history.filter(function(element,index,self){
+              return self.indexOf(element) === index;});
+            wx.setStorageSync('history', his)
             wx.showLoading({
                   title: '加载中',
             })
             db.collection('publish').where({
                   status: 0,
-                  key: db.RegExp({
+                  title: db.RegExp({
                         regexp: '.*' + key + '.*',
                         options: 'i',
                   })
             }).orderBy('creat', 'desc').limit(20).get({
                   success(e) {
+                        console.log(e)
                         wx.hideLoading();
                         that.setData({
                               blank: true,
@@ -74,8 +71,30 @@ Page({
                               list: e.data,
                               nomore: false,
                         })
-                  }
+                  },
+                  fail(res){console.log(res)}
             })
+      },
+      //删除所有历史记录
+      deleteall(e){
+        this.setData({
+          hislist:[]
+        })
+        wx.setStorageSync('history', this.data.hislist)
+      },
+      //获取历史搜索关键词
+      gethistory(){
+        this.setData({
+          hislist:wx.getStorageSync('history')
+        })      
+      },
+      //点击历史记录直接搜索
+      onTagTap(e){
+        console.log(e)
+        this.setData({
+          key:e.currentTarget.dataset.key
+        })
+        this.search()
       },
       onReachBottom() {
             this.more();

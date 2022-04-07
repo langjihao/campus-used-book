@@ -4,16 +4,12 @@
       padding: 10rpx;
       box-sizing: content-box;
 }
-.card {
-      position: relative;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      box-sizing: border-box;
+.swiper {
+      height:750rpx
 }
 
 .top_img image {
+      height: 100%;
       width: 100%;
 }
 
@@ -112,32 +108,23 @@
       letter-spacing: 2rpx;
 }
 
-.local_box {
+.localarea {
       display: flex;
       align-items: center;
 }
-.auth_box {
-      display: flex;
-      align-items: center;
-}
-.auth_box image{
-      width: 50rpx;
-      height: 50rpx;
-}
-
-.local_box image {
+.localarea image {
       width: 40rpx;
       height: 40rpx;
 }
 
-.local_box view {
+.localarea view {
       padding-left: 5rpx;
       font-size: 28rpx;
       letter-spacing: 2rpx;
       color: rgb(150, 150, 150);
 }
 
-.sex {
+.auth_box {
       width: 100rpx;
       height: 100%;
       display: flex;
@@ -145,7 +132,7 @@
       align-items: center;
 }
 
-.sex image {
+.auth_box image {
       width: 50rpx;
       height: 50rpx;
       border-radius: 50%;
@@ -188,58 +175,29 @@
       font-size: 28rpx;
       letter-spacing: 2rpx;
 }
+.divtitle {
+      margin-top: 20rpx;
+      display: flex;
+      align-items: center;
+      border-top: 1rpx solid #eee;
+      width: 100%;
+      padding: 20rpx 0;
+}
 
+.divtitle image {
+      width: 36rpx;
+      height: 36rpx;
+}
+
+.divtitle view {
+      font-size: 30rpx;
+      letter-spacing: 2rpx;
+      padding-left: 20rpx;
+}
 .time {
       font-size: 28rpx;
       letter-spacing: 2rpx;
       color: #8c9aa8;
-}
-
-.deliver_box {
-      width: 100%;
-      padding: 24rpx 24rpx 0 24rpx;
-      display: flex;
-      box-sizing: border-box;
-      justify-content: space-between;
-}
-
-.deliver_first {
-      display: flex;
-      align-items: center;
-}
-
-.deliver_title {
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-}
-
-.deliver_kind {
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-      color: #a5a5a5;
-}
-
-.deliver_place {
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-}
-
-.palceInput_box {
-      width: 100%;
-      padding: 24rpx 24rpx 0 24rpx;
-      display: flex;
-      box-sizing: border-box;
-      justify-content: center;
-}
-
-.palceInput_box input {
-      width: 100%;
-      height: 66rpx;
-      border: 1rpx solid #eee;
-      border-radius: 10rpx;
-      font-size: 26rpx;
-      padding: 0 20rpx;
-      letter-spacing: 2rpx;
 }
 
 .detail_contain {
@@ -276,6 +234,4 @@
       line-height: 44rpx;
       color: #616161;
 }
-
-/*底部导航*/
 

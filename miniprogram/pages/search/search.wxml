@@ -12,7 +12,7 @@
 </van-search-bar>
 
 <!-- 筛选和排序框 -->
-<block wx:if="{{list.length!=0}}">
+<!-- <block wx:if="{{list.length!=0}}">
       <van-dropdown-menu>
   <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
   <van-dropdown-item id="item" title="{{ itemTitle }}">
@@ -44,89 +44,49 @@
   </van-dropdown-item>
       </van-dropdown-menu>
 
+</block> -->
+
+<!-- 搜索历史 -->
+<block wx:if="{{list.length==0}}">
+  <view class="a">
+        <image src="/images/history.png"></image>
+        <view>搜索历史</view>
+        <image src="/images/del.png" bindtap="deleteall"></image>
+  </view>
+  <block wx:if="{{hislist.length==0}}">
+        <view class="nosearch">您啥也没搜过，还不快试试</view>
+  </block>
+  <block wx:if="{{hislist.length>0}}">
+    <van-tag wx:for="{{hislist}}"size="large" data-key="{{item}}" color ="#f8f8f8" text-color="#58727e" bindtap="onTagTap"bind:close="deletehis">{{item}}</van-tag>
+  </block>
 </block>
 
-<!-- 搜索历史和相关推荐 -->
-<view class="contain">
-      <block wx:if="{{list.length==0}}">
-            <block wx:if="{{!blank}}">
-                  <view class="a">
-                        <image src="/images/history.png"></image>
-                        <view>搜索历史</view>
-                  </view>
-                  <block wx:if="{{hislist.length==0}}">
-                        <view class="nosearch">您啥也没搜过，还不快试试</view>
-                  </block>
-                  <block wx:if="{{hislist.length>0}}">
-                        <block wx:for="{{hislist}}" wx:key="*this">
-                              <view bindtap="choosekey" data-key="{{item}}" class="hisitem">{{index+1}}. {{item}}</view>
-                        </block>
-                  </block>
-            </block>
-            <block wx:if="{{blank}}">
-                  <view class="a">
-                        <image src="/images/result.png"></image>
-                        <view>搜索结果</view>
-                  </view>
-                  <!--无内容显示-->
-                  <view class="nocontent">
-                        <image src="/images/blank.png"></image>
-                        <view class="blank_text">暂无{{key}}相关书籍哟~</view>
-                  </view>
-            </block>
-            <view class="a">
-                  <image src="/images/recommend.png"></image>
-                  <view>更多推荐</view>
-            </view>
-            <block wx:if="{{newlist.length==0}}">
-                  <view class="nosearch">暂无相关推荐</view>
-            </block>
-            <block wx:if="{{newlist.length>0}}">
-                  <block wx:for="{{newlist}}" wx:key="_id">
-                        <view class="list_box" bindtap="detail" data-id="{{item._id}}">
-                              <image class="list_poster" src="{{item.bookinfo.pic}}"></image>
-                              <view class="list_content">
-                                    <view class="list_word">
-                                          <view class="list_title text-cut">{{item.bookinfo.title}}
-                                          </view>
-                                          <view class="list_author text-cut">{{item.bookinfo.author}}
-                                          </view>
-                                    </view>
-                                    <view class="list_between">
-                                          <view class="list_price">￥{{item.price}}.00元</view>
-                                          <view class="list_time">{{morejs.timelog(item.creat )}}发布
-                                          </view>
-                                    </view>
-                              </view>
-                        </view>
-                  </block>
-            </block>
+<!-- 搜索结果 -->
+<block wx:if="{{blank}}">
+  <view class="a">
+            <image src="/images/result.png"></image>
+            <view>搜索结果</view>
+  </view>
+  <!-- 结果为空 -->
+  <block wx:if="{{list.length==0}}">
+        <!--无内容显示-->
+        <view class="nocontent">
+              <image src="/images/blank.png"></image>
+              <view class="blank_text">暂无{{key}}相关书籍哟~</view>
+        </view>
+        <!-- 相关推荐,暂未完成 -->
+  </block>
+  <!-- 结果不为空 -->
+  <block wx:if="{{list.length>0}}">
+      <block wx:for="{{list}}" wx:key="_id">
+        <van-card price = "{{item.price}}" bind:tap="detail" data-id="{{item._id}}"thumb="{{item.piclist[0]}}" thumb-mode="aspectFill" title="{{item.title}}" tag="{{item.sort}}">
+        <view slot="tags">
+          <van-tag plain type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag> 
+        </view>
+        </van-card> 
       </block>
-      <block wx:if="{{list.length>0}}">
-            <view class="a">
-                  <image src="/images/result.png"></image>
-                  <view>搜索结果</view>
-            </view>
-            <block wx:for="{{list}}" wx:key="_id">
-                  <view class="list_box" bindtap="detail" data-id="{{item._id}}">
-                        <image class="list_poster" src="{{item.bookinfo.pic}}"></image>
-                        <view class="list_content">
-                              <view class="list_word">
-                                    <view class="list_title text-cut">{{item.bookinfo.title}}
-                                    </view>
-                                    <view class="list_author text-cut">{{item.bookinfo.author}}
-                                    </view>
-                              </view>
-                              <view class="list_between">
-                                    <view class="list_price">￥{{item.price}}.00元</view>
-                                    <view class="list_time">{{morejs.timelog(item.creat )}}发布
-                                    </view>
-                              </view>
-                        </view>
-                  </view>
-            </block>
-      </block>
-</view>
+  </block>
+</block>
 
 
 

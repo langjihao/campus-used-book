@@ -62,7 +62,7 @@
       box-sizing: border-box;
       background: #fff;
 }
-.card_grid {
+.waterfall_grid {
       width: 100%;
       display: flex;
       box-sizing: border-box;
@@ -70,7 +70,7 @@
       flex-wrap: wrap;
 }
 
-.card_one {
+.waterfall_one {
       margin-top: 20rpx;
       width: 50%;
       padding: 20rpx;
@@ -80,12 +80,12 @@
       align-items: center;
 }
 
-.card_poster {
+.waterfall_poster {
       width: 260rpx;
       height: 260rpx;
 }
 
-.card_title {
+.waterfall_title {
       width: 100%;
       font-size: 30rpx;
       letter-spacing: 3rpx;
@@ -93,7 +93,7 @@
       line-height: 45rpx;
 }
 
-.card_author {
+.waterfall_author {
       width: 100%;
       font-size: 26rpx;
       letter-spacing: 3rpx;
@@ -101,7 +101,7 @@
       color: rgb(129, 129, 129);
 }
 
-.card_between {
+.waterfall_between {
       margin-top: 5rpx;
       width: 100%;
       display: flex;
@@ -109,12 +109,12 @@
       align-items: flex-end;
 }
 
-.card_price {
+.waterfall_price {
       font-size: 33rpx;
       color: rgb(255, 0, 0);
 }
 
-.card_buy {
+.waterfall_buy {
       padding-right: 10rpx;
       width: 40rpx;
       height: 40rpx;

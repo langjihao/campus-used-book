@@ -7,8 +7,6 @@ Page({
     avatarUrl:"",
     openID:"",
     userInfo: {},
-    hasUserInfo: false,
-    canIUseGetUserProfile: false,
   },
   getUserProfile(e) {
     wx.getUserProfile({
@@ -16,17 +14,21 @@ Page({
       success: (res) => {
         this.setData({
           userInfo: res.userInfo,
-          hasUserInfo: true,
         })
+        let user = this.data.userInfo;
+        let that = this;
         db.collection('user').where({
-          _openid:this.data.openID
-          
+          _openid:that.data.openID         
         }).get().then(res => {
+          console.log(res)
           if(res.data == ""){
             db.collection('user').add({
               data: {
                     stamp: new Date().getTime(),
-                    info: this.data.userInfo,
+                    avatarUrl:user.avatarUrl,
+                    nickName:user.nickName,
+                    gender:user.gender,
+                    city:user.city,
                     isauth: false,
               },
               fail: function(res) {
@@ -47,7 +49,6 @@ Page({
             })
           }
           else if(!res.data[0].isauth){
-            console.log(res)
             wx.showToast({
               title: '您尚未实名认证，正在前往实名认证页面',
             })
@@ -60,14 +61,11 @@ Page({
               title: '欢迎回来',
             });
             wx.setStorageSync('userinfo',res.data[0])
+            wx.setStorageSync('history', [])
             wx.navigateBack({})
           }
       })}})},
 
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     wx.cloud.callFunction({
       name:"login",
@@ -78,60 +76,5 @@ Page({
         wx.setStorageSync('openid',res.result.openid)
       }
     })
-    if (wx.getUserProfile) {
-      this.setData({
-        canIUseGetUserProfile: true
-      })
-    }
-
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })
