@@ -62,7 +62,7 @@ Page({
                                           wx.showToast({
                                                 title: '成功删除',
                                           })
-                                          that.getList();
+                                          that.editcart(del._id,4)
                                     },
                                     fail() {
                                           wx.hideLoading();
@@ -82,7 +82,7 @@ Page({
             let crash = e.currentTarget.dataset.crash;
             wx.showModal({
                   title: '温馨提示',
-                  content: '您确定要擦亮此条订单吗？',
+                  content: '您确定要擦亮该商品吗？',
                   success(res) {
                         if (res.confirm) {
                               wx.showLoading({
@@ -91,7 +91,6 @@ Page({
                               db.collection('publish').doc(crash._id).update({
                                     data: {
                                           creat: new Date().getTime(),
-                                          dura: new Date().getTime() + 7 * (24 * 60 * 60 * 1000), //每次擦亮管7天
                                     },
                                     success() {
                                           wx.hideLoading();
@@ -133,7 +132,7 @@ Page({
                                           wx.showToast({
                                                 title: '成功',
                                           })
-                                          that.getList();
+                                          that.editcart(crash._id,2)
                                     },
                                     fail() {
                                           wx.hideLoading();
@@ -147,6 +146,23 @@ Page({
                   }
             })
       },
+      //售出\删除后对购物车记录进行修改
+      editcart(id,flag){
+        let that =this;
+        db.collection('cart').where({
+          itemid : id,
+          }).update({
+            data:{status:flag},
+          success(res){
+            console.log(res)
+            that.getList();
+          },
+          fail(res){
+            console.log(res)
+            that.getList();
+          }
+        })
+      },
       //查看详情
       detail(e) {
             let that = this;
@@ -156,11 +172,20 @@ Page({
                         url: '/pages/detail/detail?scene=' + detail._id,
                   })
             }
-            if (detail.status == 1) {
-                  wx.navigateTo({
-                        url: '/pages/sell/detail/detail?id=' + detail._id,
-                  })
-            }
+            //已售出则查看订单详情
+            // if (detail.status == 1) {
+            //       wx.navigateTo({
+            //             url: '/pages/sell/detail/detail?id=' + detail._id,
+            //       })
+            // }
+      },
+      //跳转编辑
+      modify(e){
+        let that = this;
+        let detail = e.currentTarget.dataset.detail;
+        wx.navigateTo({
+          url: '/pages/modify/modify?scene=' + detail._id
+        })
       },
       //下拉刷新
       onPullDownRefresh() {

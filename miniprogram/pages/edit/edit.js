@@ -40,68 +40,6 @@ Page({
               openid:openid
             })
       },
-      //获取用户手机号(接口暂不可用)
-      // getTELNumber: function(e) {
-      //       let that = this;
-      //       //判断用户是否授权确认
-      //       if (!e.detail.errMsg || e.detail.errMsg != "getTELNumber:ok") {
-      //             wx.showToast({
-      //                   title: '获取手机号失败',
-      //                   icon: 'none'
-      //             })
-      //             return;
-      //       }
-      //       wx.showLoading({
-      //             title: '获取手机号中...',
-      //       })
-      //       wx.login({
-      //             success(re) {
-      //                   wx.cloud.callFunction({
-      //                         name: 'regist', // 对应云函数名
-      //                         data: {
-      //                               $url: "TEL", //云函数路由参数
-      //                               encryptedData: e.detail.encryptedData,
-      //                               iv: e.detail.iv,
-      //                               code: re.code
-      //                         },
-      //                         success: res => {
-      //                               console.log(res);
-      //                               wx.hideLoading();
-      //                               if (res.result == null) {
-      //                                     wx.showToast({
-      //                                           title: '获取失败,请重新获取',
-      //                                           icon: 'none',
-      //                                           duration: 2000
-      //                                     })
-      //                                     return false;
-      //                               }
-      //                               //获取成功，设置手机号码
-      //                               that.setData({
-      //                                     TEL: res.result.data.TELNumber
-      //                               })
-      //                         },
-      //                         fail: err => {
-      //                               console.error(err);
-      //                               wx.hideLoading()
-      //                               wx.showToast({
-      //                                     title: '获取失败,请重新获取',
-      //                                     icon: 'none',
-      //                                     duration: 2000
-      //                               })
-      //                         }
-      //                   })
-      //             },
-      //             fail: err => {
-      //                   console.error(err);
-      //                   wx.hideLoading()
-      //                   wx.showToast({
-      //                         title: '获取失败,请重新获取',
-      //                         icon: 'none',
-      //                         duration: 2000
-      //                   })
-      //             }
-      //       })
-      // },
       telInput(e){
             this.data.TEL = e.detail.value;
       },

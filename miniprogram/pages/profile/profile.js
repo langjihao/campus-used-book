@@ -42,7 +42,26 @@ Page({
         islogin:false
       })
     },
+    login(){
+      wx.navigateTo({
+        url: '/pages/wxlogin/wxlogin',
+  })
+    },
     go(e) {
+      if (!this.data.islogin) {
+        wx.showModal({
+              title: '温馨提示',
+              content: '该功能需要登录方可使用，是否马上去登录',
+              success(res) {
+                    if (res.confirm) {
+                          wx.navigateTo({
+                                url: '/pages/wxlogin/wxlogin',
+                          })
+                    }
+              }
+        })
+        return false
+       }
       wx.navigateTo({
             url: e.currentTarget.dataset.go
       })

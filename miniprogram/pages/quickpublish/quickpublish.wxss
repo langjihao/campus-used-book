@@ -81,56 +81,37 @@
   box-sizing: border-box;
   background: #fff;
 }
-.c_contain {
-  position: relative;
+.success{
+  padding: 32rpx;
   width: 100%;
-  background: #fff;
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   box-sizing: border-box;
+  background: #fff;
 }
-
-.c_success {
-  width: 145rpx;
-  height: 184rpx;
-  margin-top: 130rpx;
-}
-
-.c_title {
+.success text {
+  justify-self: center;
   font-size: 40rpx;
   margin-top: 30rpx;
   font-weight: 600;
 }
-
-.c_des {
-  margin-top: 30rpx;
-  font-size: 28rpx;
-  line-height: 45rpx;
-  color: #898989;
+.success image{
+  justify-content: center;
+  width: 145rpx;
+  height: 184rpx;
 }
 
-.c_see {
+
+.see {
   margin-top: 40rpx;
   font-size: 32rpx;
   letter-spacing: 3rpx;
   color: #4f93ea;
 }
 
-.c_again {
-  margin-top: 40rpx;
-  width: 500rpx;
-  height: 80rpx;
-  border-radius: 40rpx;
-  background: #02C39A;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32rpx;
-  letter-spacing: 4rpx;
-}
-.b_contain {
+.contain {
   padding: 32rpx;
   width: 100%;
   display: flex;
@@ -140,22 +121,22 @@
   box-shadow: 0 30rpx 20rpx rgb(240, 240, 240);
 }
 
-.b_top {
+.top {
   display: flex;
 }
 
-.b_poster {
+.poster {
   width: 270rpx;
   display: flex;
   justify-content: center;
 }
 
-.b_poster image {
+.poster image {
   width: 250rpx;
   height: 250rpx;
 }
 
-.b_title {
+.title {
   width: 100%;
   font-size: 32rpx;
   line-height: 50rpx;
@@ -163,7 +144,7 @@
   letter-spacing: 2rpx;
 }
 
-.b_content {
+.content {
   width: 410rpx;
   height: 250rpx;
   display: flex;
@@ -171,7 +152,7 @@
   justify-content: space-between;
 }
 
-.b_dcontain {
+.dcontain {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -179,20 +160,20 @@
   padding-bottom: 4rpx;
 }
 
-.b_author {
+.author {
   font-size: 28rpx;
   letter-spacing: 2rpx;
   color: #000;
 }
 
-.b_price {
+.price {
   font-size: 30rpx;
   color: rgb(255, 0, 0);
   letter-spacing: 2rpx;
   white-space: nowrap;
 }
 
-.b_des {
+.des {
   font-size: 26rpx;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -201,7 +182,7 @@
   text-overflow: ellipsis;
   color: #aaaaab;
 }
-.b_right {
+.right {
   width: 70rpx;
   height: 70rpx;
   justify-content:space-around

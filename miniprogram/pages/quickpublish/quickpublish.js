@@ -5,11 +5,12 @@ const config = require("../../config.js");
 Page({
   
   data: {
+		showmore:false,
     flag:1,
     isbn:0,
     show:false,
-    isQQ:false,
-    isWX:false,
+    isQQ:true,
+    isWX:true,
     price:5,
     kind:0,
     sorted:"通用",
@@ -20,6 +21,41 @@ Page({
     labels: [],//默认标签+专业标签+课程标签
     labelsActive: [], // 选中的标签
     sort:JSON.parse(config.data).sort1
+  },
+  //初始化重新发布
+  initial(){
+    this.setData({
+			showmore:false,
+      title:"",
+      flag:1,
+      isbn:0,
+      show:false,
+      isQQ:true,
+      isWX:true,
+      price:5,
+      kind:0,
+      sorted:"通用",
+      method:2,
+      count:0,
+      fileList: [], //预览图列表
+      piclist:[],//实际上传的fileid列表
+      labels: [],//默认标签+专业标签+课程标签
+      labelsActive: [], // 选中的标签
+      sort:JSON.parse(config.data).sort1
+    })
+
+	},
+	//是否展开更多信息框
+	changeshowmore(){
+		this.setData({
+			showmore:!this.data.showmore
+		})
+	},
+  //跳转详情
+  detail(e){
+    wx.navigateTo({
+      url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
+})
   },
   //弹出层开关
   showPopup() {
@@ -134,7 +170,7 @@ Page({
   upload(){
     let that=this;
     const { fileList } = this.data;
-    if (!fileList.length) {
+    if (!fileList.length&&!that.data.piclist.length) {
     wx.showModal({
       title:"提示",
       content:"上传宝贝图片更易卖出嗷",
@@ -142,24 +178,22 @@ Page({
       cancelText:"容我想想",
       cancelColor: 'cancelColor',
       success: function (res) {
-
         if (res.confirm) {     
-          console.log('用户点击确定')
           that.publish();
         } else {
           return
         }}
     });
   } else {
-    const uploadTasks = fileList.map((file, index) => this.uploadFilePromise(that.data.userinfo.UID+new Date().getTime()+`item.png`, file));
+    const uploadTasks = fileList.map((file) => 
+    this.uploadFilePromise(that.data.userinfo.UID+new Date().getTime()+`item.png`, file));
     Promise.all(uploadTasks)
       .then(data => {
         wx.showToast({ title: '上传成功', icon: 'none' });
         const newFileList = data.map(item => (item.fileID));
         that.setData({
-          piclist:newFileList
+          piclist:that.data.piclist.concat(newFileList)
         })
-        that.setData({ cloudPath: data, fileList: newFileList });
         that.publish();
 
       })
@@ -204,7 +238,8 @@ Page({
                   title: '发布成功',
                 }),
                 that.setData({
-                  flag:2
+                  flag:2,
+                  id:e._id
                 })
           },
           fail(e){
@@ -267,27 +302,26 @@ Page({
       }
     })
     //获取学生专业年级等标签
-    let school = {name:that.data.userinfo.school,active:false};
-    let major={name:that.data.userinfo.major+'专业教材',active:false};
-    let gradenum=22-that.data.userinfo.grade;
-    if(gradenum==1){
-      var grade="大一";
-    }else if(gradenum==2){
-      var grade="大二";
-    }else if(gradenum==3){
-      var grade="大三";
-    }else{
-      var grade="大四";
-    }
-    let gradetag={name:grade,active:false};
-    let tags=[school,gradetag,major]
-    that.setData({
-      labels:that.data.labels.concat(tags)
-    })
+    // let school = {name:that.data.userinfo.school,active:false};
+    // let major={name:that.data.userinfo.major+'专业教材',active:false};
+    // let gradenum=22-that.data.userinfo.grade;
+    // if(gradenum==1){
+    //   var grade="大一";
+    // }else if(gradenum==2){
+    //   var grade="大二";
+    // }else if(gradenum==3){
+    //   var grade="大三";
+    // }else{
+    //   var grade="大四";
+    // }
+    // let gradetag={name:grade,active:false};
+    // let tags=[school,gradetag,major]
+    // that.setData({
+    //   labels:that.data.labels.concat(tags)
+    // })
   },
   //读取用户选择的标签
   onTagTap(event) {
-    console.log(event)
     const labelname = event.currentTarget.dataset.label
     const labels = this.data.labels
     let labelsActive = this.data.labelsActive
@@ -357,7 +391,7 @@ Page({
             return false;
       }
       that.get_book(isbn);
-},
+  },
 //把这两个加到一个,调用云函数进行操作,再新建一个自动填写函数
 //查询书籍数据库详情
   get_book(isbn) {
@@ -377,6 +411,7 @@ Page({
                           //这里
                           that.setData({
                               bookinfo: res.data[0],
+                              
                           });
                           that.fill()
                     }
@@ -425,13 +460,11 @@ Page({
     let bookinfo=this.data.bookinfo;
     let userinfo=this.data.userinfo;
     this.setData({
-      title:userinfo.campus+"出一本"+bookinfo.publisher+"的"+bookinfo.title+",第"+bookinfo.edition+","+userinfo.major+"和其他专业都适用",
+      title:"出一本"+bookinfo.publisher+"的"+bookinfo.title+",第"+bookinfo.edition,
       price:0.5*parseFloat(bookinfo.price),
+      piclist:[bookinfo.pic]
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad() {
     let user =wx.getStorageSync('userinfo')
     this.setData({

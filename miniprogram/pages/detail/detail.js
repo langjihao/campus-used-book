@@ -162,6 +162,7 @@ Page({
                   url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
             })
       },
+      //关闭联系方式弹窗
       onClose(){
             this.setData({ show : false });
       },
@@ -191,14 +192,18 @@ Page({
       })},
       //添加到购物车
       add(){
+            this.setData({
+              iscart:true,
+              cartnum:this.data.cartnum+1
+            })
             db.collection('cart').add({
-                  data:{
+                  data:{status : this.data.publishinfo.status,
                         itemid : this.data.id,
                         pic : this.data.publishinfo.piclist[0],
                         sellerpic : this.data.selleruserinfo.avatarUrl,
                         sellername: this.data.selleruserinfo.nickName,
                         price : this.data.publishinfo.price,
-                        title : this.data.publishinfo.title,
+												title : this.data.publishinfo.title,
                         creat : new Date().getTime()
                   },
                   success(res){
@@ -211,10 +216,54 @@ Page({
                   }
             })
       },
+      //从购物车删除
+      delete(){
+        let that = this;
+        db.collection('cart').where({
+                itemid : this.data.id,
+          }).remove({
+          success(res){
+            that.setData({
+              iscart:false,
+              cartnum:that.data.cartnum-1
+            })
+          },
+          fail(res){
+                console.log(res)
+          }
+    })
+      }, 
+      //判断购物车商品数量并判断当前商品是否在购物车中
+      judgecart(){
+        let that =this;
+        db.collection('cart').where({
+          _openid : that.data.userinfo._openid,
+          }).get({
+          success(res){
+            var flag = false;
+            for(var i=0;i<res.data.length;i++){
+              if(res.data[i].itemid==that.data.id){
+                var flag = true;
+              }
+            }
+            that.setData({
+              cartnum:res.data.length,
+              iscart:flag
+            })
+          },
+          fail(res){
+            console.log(res)
+          }
+        })
+      },
       //生成分享相关内容
       onShareAppMessage() {
             return {
-                  title: '这本《' + this.data.bookinfo.title + '》只要￥' + this.data.publishinfo.price + '元，快来看看吧',
+                  title: '这本《' + this.data.publishinfo.title + '》只要￥' + this.data.publishinfo.price + '元，快来看看吧',
                   path: '/pages/detail/detail?scene=' + this.data.publishinfo._id,
             }
-      }})
+      },
+      onShow(){
+        this.judgecart()
+      }
+    })

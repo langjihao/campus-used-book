@@ -1,6 +1,6 @@
 <wxs src="../../common.wxs" module="morejs" />
 <view class="top_contain">
-<swiper indicator-dots class="swiper" indicator-active-color="#02C39A" circular>
+<swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
       <block wx:for="{{publishinfo.piclist}}" wx:key="id">
             <swiper-item class="top_img">
                   <image  lazy-load 
@@ -110,9 +110,9 @@
 <!--底部导航-->
 <van-goods-action>
   <van-goods-action-icon icon="wap-home-o" bind:click='home' />
-  <van-goods-action-icon icon="cart-o"  info="5" bind:click="navitocart" />
+  <van-goods-action-icon icon="cart-o"  info="{{cartnum}}" bind:click="navitocart" />
   <van-goods-action-icon icon="share-o" open-type="share"/>
-  <van-goods-action-button text="加入购物车" type="warning" bind:click="add" />
+  <van-goods-action-button text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}" />
   <van-goods-action-button text="联系卖家" bind:click="contact"/>
 </van-goods-action>
 

@@ -20,7 +20,6 @@ Page({
         db.collection('user').where({
           _openid:that.data.openID         
         }).get().then(res => {
-          console.log(res)
           if(res.data == ""){
             db.collection('user').add({
               data: {

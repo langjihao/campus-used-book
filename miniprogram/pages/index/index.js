@@ -12,7 +12,8 @@ Page({
             userinfo:'',
             islogin:false,
             currentList : 0,
-            showtype:2
+						showtype:2,
+						barheight:app.globalData.CustomBar
       },
       onLoad() {
             this.getbanner();

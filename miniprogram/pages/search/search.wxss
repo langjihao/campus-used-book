@@ -4,7 +4,7 @@
       justify-content: space-between;
       padding: 20rpx 30rpx;
       box-sizing: border-box;
-      background: #02C39A;
+      background: #39b54a;
       height: 106rpx;
       align-items: center;
 }

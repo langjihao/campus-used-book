@@ -9,6 +9,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+		Tab:["宝贝","聊天"],
+		TabCur: 0,
+    scrollLeft:0,
     nomore:false,
     islogin:false
   },
@@ -31,6 +34,13 @@ Page({
    */
   onReady: function () {
 
+	},
+	//页面切换
+	tabSelect(e) {
+    this.setData({
+      TabCur: e.currentTarget.dataset.id,
+      scrollLeft: (e.currentTarget.dataset.id-1)*60
+    })
   },
 
   //获取用户加购的商品
@@ -99,7 +109,6 @@ Page({
           }
     })
   },
-
   onReachBottom() {
   this.more();
   },
@@ -118,7 +127,7 @@ Page({
         url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.detail,
     })
   },
-  onShow: function () {
+  onShow(){
     this.getcartlist()
   },
   //删除购物车商品
@@ -140,40 +149,41 @@ Page({
         })
   }
     })
+	},
+	//获取聊天列表
+	getchatlist(){
+	},
+	// ListTouch触摸开始
+  ListTouchStart(e) {
+    this.setData({
+      ListTouchStart: e.touches[0].pageX
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  // ListTouch计算方向
+  ListTouchMove(e) {
+    this.setData({
+      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > 0 ? 'right' : 'left'
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  // ListTouch计算滚动
+  ListTouchEnd(e) {
+    if (this.data.ListTouchDirection =='left'){
+      this.setData({
+        modalName: e.currentTarget.dataset.target
+      })
+    } else {
+      this.setData({
+        modalName: null
+      })
+    }
+    this.setData({
+      ListTouchDirection: null
+    })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+	// 创建聊天房间
+	startchat(e){
+		console.log(e)
+	}
 })

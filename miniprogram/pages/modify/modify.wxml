@@ -1,2 +1,106 @@
-<!--pages/modify/modify.wxml-->
-<text>pages/modify/modify.wxml</text>
+<!--pages/quickpublish/quickpublish.wxml-->
+<block wx:if="{{flag==1}}">
+<!-- 标准化信息框 -->
+<block wx:if="{{isbn!=0}}">
+  <view class="contain">
+            <view class="top">
+                  <view class="poster">
+                        <image src="{{bookinfo.pic}}" />
+                  </view>
+                  <view class="content">
+                        <view class="title text-cut">{{bookinfo.title}}</view>
+                        <view class="dcontain">
+                              <view class="author text-cut">{{bookinfo.author}}</view>
+                        </view>
+                        <view class="des">{{bookinfo.summary}}
+                        </view>
+                  </view>
+            </view>
+      </view>
+</block>
+<!-- 发布闲置主信息框 -->
+<view class="box">
+  <view class="input">
+    <textarea value="{{title}}" bindinput="infoInput" maxlength="66" placeholder="描述图书新旧,用途,版本,有无笔记等信息"></textarea>
+    <view class="count">{{count}}/66</view>
+  </view>
+  <view class="picarea">
+    <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" max-count="9" accept="image" bind:delete="delete"/>
+  </view>
+</view>
+<view style="height: 20rpx;"></view>
+<!-- 下部所有 -->
+<view class="contain">
+<!-- 标签区域 -->
+<view wx:if="{{labels.length>0}}" class="box">
+  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
+</view>
+<view style="height: 20rpx;"></view>
+<!-- 其他信息框 -->
+<van-cell-group class="box">
+<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
+</van-cell>
+<van-popup show="{{show}}" bind:close="showPopup" round
+  position="bottom">
+  <van-picker columns="{{sort}}" show-toolbar
+  title="选择类别" bind:cancel="showPopup"
+  bind:confirm="confirmsort" bind:change="choosesort"/>
+  </van-popup>
+<van-cell title="价格" icon="/images/price.png" required>
+  <view slot="right-icon">
+    <van-stepper value="{{price}}"  bind:change="changeprice" min="1" max="100" />
+  </view>
+</van-cell>
+<van-cell title="交易方式" icon="/images/delivery.png">
+  <view slot="right-icon">
+    <van-radio-group value="{{methed}}"bind:change="changemethod" direction="horizontal">
+      <van-radio name="1"checked-color="#07c160">自提</van-radio>
+      <van-radio name="2"checked-color="#07c160">再议</van-radio>
+</van-radio-group>
+  </view>
+</van-cell> 
+<!-- 地址获取框 -->
+<van-field wx:if="{{method==1}}"
+value="{{place}}"
+placeholder="输入地址或点击右侧定位"
+bind:change="placeInput"
+use-button-slot
+>
+<van-button slot="button" bindtap="getlocation" size="small" type="primary">
+  定位
+</van-button>
+</van-field>
+<van-cell title="联系方式" icon="/images/contactar.png" value="勾选启用" required></van-cell>
+<van-field 
+label="QQ"
+left-icon="/images/QQ.png"
+value="{{QQ}}"
+placeholder="{{userinfo.QQ}}"
+bind:change="qqInput"
+use-button-slot
+>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isQQ}}" bind:change="onQQ"></van-checkbox>
+</van-field>
+<van-field 
+label="微信"
+left-icon="/images/weixin.png"
+value="{{WX}}"
+placeholder="{{userinfo.WX}}"
+bind:change="wxInput"
+use-button-slot
+>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isWX}}" bind:change="onWX"></van-checkbox>
+</van-field>
+</van-cell-group>
+<view style="height: 20rpx;"></view>
+<van-button type="primary" round bindtap="check" size="large">确认修改</van-button>
+</view>
+</block>
+<!-- 成功页 -->
+<block wx:if="{{flag==2}}">
+  <view class="success">
+            <image src="/images/success.png"></image>
+            <text>修改成功</text>
+            <view class="see" bindtap="detail" data-id="{{id}}" >查看详情</view>
+  </view>
+</block>

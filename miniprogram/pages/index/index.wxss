@@ -1,17 +1,28 @@
-.banner {
-      width: 100%;
-      display: flex;
-      box-sizing:border-box;
-      height: 250rpx;
+.top-bg {
+	position: absolute;
+	top: 0rpx;
+	left: 0rpx;
+	width: 100%;
+	height: 340rpx;
+	background: #39b54a;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border-radius: 0 0 100rpx 100rpx;
 }
+.banner_warp,.banner_warp .banner,.banner_warp image{height:264rpx;}
+.banner_warp{margin:0rpx 50rpx 10rpx 50rpx;}
+.banner_warp .banner_warp .li{border-radius: 20rpx;width: 92%;overflow: hidden}
+.banner_warp .wx-swiper-dot{width: 40rpx;height: 6rpx;background: rgba(255,255,255,.2);border-radius: inherit;}   
+.banner_warp .wx-swiper-dot-active{width: 40rpx;height: 6rpx;background: #fff;}
+.banner_warp image{border-radius: 20rpx;}
 
-.banner_image {
-      width: 100%;
-      display: flex;
-      box-sizing: border-box;
-      height: 100%;
+.serachbar{
+	background-color: #fff;
 }
-
+.tab{
+	position: sticky;
+	z-index: 99999;
+}
 ::-webkit-scrollbar {
       width: 0;
       height: 0;
@@ -53,7 +64,7 @@
 }
 
 
-.waterfall_one image {
+.mainpic {
   border-radius: 10rpx 10rpx 0 0;
   width: 330rpx;
   height: 365rpx;
@@ -80,20 +91,17 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
 }
 
 .waterfall_price {
-      border-radius: 50%;
       font-size: 33rpx;
       font-weight: bold;
       color: rgb(255, 0, 0);
 }
 
-.waterfall_between image {
-      border-radius: 50%;
+.avatar {
+			border-radius: 50%;
       width: 100rpx;
-      height: 60rpx;
 }
 
 /* 无内容 */
@@ -164,7 +172,8 @@
   margin-bottom: 15rpx;
 }
 .tagarea{
-  display: flex;
+	display: flex;
+	flex-wrap: wrap;
 }
 .line {
   height: 1px;

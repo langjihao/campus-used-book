@@ -2,17 +2,17 @@
 <block wx:if="{{flag==1}}">
 <!-- 标准化信息框 -->
 <block wx:if="{{isbn!=0}}">
-  <view class="b_contain">
-            <view class="b_top">
-                  <view class="b_poster">
+  <view class="contain">
+            <view class="top">
+                  <view class="poster">
                         <image src="{{bookinfo.pic}}" />
                   </view>
-                  <view class="b_content">
-                        <view class="b_title text-cut">{{bookinfo.title}}</view>
-                        <view class="b_dcontain">
-                              <view class="b_author text-cut">{{bookinfo.author}}</view>
+                  <view class="content">
+                        <view class="title text-cut">{{bookinfo.title}}</view>
+                        <view class="dcontain">
+                              <view class="author text-cut">{{bookinfo.author}}</view>
                         </view>
-                        <view class="b_des">{{bookinfo.summary}}
+                        <view class="des">{{bookinfo.summary}}
                         </view>
                   </view>
             </view>
@@ -36,19 +36,14 @@
       <image src="/images/scan.png"></image>
       <text>点击扫码,自动填写</text>
     </view>
-  </view>
+	</view>
+	<view style="height:20rpx"></view>
 </view>
-<view style="height: 20rpx;"></view>
 <!-- 下部所有 -->
 <view class="contain">
-<!-- 标签区域 -->
-<view wx:if="{{labels.length>0}}" class="box">
-  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
-</view>
-<view style="height: 20rpx;"></view>
 <!-- 其他信息框 -->
-<van-cell-group class="box">
-<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
+<van-cell-group>
+	<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
 </van-cell>
 <van-popup show="{{show}}" bind:close="showPopup" round
   position="bottom">
@@ -56,11 +51,17 @@
   title="选择类别" bind:cancel="showPopup"
   bind:confirm="confirmsort" bind:change="choosesort"/>
   </van-popup>
-<van-cell title="价格" icon="/images/price.png" required>
+<van-cell title="价格" icon="/images/price.png">
   <view slot="right-icon">
     <van-stepper value="{{price}}"  bind:change="changeprice" min="1" max="100" />
   </view>
 </van-cell>
+<view wx:if="{{!showmore}}" class="flex-sub text-center">
+      <view class="solid-bottom text-sm padding">
+        <text class="text-gray" bindtap="changeshowmore">点击设定更多信息</text>
+      </view>
+</view>
+<block wx:if="{{showmore}}">
 <van-cell title="交易方式" icon="/images/delivery.png">
   <view slot="right-icon">
     <van-radio-group value="{{methed}}"bind:change="changemethod" direction="horizontal">
@@ -83,13 +84,13 @@ use-button-slot
 <van-cell title="联系方式" icon="/images/contactar.png" value="勾选启用" required></van-cell>
 <van-field 
 label="QQ"
-left-icon="/images/QQ.png"
+left-icon="/images/qq.png"
 value="{{QQ}}"
 placeholder="{{userinfo.QQ}}"
 bind:change="qqInput"
 use-button-slot
 >
-<van-checkbox slot="button" color="#07c160" value="{{isQQ}}" bind:change="onQQ"></van-checkbox>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isQQ}}" bind:change="onQQ"></van-checkbox>
 </van-field>
 <van-field 
 label="微信"
@@ -99,19 +100,34 @@ placeholder="{{userinfo.WX}}"
 bind:change="wxInput"
 use-button-slot
 >
-<van-checkbox slot="button" value="{{isWX}}" bind:change="onWX"></van-checkbox>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isWX}}" bind:change="onWX"></van-checkbox>
 </van-field>
+<view  class="flex-sub text-center">
+      <view class="solid-bottom text-sm padding">
+        <text class="text-gray" bindtap="changeshowmore">点击收起</text>
+      </view>
+</view>
+</block>
 </van-cell-group>
+<!-- 标签区域 -->
+<view wx:if="{{labels.length>0}}" class="box">
+  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
+</view>
 <view style="height: 20rpx;"></view>
+
 <van-button type="primary" round bindtap="check" size="large">发布</van-button>
 </view>
 </block>
 <!-- 成功页 -->
 <block wx:if="{{flag==2}}">
-  <view class="contain">
-            <image class="c_success" src="/images/success.png"></image>
-            <view class="c_title">恭喜您 发布成功</view>
-            <view class="c_see" bindtap="detail" >查看详情</view>
-            <view class="c_again shadow" bindtap="initial">再来一本</view>
-      </view>
+  <view class="success">
+            <image src="/images/success.png"></image>
+            <text>恭喜您 发布成功</text>
+            <view class="see" bindtap="detail" data-id="{{id}}" >查看详情</view>
+  </view>
+	<view style="padding:20rpx;justify-content: center;">
+  <van-button size="large" type="primary" round bindtap="initial">再来一本</van-button>
+	<view style="height:20rpx"></view>
+  <van-button size="large" type="primary" round >生成海报(TODO)</van-button>
+	</view>
 </block>

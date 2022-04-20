@@ -3,7 +3,6 @@
     "pages/index/index",
     "pages/explore/explore",
     "pages/cart/cart",
-    "pages/my/my",
     "pages/detail/detail",
     "pages/orderdetail/orderdetail",
     "pages/orderlist/orderlist",
@@ -19,8 +18,9 @@
     "pages/quickpublish/quickpublish",
     "pages/sell/list",
     "pages/modify/modify",
-    "pages/home/home",
-    "pages/profile/profile"
+		"pages/profile/profile",
+		"pages/chat/chat",
+		"pages/collection/collecttion"
   ],
   "permission": {
     "scope.userLocation": {

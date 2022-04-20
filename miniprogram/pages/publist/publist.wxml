@@ -24,7 +24,7 @@
                         <view class="c1 bg-grey" catchtap="del" data-del="{{item}}" wx:if="{{item.status!==1}}">删除</view>
                         <view class="c2" wx:if="{{item.status==1}}">更多操作</view>
                         <view class="c1 bg-yellow" wx:if="{{item.status==0}}" catchtap="selled" data-crash="{{item}}">已售出</view>
-                        <!-- <view class="c1 bg-yellow" wx:if="{{item.status==0}}" catchtap="crash" data-crash="{{item}}">擦亮</view> -->
+                        <view class="c1 bg-yellow" wx:if="{{item.status==0}}" catchtap="modify" data-detail="{{item}}">编辑</view>
                   </view>
             </view>
       </block>
