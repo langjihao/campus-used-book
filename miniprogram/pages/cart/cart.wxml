@@ -1,18 +1,18 @@
 <!--pages/cart/cart.wxml-->
 
 <wxs src="../../common.wxs" module="morejs" />
-<scroll-view scroll-x class="bg-white nav">
+<!-- <scroll-view scroll-x class="bg-white nav">
   <view class="flex text-center">
 		<view class="cu-item flex-sub {{0==TabCur?'text-green cur':''}}" bindtap="tabSelect" data-id="0">
     <text class="cuIcon-camerafill"></text>宝贝
   </view>
   <view class="cu-item flex-sub {{1==TabCur?'text-green cur':''}}" bindtap="tabSelect" data-id="1">
-    <text class="cuIcon-upstagefill"></text>聊天
+    <text class="cuIcon-upstagefill"></text>聊天(todo)
   </view>
   </view>
-</scroll-view>
+</scroll-view> -->
 <!-- 商品购物车页 -->
-<block wx:if="{{TabCur==0}}">
+<block>
 <view class="contain" wx:if="{{list.length>0}}">
       <block wx:for="{{list}}" wx:key="_id">
             <view class="card" bindtap="detail" data-detail="{{item.itemid}}">

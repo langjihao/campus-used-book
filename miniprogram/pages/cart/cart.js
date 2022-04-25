@@ -29,12 +29,6 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-	},
 	//页面切换
 	tabSelect(e) {
     this.setData({
@@ -128,6 +122,12 @@ Page({
     })
   },
   onShow(){
+		let user =wx.getStorageSync('userinfo')
+    if(user){
+    this.setData({
+      userinfo:user,
+      islogin:true,
+    })}
     this.getcartlist()
   },
   //删除购物车商品

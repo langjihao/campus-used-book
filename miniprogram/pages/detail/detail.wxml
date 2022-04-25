@@ -1,4 +1,5 @@
 <wxs src="../../common.wxs" module="morejs" />
+
 <view class="top_contain">
 <swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
       <block wx:for="{{publishinfo.piclist}}" wx:key="id">
@@ -20,8 +21,7 @@
       </view>
 </view>
 <view class="blank"></view>
-
-<!-- 发布信息 -->
+<!-- 原详情页 -->
 <block>
       <view class="user_box">
             <image lazy-load src="{{selleruserinfo.avatarUrl}}"></image>

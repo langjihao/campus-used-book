@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/explore/explore",
     "pages/cart/cart",
-    "pages/detail/detail",
+		"pages/detail/detail",
+		"pages/publish/publish",
     "pages/orderdetail/orderdetail",
     "pages/orderlist/orderlist",
     "pages/help/help",
@@ -19,8 +20,9 @@
     "pages/sell/list",
     "pages/modify/modify",
 		"pages/profile/profile",
-		"pages/chat/chat",
-		"pages/collection/collecttion"
+		"pages/collection/collecttion",
+		"pages/want/want",
+		"pages/wantlist/wantlist"
   ],
   "permission": {
     "scope.userLocation": {
@@ -52,7 +54,7 @@
         "selectedIconPath": "/images/tabbar/explore-selected.png"
       },
       {
-        "pagePath": "pages/quickpublish/quickpublish",
+        "pagePath": "pages/publish/publish",
         "text": "发布",
         "iconPath": "/images/tabbar/publish.png",
         "selectedIconPath": "/images/tabbar/publish-selected.png"
@@ -72,6 +74,7 @@
     ]
   },
   "usingComponents": {
+		"van-slider": "vant/slider/index",
     "van-overlay": "vant/overlay/index",
     "l-album":"lin/album/index",
     "avatar": "lin/avatar/index",

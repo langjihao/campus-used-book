@@ -59,3 +59,24 @@ page {
 	justify-content: center;
 	padding: 0 20rpx 20rpx 20rpx;
 }
+.nocontent {
+	width: 100%;
+	height: calc(100% - 400rpx);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.nocontent image {
+	width: 340rpx;
+	height: 272rpx;
+}
+
+.blank_text {
+	padding-top: 40rpx;
+	font-size: 32rpx;
+	letter-spacing: 2rpx;
+	color: #c6c6c8;
+}

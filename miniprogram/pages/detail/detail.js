@@ -1,4 +1,3 @@
-const { data } = require("../../config");
 
 const app = getApp()
 const db = wx.cloud.database();

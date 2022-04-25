@@ -4,6 +4,7 @@ const config = require("../../config.js");
 const _ = db.command;
 Page({
       data: {
+						showtip:false,
             sort: JSON.parse(config.data).sort,
             scrollTop: 0,
             nomore: false,
@@ -12,7 +13,7 @@ Page({
             userinfo:'',
             islogin:false,
             currentList : 0,
-						showtype:2,
+						showtype:3,
 						barheight:app.globalData.CustomBar
       },
       onLoad() {
@@ -40,9 +41,17 @@ Page({
       //获取搜索关键字
       keyInput(e) {
             this.data.key = e.detail
-      },
+			},
+			//雷达消息提示
+			showtip(){
+				wx.showToast({
+					title: 'title',
+					
+					duration:2000
+				})
+
+			},
       onShow(){
-        console.log(11)
             let user =wx.getStorageSync('userinfo')
             this.setData({
               userinfo:user,
@@ -214,6 +223,11 @@ Page({
                   imageUrl: JSON.parse(config.data).share_img,
                   path: '/pages/start/start'
             }
-      },
+			},
+			showtip(){
+				this.setData({
+					showtip:!this.data.showtip
+				})
+			}
 
 })

@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "custom-tab-bar": "/custom-tab-bar/index"
-  }
+	},
+	"enablePullDownRefresh": true,
+	"navigationBarTitleText": "校园集市",
+	"navigationBarBackgroundColor": "#ffffff",
+	"navigationBarTextStyle": "black"
 }

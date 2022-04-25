@@ -32,12 +32,12 @@
 <!-- 中间买卖管理分区 -->
 <view class="center_box">
       <view class="center_1" bindtap="go" data-go="/pages/publist/publist">
-            <image src="/images/history.png"></image>
-            <view>我的发布</view>
+            <image src="/images/selllist.png"></image>
+            <view>我想卖的</view>
       </view>
       <view class="center_1">
-            <image src="/images/order.png"></image>
-            <view>我的购买</view>
+            <image src="/images/want.png"></image>
+            <view>我想买的</view>
       </view>
       <view class="center_1" bindtap="go" data-go="/pages/help/help">
             <image src="/images/help.png"></image>

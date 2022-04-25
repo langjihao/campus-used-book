@@ -40,21 +40,21 @@ Page({
               
         },
   })       
-            wx.showToast({
-              title: '授权成功，正在前往实名认证界面',
-            })
-            wx.navigateTo({
-              url: '/pages/verify/verify'
-            })
+            // wx.showToast({
+            //   title: '授权成功，正在前往实名认证界面',
+            // })
+            // wx.navigateTo({
+            //   url: '/pages/verify/verify'
+            // })
           }
-          else if(!res.data[0].isauth){
-            wx.showToast({
-              title: '您尚未实名认证，正在前往实名认证页面',
-            })
-            wx.navigateTo({
-              url: '/pages/verify/verify'
-            })
-          } 
+          // else if(!res.data[0].isauth){
+          //   wx.showToast({
+          //     title: '您尚未实名认证，正在前往实名认证页面',
+          //   })
+          //   wx.navigateTo({
+          //     url: '/pages/verify/verify'
+          //   })
+          // } 
           else{
             wx.showToast({
               title: '欢迎回来',

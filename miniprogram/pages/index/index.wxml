@@ -13,7 +13,7 @@
 </view>
 <!-- banner配置 -->
 <view class='banner_warp'>
-<swiper class='banner'  circular="true" autoplay="true"  duration="500" bindchange="cardSwiper">
+<swiper class='banner'  circular="true" autoplay="true"  duration="500">
   <swiper-item wx:for="{{banner}}">
     <view class="swiper-item">
       <image src="{{item.img}}" mode="aspectFill"></image>
@@ -21,12 +21,10 @@
   </swiper-item>
 </swiper>
 </view>
-
-
 <!--分类导航-->
 <view class="tab" style="top:{{barheight}}px">
 <van-tabs  swipeable color = "#39b54a"  active="{{active}}" bind:click = "gettab">
-      <van-tab wx:for="{{sort}}" wx:key="id" title = "{{item.name}}"></van-tab>
+      <van-tab wx:for="{{sort}}" title = "{{item.name}}"></van-tab>
 </van-tabs>
 </view>
 <view style="height: 20rpx"></view>
@@ -61,28 +59,52 @@
   </block>
   <!-- 朋友圈布局 -->
   <block wx:if="{{showtype==3}}">
-<view wx:for="{{list}}" wx:key="_id">
-    <view class="album" bind:tap="detail" data-id="{{item._id}}">
-        <avatar class="avatar" size='80' shape="square" src="{{item.avatar}}" />
-        <view class="right">
-            <view class="namebar">
-              <view class="name">{{item.nickName}}</view>
-            </view>
-            <view class='content'>{{item.title}}</view>
-            <l-album urls='{{item.piclist}}'></l-album>
-            <view class="tagarea">
-            <van-tag type="danger">{{item.sort}}</van-tag>
-            <van-tag wx:for="{{item.tag}}" type="danger" plain round>#{{item}}</van-tag>
-            </view>
+		<block wx:for="{{list}}">
 
+	<view class="cu-card dynamic">
+
+  <view class="cu-item shadow">
+		<view style="background-color:{{(item.type==0||item.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
+    <view class="cu-list menu-avatar"  >
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url({{item.avatar}});"></view>
+        <view class="content flex-sub">
+          <view>{{item.nickName}}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{morejs.timelog(item.creat)}}
+          </view>
         </view>
+				<view style="right:5rpx;display:flex;flex-direction: column;">
+				<van-tag round wx:if="{{item.type==0||item.type==2}}" color="#F7D6E0" plain>出闲置</van-tag>
+				<van-tag round wx:else color="#B2F7EF" plain>求购</van-tag>
+				
+				<van-tag round wx:if="{{item.type==2||item.type==3}}" plain bindtap="showtip">!提示</van-tag>
+				</view>
+      </view>
+
     </view>
-    
-    <view class="line"></view>
+    <view class="text-content">
+      {{item.title}}
+    </view>
+		<view style="padding-left: 50rpx;">
+		<l-album  urls='{{item.piclist}}'></l-album>
+		</view>
+		<view style = "left:10rpx;display:flex;justify-content: space-around;">
+		<van-tag type="info" size="small" wx:if="{{item.kind!=0}}">{{sort[item.kind]}}</van-tag>
+		<van-tag plain round type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag>
+		</view>
+    <view class="text-gray text-sm text-right padding">
+      <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+      <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+      <text class="cuIcon-messagefill margin-lr-xs"></text> 30
+    </view>
+  </view>
 </view>
 </block>
+</block>
 
 </block>
+
 <!--无内容显示-->
 <view class="nocontent" wx:if="{{list.length==0}}">
       <image lazy-load src="/images/blank.png"></image>
@@ -98,6 +120,18 @@
       <template is="loadmore" data="{{nomore}}" />
 </block>
 
+<!-- 弹窗说明 -->
+<view style="z-index: 99999;position: absolute;">
+<van-dialog
+  use-slot
+  title="信息说明"
+  show="{{ showtip }}"
+  show-cancel-button
+  bind:confirm="showtip"
+>
+<view>该交易信息爬取自互助群，其时效性可能无法保证</view>
+</van-dialog>
+</view>
 <van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">
       <view class="totop" bindtap="gotop">
             <image  lazy-load src="/images/top.png"></image>

@@ -4,10 +4,10 @@
 <van-transition show="{{step1}}" name="fade-right" custom-class="block">
   <view class="contain">
     <view class="card">
-      <view class="title">{{userinfo.nickName}}</view>
-      <view class="title">校内实名认证</view>           
+      <view class="title">欢迎您，{{userinfo.nickName}}</view>
+      <view class="title">仅需输入学号，快速完善您的信息</view>           
       <input class="inputbar" bindinput="uidinput" value="{{UID}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的学号"/>
-    <view class='des'>我们会往您的校园邮箱发送一个验证码，请自行前往智慧青科大或校园邮箱登录查看</view>
+    <view class='des'>用于快速匹配校区专业等信息，若您担心隐私问题则可只输入前八位</view>
     </view>
     <view class="distance"></view>
     <view class="loginbutton">
@@ -23,9 +23,9 @@ name="fade-right" custom-class="block">
       <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="校区：{{stuinfo.Distinct}}"/>
       <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="班级：{{stuinfo.Class}}"/>
       <input class="inputbar" bindinput="qqinput" value="{{QQ}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的QQ"/>
-      <input class="inputbar" bindinput="telinput" value="{{TEL}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的手机号（选填）"/>
+      <!-- <input class="inputbar" bindinput="telinput" value="{{TEL}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的手机号（选填）"/> -->
       <input class="inputbar" bindinput="wxinput" value="{{WX}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的微信号（选填）"/>
-      <input class="inputbar" bindinput="codeinput" value="{{codeinput}}"  maxlength="11" placeholder-class="pache" placeholder="请输入您的验证码"/>
+      <!-- <input class="inputbar" bindinput="codeinput" value="{{codeinput}}"  maxlength="11" placeholder-class="pache" placeholder="请输入您的验证码"/> -->
       </view>
       <view class="loginbutton">
         <image  bindtap="otherinfoconfirm" src="/images/login.png"></image>

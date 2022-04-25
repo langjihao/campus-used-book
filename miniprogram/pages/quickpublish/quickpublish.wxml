@@ -58,7 +58,7 @@
 </van-cell>
 <view wx:if="{{!showmore}}" class="flex-sub text-center">
       <view class="solid-bottom text-sm padding">
-        <text class="text-gray" bindtap="changeshowmore">点击设定更多信息</text>
+        <text class="text-gray" bindtap="changeshowmore">点击设定地点、联系方式更多信息</text>
       </view>
 </view>
 <block wx:if="{{showmore}}">

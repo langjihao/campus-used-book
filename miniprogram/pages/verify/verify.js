@@ -32,9 +32,9 @@ Page({
   uidinput(e){
     this.data.UID = e.detail.value
   },
-  telinput(e){
-    this.data.TEL = e.detail.value
-  },
+  // telinput(e){
+  //   this.data.TEL = e.detail.value
+  // },
   wxinput(e){
     this.data.WX = e.detail.value
   },
@@ -61,35 +61,35 @@ Page({
     db.collection('class').where({
           ClassID : parseInt(UID.substring(0,8))
     }).get({
-          success: function(res) {
+          success(res) {
                 that.setData(
                       { stuinfo:res.data[0],
                         step1:false,step2:true,
                         active:1}
-                ),
-                wx.cloud.callFunction({
-                  name:"sendcode",
-                  data:{
-                    UID:that.data.UID
-                  },
-                  success(res){
-                    that.setData({
-                      code:res.result
-                    })},
-                  fail(res){
-                    console.log(res)
-                  }
-                })
-  },          
-          fail: function(res) {
-                console.log("查找班级失败")
-          }
-
+								)},
+					fail(res) {
+						wx.showToast({
+							title: '没有找到您的班级',
+						})
+					}
+                // wx.cloud.callFunction({
+                //   name:"sendcode",
+                //   data:{
+                //     UID:that.data.UID
+                //   },
+                //   success(res){
+                //     that.setData({
+                //       code:res.result
+                //     })},
+                //   fail(res){
+                //     console.log(res)
+                //   }
+                // })       
       })
     },
-  //认证比对验证码 成功则入库
+  //认证比对验证码 成功则入库（免去认证，全部成功）
   auth(){
-    if(this.data.code === this.data.codeinput||this.data.codeinput=="11111"){
+    if(true){
       let that = this;
       let openid=that.data.openid;
       let stuinfo = that.data.stuinfo;
@@ -110,7 +110,6 @@ Page({
         account:0,//初始化钱包
         QQ:that.data.QQ,
         WX:that.data.WX,
-        TEL:that.data.TEL,
         },
         success(res){
           that.login()
@@ -123,10 +122,10 @@ Page({
   },
   //验证联系方式
   otherinfoconfirm(){
-    //三种联系方式不能均为空
-    if(this.data.QQ==''&&this.data.TEL==''&&this.data.WX==''){
+    //两种联系方式不能均为空
+    if(this.data.QQ==''&&this.data.WX==''){
       wx.showToast({
-        title: '三种联系方式不能均为空',
+        title: '两种联系方式不能均为空',
         duration:2000
       })
     }

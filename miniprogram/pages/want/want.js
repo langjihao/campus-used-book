@@ -5,7 +5,7 @@ const config = require("../../config.js");
 Page({
   
   data: {
-		showmore:false,
+		confirm:false,
     flag:1,
     isbn:0,
     show:false,
@@ -25,7 +25,6 @@ Page({
   //初始化重新发布
   initial(){
     this.setData({
-			showmore:false,
       title:"",
       flag:1,
       isbn:0,
@@ -63,7 +62,6 @@ Page({
   },
   //切换商品类别
   choosesort(e){
-    console.log(e)
     this.setData({
       sorted:e.detail.value,
       kind:e.detail.index
@@ -105,42 +103,6 @@ Page({
     WX:e.detail,
   })
   },
-  //切换取货方式
-  changemethod(e){
-  this.setData({
-    method: e.detail,
-  });
-  },
-  //获取地理位置
-  getlocation(){
-          let that = this;
-          wx.getSetting({
-            withSubscriptions: true,
-            success(res){
-                  console.log(res)
-            }
-          })
-          wx.chooseLocation({
-
-            success(res){
-                  console.log(res)
-                  that.setData({
-                      place:res.name,
-                  })
-            },
-            fail(res){
-                  wx.showToast({
-                    title: '请选择或输入地址',
-                  })
-            }
-          })
-  },
-  //地址输入
-  placeInput(e) {
-        this.setData({
-              place:e.detail.value,
-        })
-  },
   //价格输入
   changeprice(e){
     this.setData({
@@ -170,20 +132,8 @@ Page({
   upload(){
     let that=this;
     const { fileList } = this.data;
-    if (!fileList.length&&!that.data.piclist.length) {
-    wx.showModal({
-      title:"提示",
-      content:"上传宝贝图片更易卖出嗷",
-      confirmText:'我意已决',
-      cancelText:"容我想想",
-      cancelColor: 'cancelColor',
-      success: function (res) {
-        if (res.confirm) {     
-          that.publish();
-        } else {
-          return
-        }}
-    });
+    if (!fileList.length) {
+			that.publish()
   } else {
     const uploadTasks = fileList.map((file) => 
     this.uploadFilePromise(that.data.userinfo.UID+new Date().getTime()+`item.png`, file));
@@ -210,30 +160,30 @@ Page({
     filePath: chooseResult.url
   });
   },
-  //发布商品,上传数据库
+  //发布求购信息
   publish() {
     let that = this;
     db.collection('publish').add({
           data: {
 								creat: new Date().getTime(),
-								type:0, 
+								type:1,
 								status: 0, 
+								isbn:0,
 								isQQ:that.data.isQQ,
-								isWX:that.data.isWX,
 								QQ:that.data.userinfo.QQ,
+								method:2,
 								WX:that.data.userinfo.WX,
+								isWX:that.data.isWX,
                 price: that.data.price, 
                 kind: that.data.kind, 
-                method: that.data.method,
-                place: that.data.place,
-                title:that.data.title,
-                isbn:that.data.isbn,
+								title:that.data.title,
+								place:that.data.userinfo.campus,
+								isauth:that.data.userinfo.isauth,
                 piclist:that.data.piclist,
                 tag:that.data.labelsActive,
                 campus:that.data.userinfo.campus,
                 avatar:that.data.userinfo.avatarUrl,
                 nickName:that.data.userinfo.nickName,
-                isauth:that.data.userinfo.isauth,
                 },
           success(e) {
                 wx.showToast({
@@ -250,24 +200,12 @@ Page({
   },
   //检查信息是否完善,补齐一些信息
   check(){
-    if(this.data.method==2){
-      this.setData({
-        place:this.data.userinfo.campus
-      })
-    };
     if(!(this.data.isQQ||this.data.isWX)){
       wx.showToast({
         title: '请至少选择一种联系方式',
       })
       return
     }
-    // else if(this.data.sorted=="暂未选择"){
-    //   wx.showToast({
-    //     title: '请至少选择类别',
-    //   })
-    //   return
-    // }
-
     else if(this.data.userinfo.QQ!=this.data.QQ||this.data.userinfo.WX!=this.data.WX){
       let that=this;
       db.collection('user').doc(that.data.userinfo._id).update({
@@ -281,17 +219,22 @@ Page({
       })
     }
     else{
-      console.log(1)
       this.upload()
     }
   },
-  //获取输入的商品信息
+  //获取输入的求购信息
   infoInput(e){
     this.setData({
       title : e.detail.value,
       count : e.detail.value.length
     })
-  },
+	},
+	//弹出确认联系方式框
+  showconfirm() {
+    this.setData({confirm: !this.data.confirm });
+	},
+	//修改校区
+	changecampus(){},
   //获取推荐标签
   gettag(){
     let that=this;
@@ -346,10 +289,6 @@ Page({
     labels.forEach(item => {
       if (item.active) {
         labelsActive.push(item.name)
-        //这里可改成子标签
-        // if (!item.allowed_anon) {
-        //   canAnon = false
-        // }
       }
     })
     this.setData({
@@ -357,116 +296,7 @@ Page({
       labelsActive: labelsActive,
     })
   },
-    //打开摄像头扫码isbn
-  scan() {
-    let that = this;
-    wx.scanCode({
-          onlyFromCamera: false,
-          scanType: ['barCode'],
-          success: res => {
-                wx.showToast({
-                      title: '扫码成功',
-                      icon: 'success'
-                });
-                that.setData({
-                      isbn: res.result
-                });
-                that.checkisbn();
-          },
-          fail() {
-                wx.showToast({
-                      title: '扫码失败，请重新扫码或者手动输入',
-                      icon: 'none'
-                })
-          }
-    })
-  },
-  //校验isbn
-  checkisbn() {
-      let that = this;
-      let isbn = that.data.isbn;
-      if (!(/978[0-9]{10}/.test(isbn))) {
-            wx.showToast({
-                  title: '请检查您的isbn号',
-                  icon: 'none'
-            });
-            return false;
-      }
-      that.get_book(isbn);
-  },
-//把这两个加到一个,调用云函数进行操作,再新建一个自动填写函数
-//查询书籍数据库详情
-  get_book(isbn) {
-        let that = this;
-        wx.showLoading({
-              title: '正在获取'
-        })
-        db.collection('books').where({
-              isbn: isbn
-        }).get({
-              success(res) {
-                    //为空自动获取
-                    if (res.data == "") {
-                          that.addbooks(isbn);
-                    } else {
-                          wx.hideLoading();
-                          //这里
-                          that.setData({
-                              bookinfo: res.data[0],
-                              
-                          });
-                          that.fill()
-                    }
-              }
-        })
-  },
-  //添加书籍信息到数据库
-  addbooks(bn) {
-        let that = this;
-        wx.cloud.callFunction({
-              name: 'books',
-              data: {
-                    $url: "bookinfo", //云函数路由参数
-                    isbn: bn
-              },
-              success: res => {
-                    console.log(res)
-                    if (res.result.body.status == 0) {
-                          wx.hideLoading();
-                          if(res.result.body.result.pic==''){
-                                res.result.body.result.pic='cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'
-                          }
-                          that.setData({
-                                bookinfo: res.result.body.result,
-                          })
-                          db.collection('books').add({
-                                data: res.result.body.result,
-                                success: function(res) {
-                                  that.fill()
-                                },
-                                fail: console.error
-                          })
-                    }
-              },
-              fail: err => {
-                    wx.hideLoading();
-                    wx.showToast({
-                      title: '查询失败',
-                    })
-                    console.error(err)
-              }
-        })
-  },
-  //扫码后自动填充相关信息
-  fill(){
-    let bookinfo=this.data.bookinfo;
-    let userinfo=this.data.userinfo;
-    this.setData({
-      title:"出一本"+bookinfo.publisher+"的"+bookinfo.title+",第"+bookinfo.edition,
-      price:0.5*parseFloat(bookinfo.price),
-      piclist:[bookinfo.pic]
-    })
-  },
+
   onLoad() {
     let user =wx.getStorageSync('userinfo')
     this.setData({
@@ -479,7 +309,6 @@ Page({
                 QQ:this.data.userinfo.QQ,
                 WX:this.data.userinfo.WX,
     })
-    this.gettag();
   }
 
   },

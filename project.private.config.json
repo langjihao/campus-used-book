@@ -146,6 +146,27 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "发布引导页",
+          "pathName": "pages/publish/publish",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "认证页",
+          "pathName": "pages/verify/verify",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "求购大厅",
+          "pathName": "pages/wanthall/wanthall",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
