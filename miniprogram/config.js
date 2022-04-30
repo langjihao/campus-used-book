@@ -9,7 +9,6 @@ var data = {
       kefu: {
             weixin: 'ljh554974',
             qq: '1574447086',
-            gzh: '', //公众号二维码必须为网络地址
       },
       //可以是网络地址，本地文件路径要填绝对位置
       bgurl: '/images/startBg.jpg',
@@ -66,8 +65,8 @@ var data = {
                   id: 7
             },
             {
-                name: '课外',
-                id: 7
+									name: '课外',
+									id: 8
             },
 
       ],

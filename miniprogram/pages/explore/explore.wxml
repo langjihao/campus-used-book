@@ -1,6 +1,4 @@
 <wxs src="../../common.wxs" module="morejs" />
-
-
 <!-- 商品雷达显示区 -->
 <view>说明:信息采集自校内各闲置互助群，点击复制QQ可联系发布者，部分信息可能已经过期，请注意甄别</view>
 <block wx:for="{{list}}">

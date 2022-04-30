@@ -10,17 +10,10 @@
     <view class="avatar-info" bindtap="{{userinfo?'e':'login'}}">
       <image wx:if="{{userinfo}}" class="avatar" src="{{userinfo.avatarUrl}}"/>
       <image wx:if="{{!userinfo}}" class="avatar" src="/images/avator.png"/>
-      <!-- 用户性别 -->
-      <!-- <view wx:if="{{userinfo.gender && userinfo.gender !== 0}}" class="gender-box {{userinfo.gender === 1 ? 'male' : 'female'}}">
-        <image class="gender-icon" src="../../images/icon_gender/{{userinfo.gender === 1 ? 'icon_male' : 'icon_female'}}.png" />
-      </view> -->
     </view>
-
     <view class="btn-group">
-      <van-button wx:if="{{userinfo}}" color="#39b54a" round size="mini" width="180" height="58" bindtap="go" data-go="/pages/edit/edit">修改信息</van-button>
-      <view>
-        <view class="child-circle"></view>
-      </view>
+      <van-button wx:if="{{userinfo.isauth}}" color="#39b54a" round size="mini" width="180" height="58" bindtap="go" data-go="/pages/edit/edit">修改信息</van-button>
+			<van-button wx:else color="#39b54a" round size="mini" width="180" height="58" bindtap="go" data-go="/pages/verify/verify">完善信息</van-button>
     </view>
     <text wx:if="{{userinfo}}" class="nickname">{{userinfo.nickName}}</text>
     <text wx:if="{{!userinfo}}" class="nickname" bindtap="login">点击登录</text>
@@ -47,9 +40,6 @@
 <view class="blank"></view>
 
 <!-- 列表功能分区 -->
-<!-- <van-cell-group>
-	<van-cell size="large" title="我的碳积分" icon="/images/carbon.png" bindtap="go" data-go="/pages/parse/parse"></van-cell>
-</van-cell-group> -->
 <view class="bottom_box">
       <view class="bottom_card" bindtap="go" data-go="/pages/parse/parse">
             <view class="bottom_1">

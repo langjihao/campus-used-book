@@ -8,12 +8,6 @@ Page({
 		islogin:false
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-	},
 	onShow(){
 		let user =wx.getStorageSync('userinfo')
 		this.setData({
@@ -22,14 +16,36 @@ Page({
 		})
 		if(this.data.userinfo!=''){
 					this.setData({
-								islogin:true
+							islogin:true
 		})
 }
 	},
 	navitowant(){
+		if(this.data.userinfo.isauth){
 		wx.navigateTo({
 			url: '/pages/want/want',
 		})
+		}
+		else{
+			wx.showModal({
+				cancelColor: 'cancelColor',
+				content:'初次使用，请先完善个人信息',
+				confirmText:'去完善',
+				cancelText:"下次再说",
+				cancelColor: 'cancelColor',
+				success(res) {
+				if (res.confirm) {
+				
+				wx.navigateTo({
+					url: '/pages/verify/verify',
+				})
+
+				} else {
+
+				 return false
+				}}
+			})
+		}
 	},
 	navitopub(){
 		wx.navigateTo({

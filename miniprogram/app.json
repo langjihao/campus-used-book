@@ -27,7 +27,11 @@
   "permission": {
     "scope.userLocation": {
       "desc": "你的定位信息将用于获取图书位置"
-    }
+		},
+		"scope.writePhotosAlbum":{
+			"desc": "用于保存商品海报"
+
+		}
   },
   "window": {
     "backgroundColor": "#ffffff",
@@ -74,6 +78,8 @@
     ]
   },
   "usingComponents": {
+		"painter":"components/painter/painter",
+		"van-sticky":"vant/sticky/index",
 		"van-slider": "vant/slider/index",
     "van-overlay": "vant/overlay/index",
     "l-album":"lin/album/index",

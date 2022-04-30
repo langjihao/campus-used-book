@@ -1,6 +1,6 @@
 <!--pages/wxlogin/wxlogin.wxml-->
 
 <view class="container">
-      <image lazy-load src="/images/nologin.png"></image>
+      <image src="/images/nologin.png"></image>
       <van-button type="primary" round size="large" bindtap="getUserProfile"> 获取头像昵称 </van-button>
 </view>

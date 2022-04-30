@@ -1,10 +1,9 @@
 <!--pages/verify/verify.wxml-->
-<van-steps steps="{{steps}}" active="{{active}}" active-icon="success" active-color="#38f"/>
+<van-steps steps="{{steps}}" active="{{active}}" active-icon="success" active-color="#07c160"/>
 
 <van-transition show="{{step1}}" name="fade-right" custom-class="block">
   <view class="contain">
-    <view class="card">
-      <view class="title">欢迎您，{{userinfo.nickName}}</view>
+      <view class="title">欢迎您</view>
       <view class="title">仅需输入学号，快速完善您的信息</view>           
       <input class="inputbar" bindinput="uidinput" value="{{UID}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的学号"/>
     <view class='des'>用于快速匹配校区专业等信息，若您担心隐私问题则可只输入前八位</view>
@@ -13,12 +12,11 @@
     <view class="loginbutton">
       <image  bindtap="match" src="/images/login.png"></image>
     </view>
-  </view> </van-transition>
+</van-transition>
 
 <van-transition show="{{step2}}"
 name="fade-right" custom-class="block">
   <view class="contain">
-    <view class="card">
       <view class="title">检查补充信息</view>           
       <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="校区：{{stuinfo.Distinct}}"/>
       <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="班级：{{stuinfo.Class}}"/>
@@ -27,18 +25,19 @@ name="fade-right" custom-class="block">
       <input class="inputbar" bindinput="wxinput" value="{{WX}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的微信号（选填）"/>
       <!-- <input class="inputbar" bindinput="codeinput" value="{{codeinput}}"  maxlength="11" placeholder-class="pache" placeholder="请输入您的验证码"/> -->
       </view>
+			<view class="distance"></view>
       <view class="loginbutton">
         <image  bindtap="otherinfoconfirm" src="/images/login.png"></image>
       </view>
-  </view>
 </van-transition>
 
 <van-transition show="{{step3}}" name="fade-right" custom-class="block">
-  <view class="contain">
-      <view class="card">
-      <view class="success">
-      <image  src="/images/success.png"></image>
-      <text>恭喜您 注册成功</text>
-      </view>
-      </view>
-  </view> </van-transition>
+	<view class="success">
+            <image src="/images/success.png"></image>
+            <text>恭喜您 发布成功</text>
+  </view>
+	<view style="padding:20rpx;justify-content: center;">
+  <van-button size="large" type="primary" round bindtap="navitoindex">回到首页</van-button>
+	<view style="height:20rpx"></view>
+	</view>
+</van-transition>

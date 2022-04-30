@@ -1,13 +1,16 @@
 // pages/quickpublish/quickpublish.js
+import Card from '../../palette/template';
 const db = wx.cloud.database();
 const app = getApp();
 const config = require("../../config.js");
 Page({
   
   data: {
+		showposter:false,
 		showmore:false,
     flag:1,
-    isbn:0,
+		isbn:0,
+		title:"",
     show:false,
     isQQ:true,
     isWX:true,
@@ -108,7 +111,7 @@ Page({
   //切换取货方式
   changemethod(e){
   this.setData({
-    method: e.detail,
+    method: parseInt(e.detail),
   });
   },
   //获取地理位置
@@ -152,7 +155,7 @@ Page({
     let that = this;
     console.log(event.detail)
     const { fileList = [] } = that.data;
-    fileList.push({ ...event.detail, url: event.detail.file.url });
+    fileList.push({url: event.detail.file.url });
     that.setData({ fileList });
   },
   //删除图片
@@ -254,7 +257,13 @@ Page({
       this.setData({
         place:this.data.userinfo.campus
       })
-    };
+		};
+		if(this.data.title==''){
+			wx.showToast({
+				title: '您还没有填写内容',
+			})
+			return
+		}
     if(!(this.data.isQQ||this.data.isWX)){
       wx.showToast({
         title: '请至少选择一种联系方式',
@@ -394,8 +403,7 @@ Page({
       }
       that.get_book(isbn);
   },
-//把这两个加到一个,调用云函数进行操作,再新建一个自动填写函数
-//查询书籍数据库详情
+	//查询书籍数据库详情
   get_book(isbn) {
         let that = this;
         wx.showLoading({
@@ -466,7 +474,7 @@ Page({
       price:0.5*parseFloat(bookinfo.price),
       piclist:[bookinfo.pic]
     })
-  },
+	},
   onLoad() {
     let user =wx.getStorageSync('userinfo')
     this.setData({
@@ -482,6 +490,35 @@ Page({
     this.gettag();
   }
 
-  },
-
+	},
+	//生成海报
+	makecanvas(){
+		wx.showLoading()
+		let params={
+			"avatar": this.data.userinfo.avatarUrl,      
+			"nickname": this.data.userinfo.nickName,      
+			"title": this.data.title,      
+		};
+		this.setData({
+			template: new Card().palette(params)
+		})
+	},
+	onImgOK(e){
+		this.setData({
+			shareImage:e.detail.path,
+			showposter:true
+		});
+		wx.hideLoading({})},
+		
+	//长按保存海报
+	savepic(){
+		wx.saveImageToPhotosAlbum({
+				filePath: this.data.shareImage,
+				success: (res) => {
+						console.log(res);
+						wx.showToast({
+								title: '已保存到相册',
+						})
+					}})
+				},
 })

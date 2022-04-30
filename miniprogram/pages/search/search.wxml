@@ -56,9 +56,9 @@
   <block wx:if="{{hislist.length==0}}">
         <view class="nosearch">您啥也没搜过，还不快试试</view>
   </block>
-  <block wx:if="{{hislist.length>0}}">
-    <van-tag wx:for="{{hislist}}"size="large" data-key="{{item}}" color ="#f8f8f8" text-color="#58727e" bindtap="onTagTap"bind:close="deletehis">{{item}}</van-tag>
-  </block>
+  <view wx:if="{{hislist.length>0}}" class="hisarea">
+    <van-tag wx:for="{{hislist}}" size="large" data-key="{{item}}" color ="#f8f8f8" text-color="#58727e" bindtap="onTagTap"bind:close="deletehis">{{item}}</van-tag>
+  </view>
 </block>
 
 <!-- 搜索结果 -->
@@ -78,17 +78,46 @@
   </block>
   <!-- 结果不为空 -->
   <block wx:if="{{list.length>0}}">
-      <block wx:for="{{list}}" wx:key="_id">
-        <van-card price = "{{item.price}}" bind:tap="detail" data-id="{{item._id}}"thumb="{{item.piclist[0]}}" thumb-mode="aspectFill" title="{{item.title}}" tag="{{item.sort}}">
-        <view slot="tags">
-          <van-tag plain type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag> 
+		<block wx:for="{{list}}">
+			<view class="cu-card dynamic" bindtap="detail" data-id='{{item._id}}'>
+  <view class="cu-item shadow">
+		<view style="background-color:{{(item.type==0||item.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
+    <view class="cu-list menu-avatar"  >
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url({{item.avatar}});"></view>
+        <view class="content flex-sub">
+          <view>{{item.nickName}}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{morejs.timelog(item.creat)}}
+          </view>
         </view>
-        </van-card> 
-      </block>
+				<view style="right:5rpx;display:flex;flex-direction: column;">
+				<van-tag round wx:if="{{item.type==0||item.type==2}}" color="#F7D6E0" plain>出闲置</van-tag>
+				<van-tag round wx:else color="#B2F7EF" plain>求购</van-tag>
+				
+				<van-tag round wx:if="{{item.type==2||item.type==3}}" plain bindtap="showtip">!提示</van-tag>
+				</view>
+      </view>
+    </view>
+    <view class="text-content">
+      {{item.title}}
+    </view>
+		<view style="padding-left: 50rpx;">
+		<l-album  urls='{{item.piclist}}'></l-album>
+		</view>
+		<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
+		<!-- <van-tag type="info" size="small" wx:if="{{item.kind!=0}}">{{sort[item.kind]}}</van-tag> -->
+		<van-tag plain round type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag>
+		</view>
+    <view class="text-gray text-sm text-right padding">
+      <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+      <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+    </view>
+  </view>
+			</view>
+		</block>
   </block>
 </block>
-
-
 
 <block wx:if="{{list.length>10}}">
       <import src="/common.wxml" />

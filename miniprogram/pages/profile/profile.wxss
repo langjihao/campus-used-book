@@ -10,7 +10,7 @@
 
 .user-info {
   position: relative;
-  z-index: 99;
+  z-index: 10;
   margin-top: -30rpx;
   padding: 30rpx;
   background: #fff;
@@ -32,31 +32,6 @@
   border-radius: 50%;
 }
 
-.gender-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  width: 36rpx;
-  height: 36rpx;
-  right: 0;
-  bottom: 5rpx;
-  border-radius: 50%;
-  border: 4rpx #fff solid;
-}
-
-.gender-icon {
-  width: 20rpx;
-  height: 20rpx;
-}
-
-.male {
-  background: #eaf2ff;
-}
-
-.female {
-  background: #f8eff0;
-}
 
 .btn-group {
   display: flex;
@@ -81,15 +56,6 @@
   border-radius: 50%;
   background: #88929e;
 }
-
-.child-circle {
-  box-sizing: border-box;
-  width: 34rpx;
-  height: 34rpx;
-  border: 4rpx solid #fff;
-  border-radius: 50%;
-}
-
 .nickname {
   display: block;
   margin-top: 10rpx;

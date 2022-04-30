@@ -4,6 +4,7 @@
 <block wx:if="{{islogin}}">
 <van-button size="normal" round type="primary" bindtap="navitopub" >我要卖</van-button>
 <van-button size="normal" round type="info" bindtap="navitowant">我想买</van-button>
+<van-button size='normal' round type="primary" bindtap="scan">扫码卖</van-button>
 </block>
 <block wx:if="{{!islogin}}">
 <van-button size="large" bindtap="navitologin">当前未登录，点我去登录</van-button>

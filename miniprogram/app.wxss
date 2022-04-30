@@ -59,6 +59,9 @@ page {
 	justify-content: center;
 	padding: 0 20rpx 20rpx 20rpx;
 }
+.container image{
+	justify-self: center;
+}
 .nocontent {
 	width: 100%;
 	height: calc(100% - 400rpx);

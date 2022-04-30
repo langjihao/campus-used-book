@@ -20,168 +20,13 @@
       letter-spacing: 2rpx;
 }
 
-.author {
-      padding-top: 10rpx;
-      font-size: 26rpx;
-      color: rgb(172, 171, 171);
-      letter-spacing: 2rpx;
-}
-
-.price_box {
-      margin-top: 20rpx;
-      display: flex;
-      align-items: flex-end;
-}
-
-.now_price {
-      font-size: 34rpx;
-      color: rgb(255, 1, 1);
-}
-
-.pre_price {
-      padding-left: 30rpx;
-      font-size: 28rpx;
-      color: rgb(172, 171, 171);
-      text-decoration: line-through;
-}
-
-.blank {
-      width: 100%;
-      height: 24rpx;
-      background: #eee;
-}
-
-.center_contain {
-      width: 100%;
-      height: 80rpx;
-      display: flex;
-      box-sizing: border-box;
-      padding: 0 100rpx;
-      justify-content: space-around;
-}
-
-.c_title {
-      font-size: 30rpx;
-      width: 140rpx;
-      height: 100%;
-      display: flex;
-      letter-spacing: 2rpx;
-      align-items: center;
-      justify-content: center;
-}
-
-.title_on {
-      font-size: 32rpx;
-      font-weight: 600;
-      color: #000;
-      border-bottom: 4rpx solid #39b54a;
-}
-
-.user_box {
-      width: 100%;
-      height: 148rpx;
-      display: flex;
-      padding: 24rpx;
-      align-items: center;
-      justify-content: space-between;
-      box-sizing: border-box;
-}
-
-.user_box image {
-      width: 100rpx;
-      height: 100rpx;
-      border-radius: 50%;
-}
-
-.des_box {
-      height: 100%;
-      width: 450rpx;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-around;
-      padding: 10rpx 0;
-}
-
-.user_name {
-      font-size: 32rpx;
-      letter-spacing: 2rpx;
-}
-
-.localarea {
-      display: flex;
-      align-items: center;
-}
-.localarea image {
-      width: 40rpx;
-      height: 40rpx;
-}
-
-.localarea view {
-      padding-left: 5rpx;
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-      color: rgb(150, 150, 150);
-}
-
-.auth_box {
-      width: 100rpx;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-}
-
-.auth_box image {
-      width: 50rpx;
-      height: 50rpx;
-      border-radius: 50%;
-}
-
-.notes_box {
-      width: 100%;
-      padding: 24rpx 24rpx 0 24rpx;
-      display: flex;
-      box-sizing: border-box;
-}
-
-.notes {
-      width: 100%;
-      background: rgb(238, 238, 238);
-      color: #aaa;
-      padding: 20rpx 20rpx 10rpx 20rpx;
-      border-radius: 10rpx;
-      display: flex;
-      box-sizing: border-box;
-      flex-direction: column;
-}
-
-.notes_text {
-      letter-spacing: 2rpx;
-      font-size: 28rpx;
-      line-height: 45rpx;
-      padding-bottom: 10rpx;
-}
-
-.time_box {
-      width: 100%;
-      padding: 24rpx 24rpx 0 24rpx;
-      display: flex;
-      box-sizing: border-box;
-      justify-content: space-between;
-}
-
-.kind {
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-}
 .divtitle {
-      margin-top: 20rpx;
+			padding: 20rpx 20rpx;
       display: flex;
       align-items: center;
-      border-top: 1rpx solid #eee;
-      width: 100%;
-      padding: 20rpx 0;
+			width: 100%;
+			box-sizing: border-box;
+			flex-wrap: wrap;
 }
 
 .divtitle image {
@@ -194,44 +39,61 @@
       letter-spacing: 2rpx;
       padding-left: 20rpx;
 }
-.time {
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
-      color: #8c9aa8;
+
+.waterfall_grid {
+  padding: 25rpx 25rpx;
+  width: 100%;
+  display: flex;
+  justify-content:  space-between;
+  box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
-.detail_contain {
-      width: 100%;
-      padding: 24rpx;
+.waterfall_one {
+      background-color: #fff;
+      border-radius: 10rpx;
+      margin-top: 20rpx;
+      width: 48%;
+      padding: 5rpx 5rpx;
       display: flex;
+      box-sizing: content-box;
       flex-direction: column;
-      box-sizing: border-box;
+			align-items: center;
 }
 
-.detail_card {
-      display: flex;
+
+.mainpic {
+  border-radius: 10rpx 10rpx 0 0;
+  width: 330rpx;
+  height: 365rpx;
+}
+
+.waterfall_title {
       width: 100%;
-      box-sizing: border-box;
-      padding: 30rpx 0;
-      justify-content: space-between;
-}
-
-.detail_border {
-      border-bottom: 1rpx solid #eee;
-}
-
-.detail_title {
-      width: 20%;
-      font-size: 28rpx;
-      letter-spacing: 2rpx;
+      font-size: 30rpx;
+      letter-spacing: 3rpx;
+      margin-top: 20rpx;
       line-height: 45rpx;
 }
 
-.detail_content {
-      width: 78%;
-      font-size: 27rpx;
-      letter-spacing: 2rpx;
-      line-height: 44rpx;
-      color: #616161;
+.waterfall_author {
+      margin-left: 10rpx;
+      width: 100%;
+      font-size: 26rpx;
+      letter-spacing: 3rpx;
+      color: rgb(129, 129, 129);
+}
+
+.waterfall_between {
+      margin-top: 5rpx;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+}
+
+.waterfall_price {
+      font-size: 33rpx;
+      font-weight: bold;
+      color: rgb(255, 0, 0);
 }
 

@@ -1,129 +1,96 @@
 <wxs src="../../common.wxs" module="morejs" />
 
-<view class="top_contain">
-<swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
-      <block wx:for="{{publishinfo.piclist}}" wx:key="id">
+<!-- 主要信息板块 -->
+<view class="cu-card dynamic">
+  <view class="cu-item shadow">
+		<view style="background-color:{{(iteminfo.type==0||iteminfo.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
+    <view class="cu-list menu-avatar"  >
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url({{iteminfo.avatar}});"></view>
+        <view class="content flex-sub">
+          <view>{{iteminfo.nickName}}</view>
+          <view class="text-gray text-sm flex justify-between">
+            {{morejs.timelog(iteminfo.creat)}}
+          </view>
+        </view>
+				<view style="right:5rpx;display:flex;flex-direction: column;">
+				<van-tag round wx:if="{{iteminfo.type==0||iteminfo.type==2}}" color="#F7D6E0" plain>出闲置</van-tag>
+				<van-tag round wx:else color="#B2F7EF" plain>求购</van-tag>
+				</view>
+      </view>
+    </view>
+    <view class="text-content">
+      {{iteminfo.title}}
+    </view>
+		<view wx:if="{{iteminfo.price}}" class="solid-bottom text-xxl padding">
+        <text class="text-price text-red">{{iteminfo.price}}</text>
+    </view>
+		<view wx:if="{{iteminfo.piclist.length!=0}}" style="padding: 10rpx;">
+			<swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
+      <block wx:for="{{iteminfo.piclist}}" wx:key="id">
             <swiper-item class="top_img">
                   <image  lazy-load 
-                  src = "{{item}}" mode="aspectFit" data-list="{{publishinfo.piclist}}" data-src="{{item}}"  bindtap='picview'/>
+                  src = "{{item}}" mode="aspectFit" data-list="{{iteminfo.piclist}}" data-src="{{item}}"  bindtap='picview'/>
             </swiper-item>
       </block>
 </swiper>
-      <view class="title">{{publishinfo.title}}</view>
-      <view class="price_box">
-            <view class="now_price">￥{{publishinfo.price}}元</view>
-      </view>
-      <view class="time_box">
-      <!-- 这里改成标签展示类别 -->
-            <van-tag type="warning">{{publishinfo.sort}}</van-tag>
-            <van-tag wx:for="{{publishinfo.tag}}" type="warning">{{item}}</van-tag>
-            <view class="time">发布于{{morejs.timelog(publishinfo.creat)}}</view>
-      </view>
+		</view>
+		<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
+		<!-- <van-tag type="info" size="small" wx:if="{{iteminfo.kind!=0}}">{{sort[iteminfo.kind]}}</van-tag> -->
+		<van-tag plain round type="success" wx:for="{{iteminfo.tag}}" size="small">{{item}}</van-tag>
+		</view>
+		<van-cell-group>
+		<van-cell wx:if='{{iteminfo.isQQ}}' title="QQ:{{iteminfo.QQ}}" icon="/images/qq.png">
+		<view slot="right-icon">
+			<van-button size="small" type="primary" plain bindtap="copy" data-detail="{{iteminfo.QQ}}">点击复制</van-button>
+		</view>
+		</van-cell>
+		<van-cell wx:if='{{isWX}}' title="微信:{{iteminfo.QQ}}" icon="/images/weixin.png">
+		<view slot="right-icon">
+			<van-button size="small" type="primary" plain bindtap="copy" data-detail="{{iteminfo.WX}}">点击复制</van-button>
+		</view>
+		</van-cell>
+		</van-cell-group>
+    <view class="text-gray text-sm text-right padding">
+      <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+      <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+    </view>
+  </view>
 </view>
-<view class="blank"></view>
-<!-- 原详情页 -->
-<block>
-      <view class="user_box">
-            <image lazy-load src="{{selleruserinfo.avatarUrl}}"></image>
-            <view class="des_box">
-                  <view class="user_name">{{selleruserinfo.nickName}}</view>
-                  <view class="localarea">
-                        <image src="/images/local.png"></image>
-                        <view>{{selleruserinfo.campus}}</view>
-                  </view>
-            </view>
-            <view class="auth_box">
-                  <image lazy-load src="{{selleruserinfo.isauth?'/images/authed.png':'/images/notauth.png'}}" bindtap="showauth"></image>
-            </view>
-      </view>
-</block>
-<!-- 图书详情 -->
-<block wx:if="{{height}}">
-      <view class="detail_contain">
-            <view class="detail_card detail_border ">
-                  <view class="detail_title">isbn编号</view>
-                  <view class="detail_content">{{bookinfo.isbn}}</view>
-            </view>
-            <view class="detail_card detail_border ">
-                  <view class="detail_title">出版社</view>
-                  <view class="detail_content">{{bookinfo.publisher}}</view>
-            </view>
-            <view class="detail_card detail_border ">
-                  <view class="detail_title">出版时间</view>
-                  <view class="detail_content">{{bookinfo.pubdate}}</view>
-            </view>
-            <view class="detail_card">
-                  <view class="detail_title">摘要</view>
-                  <view class="detail_content">{{bookinfo.summary}}</view>
-            </view>
-      </view>
-</block>
-<view style="height: 96rpx;"></view>
-<!-- 该发布者的更多商品 -->
-<block wx:if="{{morepub}}">
-      <view class="divtitle">
-            <image src="/images/recommend.png"></image>
-            <view>该用户还发布了</view>
-      </view>
+<view wx:if="{{!iteminfo.price}}" class="solid-bottom text-l padding">
+        <text class="padding">提示:该信息来自于互助群，相关信息可能不准确或者已经过期，请联系发布者询问</text>
+</view>
+
+<!-- 底栏导航 -->
+<van-goods-action>
+  <van-goods-action-icon icon="wap-home-o" bind:click='home' />
+  <van-goods-action-icon icon="cart-o"  info="{{cartnum}}" bind:click="navitocart"/>
+  <van-goods-action-icon icon="share-o" open-type="share"/>
+  <van-goods-action-button text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}" />
+</van-goods-action>
+
+<!-- 选用板块 -->
+<!-- 该用户还发布了 -->
+<block wx:if='{{morepub}}'>
+	<view class="divtitle">
+			<image src="/images/recommend.png"></image>
+			<view>该用户还发布了</view>
+  </view>
         <!--瀑布流布局-->
       <view class="waterfall_grid">
-            <block wx:for="{{list}}" wx:key="_id">
-                  <view class="waterfall_one" bindtap="detail" data-id="{{item._id}}">
+            <block wx:for="{{morepublist}}" wx:key="_id">
+                  <view class="waterfall_one shadow" bindtap="detail" data-id="{{item._id}}">
                         <image lazy-load mode="aspectFill" src="{{item.piclist[0]}}"></image>
                         <view class="waterfall_title">{{item.title}}
                         </view>
                         <view class="waterfall_between">
-                          <image lazy-load  src="{{item.avatar}}"></image>
-                          <view class="waterfall_author text-cut">{{item.nickName}}
-                          </view>
-                          <view class="waterfall_price">￥{{item.price}}</view>
+                        <view class="waterfall_price">￥{{item.price}}</view>
 
                         </view>
                   </view>
             </block>
       </view>
 </block>
-
-<!-- 同款书 -->
-<block wx:if="{{moresame}}">
-      <view class="divtitle">
-            <image src="/images/recommend.png"></image>
-            <view>买同款</view>
-      </view>
-      <view class="card_grid" >
-            <block wx:for="{{moresamelist}}" wx:key="_id">
-                  <view class="card_one" bindtap="detail" data-id="{{item._id}}">
-                        <image lazy-load class="card_poster" src="{{item.bookinfo.pic}}"></image>
-                        <view class="card_title text-cut">{{item.bookinfo.title}}
-                        </view>
-                        <view class="card_author text-cut">{{item.bookinfo.author}}
-                        </view>
-                        <view class="card_between">
-                              <view class="card_price">￥{{item.price}}.00元</view>
-                              <image lazy-load class="card_buy" src="/images/cart.png"></image>
-                        </view>
-                  </view>
-            </block>
-      </view>
-</block>
-
-<!--底部导航-->
-<van-goods-action>
-  <van-goods-action-icon icon="wap-home-o" bind:click='home' />
-  <van-goods-action-icon icon="cart-o"  info="{{cartnum}}" bind:click="navitocart" />
-  <van-goods-action-icon icon="share-o" open-type="share"/>
-  <van-goods-action-button text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}" />
-  <van-goods-action-button text="联系卖家" bind:click="contact"/>
-</van-goods-action>
-
-<!-- 弹出获取联系方式的菜单框 -->
-<van-action-sheet
-show="{{ show }}"
-actions="{{ actions }}"
-bind:close="onClose"
-bind:select="onSelect"
-description="点击可以复制联系方式"
-close-on-click-overlay
-overlay
-/>
-
+<!-- 该书更多版本 -->
+<block wx:if='{{isbn!=0}}'></block>
+<!-- 卖同款浮窗 -->

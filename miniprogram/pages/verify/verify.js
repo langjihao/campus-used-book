@@ -22,10 +22,8 @@ Page({
     step2:false,
     step3:false,
     active:0,
-    userinfo:{},
     stuinfo:{},
-    code:'',
-    codeinput:''
+		UID:''
   },
 
   //信息输入部分
@@ -44,7 +42,6 @@ Page({
   codeinput(e){
     this.data.codeinput = e.detail.value
   },
-
   //匹配专业信息
   match(){
     let that = this;
@@ -86,7 +83,7 @@ Page({
                 //   }
                 // })       
       })
-    },
+  },
   //认证比对验证码 成功则入库（免去认证，全部成功）
   auth(){
     if(true){
@@ -107,7 +104,6 @@ Page({
         isauth:true,
         UID:that.data.UID,
         carbonaccount:0,//碳账户
-        account:0,//初始化钱包
         QQ:that.data.QQ,
         WX:that.data.WX,
         },
@@ -150,12 +146,16 @@ Page({
       step2:false,
       active:2
       })
-    },
+		},
+	//回首页
+	navitoindex(){
+		wx.switchTab({
+			url: '/pages/index/index',
+		})
+	},
   onLoad() {
-    let user =wx.getStorageSync('userinfo');
     let openid =wx.getStorageSync('openid')
     this.setData({
-      userinfo:user,
       openid:openid
       })
   },

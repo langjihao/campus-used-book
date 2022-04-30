@@ -40,7 +40,7 @@
 	<view style="height:20rpx"></view>
 </view>
 <!-- 下部所有 -->
-<view class="contain">
+<view class="container">
 <!-- 其他信息框 -->
 <van-cell-group>
 	<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
@@ -65,8 +65,8 @@
 <van-cell title="交易方式" icon="/images/delivery.png">
   <view slot="right-icon">
     <van-radio-group value="{{methed}}"bind:change="changemethod" direction="horizontal">
-      <van-radio name="1"checked-color="#07c160">自提</van-radio>
-      <van-radio name="2"checked-color="#07c160">再议</van-radio>
+      <van-radio name='1' checked-color="#07c160">自提</van-radio>
+      <van-radio name='2' checked-color="#07c160">再议</van-radio>
 </van-radio-group>
   </view>
 </van-cell> 
@@ -109,12 +109,12 @@ use-button-slot
 </view>
 </block>
 </van-cell-group>
+
 <!-- 标签区域 -->
 <view wx:if="{{labels.length>0}}" class="box">
   <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
 </view>
 <view style="height: 20rpx;"></view>
-
 <van-button type="primary" round bindtap="check" size="large">发布</van-button>
 </view>
 </block>
@@ -128,6 +128,18 @@ use-button-slot
 	<view style="padding:20rpx;justify-content: center;">
   <van-button size="large" type="primary" round bindtap="initial">再来一本</van-button>
 	<view style="height:20rpx"></view>
-  <van-button size="large" type="primary" round >生成海报(TODO)</van-button>
+  <van-button size="large" type="primary" round  bindtap="makecanvas">生成海报</van-button>
 	</view>
 </block>
+
+<!-- 海报 -->
+<painter palette="{{template}}" 
+	bind:imgOK="onImgOK" 
+	bind:imgErr="onImgErr"  
+/>
+<van-overlay show="{{ showposter }}" bind:click="onClickHide">
+	<view class="wrapper">
+  <image class="block" mode="aspectFit" bindlongpress="savepic" src="{{shareImage}}"></image>
+	<view style="color: aliceblue;">长按保存</view>
+	</view>
+</van-overlay>

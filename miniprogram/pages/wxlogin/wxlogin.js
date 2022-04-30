@@ -7,7 +7,8 @@ Page({
     avatarUrl:"",
     openID:"",
     userInfo: {},
-  },
+	},
+	//获取用户头像信息，添加到数据库
   getUserProfile(e) {
     wx.getUserProfile({
       desc: '用于完善会员资料',
@@ -40,21 +41,21 @@ Page({
               
         },
   })       
-            // wx.showToast({
-            //   title: '授权成功，正在前往实名认证界面',
-            // })
-            // wx.navigateTo({
-            //   url: '/pages/verify/verify'
-            // })
+            wx.showToast({
+              title: '授权成功，正在前往实名认证界面',
+            })
+            wx.navigateTo({
+              url: '/pages/verify/verify'
+            })
           }
-          // else if(!res.data[0].isauth){
-          //   wx.showToast({
-          //     title: '您尚未实名认证，正在前往实名认证页面',
-          //   })
-          //   wx.navigateTo({
-          //     url: '/pages/verify/verify'
-          //   })
-          // } 
+          else if(!res.data[0].isauth){
+            wx.showToast({
+              title: '您尚未实名认证，正在前往实名认证页面',
+            })
+            wx.navigateTo({
+              url: '/pages/verify/verify'
+            })
+          } 
           else{
             wx.showToast({
               title: '欢迎回来',
@@ -63,9 +64,11 @@ Page({
             wx.setStorageSync('history', [])
             wx.navigateBack({})
           }
-      })}})},
-
-  onLoad: function (options) {
+			}
+			)}})
+		},
+	//这里其实已经实现了获取openid和主要的登录
+  onLoad(){
     wx.cloud.callFunction({
       name:"login",
       complete:res =>{

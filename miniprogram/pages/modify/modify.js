@@ -120,9 +120,8 @@ Page({
   //每次上传图片后，缓存图片
   afterRead(event) {
     let that = this;
-    console.log(event.detail)
     const { fileList = [] } = that.data;
-    fileList.push({ ...event.detail, url: event.detail.file.url });
+    fileList.push({url: event.detail.file.url});
     that.setData({ fileList });
   },
   //删除图片新上传的图片
@@ -264,7 +263,7 @@ Page({
     let opic=this.data.originpic;
     var pic=[]
     for(var i=0;i<opic.length;i++){
-    pic=pic.concat({url:opic[i],name:1})
+    pic=pic.push({url:opic[i]})
     }
     this.setData({
       fileList:pic

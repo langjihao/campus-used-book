@@ -114,7 +114,7 @@ Page({
     let that = this;
     console.log(event.detail)
     const { fileList = [] } = that.data;
-    fileList.push({ ...event.detail, url: event.detail.file.url });
+    fileList.push({url: event.detail.file.url });
     that.setData({ fileList });
   },
   //删除图片

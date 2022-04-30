@@ -15,15 +15,15 @@ Page({
             morepub:false
       },
       onLoad(e) {
-            this.data.id = e.scene;
-            this.getPublish(e.scene);
-            let user =wx.getStorageSync('userinfo')
-            if(user){
-            this.setData({
-              userinfo:user,
-              islogin:true,
-            })
-      }
+					let user =wx.getStorageSync('userinfo')
+					if(user){
+					this.setData({
+						userinfo:user,
+						islogin:true,
+						})
+						}
+					this.data.id = e.scene;
+					this.getPublish(e.scene);
       },
       changeTitle(e) {
             let that = this;
@@ -37,9 +37,11 @@ Page({
             db.collection('publish').doc(e).get({
                   success: function(res) {
                         that.setData({
-                              publishinfo: res.data
-                        })
-                        that.getSeller(res.data._openid)
+                              iteminfo: res.data
+												})
+												if(res.data.type==0||res.data.type==1){
+													that.getmorepub(res.data._openid)
+												}
                   },
                   //主要是购物车跳转 但原商品已经被删除的情况，或许以后得加上清除购物车记录或者改变商品状态标记
                   fail(res){
@@ -49,8 +51,7 @@ Page({
                               confirmText:'好滴吧',
                               cancelText:"还能咋地",
                               cancelColor: 'cancelColor',
-                              success: function (res) {
-                  
+                              success(res) {
                               if (res.confirm) {
                               
                               wx.navigateBack({})
@@ -58,7 +59,6 @@ Page({
                               } else {
                   
                               wx.navigateBack({})
-                  
                               }}
                             })
                   }
@@ -67,7 +67,7 @@ Page({
       //获取卖家信息
       getSeller() {
             let that = this;
-            let data = that.data.publishinfo;
+            let data = that.data.iteminfo;
             let actions0 = [
               {
                 name: '站内信',
@@ -96,7 +96,24 @@ Page({
                     })
                   }
             })
-      },
+			},
+			//复制联系方式
+			copy(e){
+				var Q=e.currentTarget.dataset.detail.toString()
+				wx.setClipboardData({
+					data: Q,
+					success: res => {
+								wx.showToast({
+											title: '复制成功',
+											icon: 'success',
+											duration: 1000,
+								})
+					},
+					fail(res){
+						console.log(res)
+					}
+		})
+			},
       //回到首页
       home() {
             wx.switchTab({
@@ -108,11 +125,10 @@ Page({
             var that = this;
             var src = e.currentTarget.dataset.src;
             var piclist=[]
-            var imgList = that.data.publishinfo.piclist;
+            var imgList = that.data.iteminfo.piclist;
             for(var i=0;i<imgList.length;i++){
                   piclist.push(imgList[i])
             }
-            console.log(piclist)
             wx.previewImage({
                   current: src, // 当前显示图片的http链接
                   urls: piclist // 需要预览的图片http链接列表
@@ -161,34 +177,6 @@ Page({
                   url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
             })
       },
-      //关闭联系方式弹窗
-      onClose(){
-            this.setData({ show : false });
-      },
-      //选择复制某种联系方式
-      onSelect(e) {
-            console.log(e.detail.name)
-            if(e.detail.name=='QQ'){
-                  this.setData({
-                        copydata : this.data.selleruserinfo.QQ
-                  })
-            }
-            else if(e.detail.name=='微信'){
-                  this.setData({
-                        copydata : this.data.selleruserinfo.WX
-                  })
-                  console.log(this.data.selleruserinfo.WX)
-            }         
-            wx.setClipboardData({
-            data: this.data.copydata,
-            success: res => {
-                  wx.showToast({
-                        title: '复制卖家' + e.detail.name+'成功,快去联系他吧',
-                        icon: 'success',
-                        duration: 1000,
-                  })
-            }
-      })},
       //添加到购物车
       add(){
             this.setData({
@@ -196,13 +184,14 @@ Page({
               cartnum:this.data.cartnum+1
             })
             db.collection('cart').add({
-                  data:{status : this.data.publishinfo.status,
+                  data:{
+												status : this.data.iteminfo.status,
                         itemid : this.data.id,
-                        pic : this.data.publishinfo.piclist[0],
-                        sellerpic : this.data.selleruserinfo.avatarUrl,
-                        sellername: this.data.selleruserinfo.nickName,
-                        price : this.data.publishinfo.price,
-												title : this.data.publishinfo.title,
+                        pic : this.data.iteminfo.piclist[0],
+                        sellerpic : this.data.iteminfo.avatar,
+                        sellername: this.data.iteminfo.nickName,
+                        price : this.data.iteminfo.price,
+												title : this.data.iteminfo.title,
                         creat : new Date().getTime()
                   },
                   success(res){
@@ -258,11 +247,11 @@ Page({
       //生成分享相关内容
       onShareAppMessage() {
             return {
-                  title: '这本《' + this.data.publishinfo.title + '》只要￥' + this.data.publishinfo.price + '元，快来看看吧',
-                  path: '/pages/detail/detail?scene=' + this.data.publishinfo._id,
+                  title: this.data.iteminfo.title,
+                  path: '/pages/detail/detail?scene=' + this.data.iteminfo._id,
             }
       },
       onShow(){
-        this.judgecart()
+				this.judgecart();
       }
     })
