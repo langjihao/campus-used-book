@@ -24,6 +24,7 @@ Page({
           if(res.data == ""){
             db.collection('user').add({
               data: {
+										_id:that.data.openID,
                     stamp: new Date().getTime(),
                     avatarUrl:user.avatarUrl,
                     nickName:user.nickName,

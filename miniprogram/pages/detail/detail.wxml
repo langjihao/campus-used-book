@@ -19,7 +19,7 @@
 				</view>
       </view>
     </view>
-    <view class="text-content">
+    <view class="text-xl text-bold padding">
       {{iteminfo.title}}
     </view>
 		<view wx:if="{{iteminfo.price}}" class="solid-bottom text-xxl padding">
@@ -28,8 +28,8 @@
 		<view wx:if="{{iteminfo.piclist.length!=0}}" style="padding: 10rpx;">
 			<swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
       <block wx:for="{{iteminfo.piclist}}" wx:key="id">
-            <swiper-item class="top_img">
-                  <image  lazy-load 
+            <swiper-item class="top_img" style="width: 100%;box-sizing: content-box;">
+                  <image
                   src = "{{item}}" mode="aspectFit" data-list="{{iteminfo.piclist}}" data-src="{{item}}"  bindtap='picview'/>
             </swiper-item>
       </block>
@@ -45,7 +45,7 @@
 			<van-button size="small" type="primary" plain bindtap="copy" data-detail="{{iteminfo.QQ}}">点击复制</van-button>
 		</view>
 		</van-cell>
-		<van-cell wx:if='{{isWX}}' title="微信:{{iteminfo.QQ}}" icon="/images/weixin.png">
+		<van-cell wx:if='{{iteminfo.isWX}}' title="微信:{{iteminfo.WX}}" icon="/images/weixin.png">
 		<view slot="right-icon">
 			<van-button size="small" type="primary" plain bindtap="copy" data-detail="{{iteminfo.WX}}">点击复制</van-button>
 		</view>
@@ -62,13 +62,15 @@
 </view>
 
 <!-- 底栏导航 -->
+<view class="foot">
 <van-goods-action>
   <van-goods-action-icon icon="wap-home-o" bind:click='home' />
-  <van-goods-action-icon icon="cart-o"  info="{{cartnum}}" bind:click="navitocart"/>
+  <van-goods-action-icon icon="{{iscart?'cart':'cart-o'}}"  info="{{cartnum}}" bind:click="navitocart"/>
   <van-goods-action-icon icon="share-o" open-type="share"/>
-  <van-goods-action-button text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}" />
+  <van-goods-action-button text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}"/>
+	<van-goods-action-button  wx:if="{{}}" text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}"/>
 </van-goods-action>
-
+</view>
 <!-- 选用板块 -->
 <!-- 该用户还发布了 -->
 <block wx:if='{{morepub}}'>
@@ -80,7 +82,7 @@
       <view class="waterfall_grid">
             <block wx:for="{{morepublist}}" wx:key="_id">
                   <view class="waterfall_one shadow" bindtap="detail" data-id="{{item._id}}">
-                        <image lazy-load mode="aspectFill" src="{{item.piclist[0]}}"></image>
+                        <image  class ="mainpic" mode="aspectFill" src="{{item.piclist[0]}}"></image>
                         <view class="waterfall_title">{{item.title}}
                         </view>
                         <view class="waterfall_between">
@@ -93,4 +95,9 @@
 </block>
 <!-- 该书更多版本 -->
 <block wx:if='{{isbn!=0}}'></block>
-<!-- 卖同款浮窗 -->
+<!-- 聊天浮窗 -->
+<van-transition wx:if="{{iteminfo.type==0||iteminfo.type==1}}" custom-class="block" duration="600">
+      <view class="totop" bindtap="startchat">
+            <image  lazy-load src="/images/contact.png"></image>
+      </view>
+</van-transition>

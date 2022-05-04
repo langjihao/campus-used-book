@@ -1,0 +1,42 @@
+/* pages/chat/chat.wxss */
+.top {
+	width: 100%;
+	display: flex;
+	position: fixed;
+	top:140rpx;
+	z-index: 999;
+	background-color: #eee;
+	border-bottom: thin;
+	box-shadow: yellowgreen;
+}
+
+.poster {
+  width: 270rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.poster image {
+	padding: 20rpx 20rpx 20rpx 20rpx;
+	border-radius: 30rpx 30rpx 30rpx 30rpx;
+  width: 250rpx;
+  height: 250rpx;
+}
+
+.title {
+	justify-self: center;
+  width: 100%;
+  font-size: 32rpx;
+  line-height: 50rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+}
+
+.right {
+  width: 410rpx;
+  height: 250rpx;
+  display: flex;
+  flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}

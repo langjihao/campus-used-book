@@ -22,7 +22,9 @@
 		"pages/profile/profile",
 		"pages/collection/collecttion",
 		"pages/want/want",
-		"pages/wantlist/wantlist"
+		"pages/wantlist/wantlist",
+		"pages/chat/chat",
+		"pages/chatlist/chatlist"
   ],
   "permission": {
     "scope.userLocation": {
@@ -52,10 +54,10 @@
         "selectedIconPath": "/images/tabbar/index-selected.png"
       },
       {
-        "pagePath": "pages/explore/explore",
-        "text": "发现",
-        "iconPath": "/images/tabbar/explore.png",
-        "selectedIconPath": "/images/tabbar/explore-selected.png"
+        "pagePath": "pages/cart/cart",
+        "text": "喜欢",
+        "iconPath": "/images/tabbar/cart.png",
+        "selectedIconPath": "/images/tabbar/cart-selected.png"
       },
       {
         "pagePath": "pages/publish/publish",
@@ -64,10 +66,10 @@
         "selectedIconPath": "/images/tabbar/publish-selected.png"
       },
       {
-        "pagePath": "pages/cart/cart",
-        "text": "想买",
-        "iconPath": "/images/tabbar/cart.png",
-        "selectedIconPath": "/images/tabbar/cart-selected.png"
+        "pagePath": "pages/chatlist/chatlist",
+        "text": "聊聊",
+        "iconPath": "/images/tabbar/chat.png",
+        "selectedIconPath": "/images/tabbar/chat-selected.png"
       },
       {
         "pagePath": "pages/profile/profile",
@@ -78,12 +80,12 @@
     ]
   },
   "usingComponents": {
+		"chat-box":"components/chatbox/index",
+		"cu-custom": "colorui/components/cu-custom",
 		"painter":"components/painter/painter",
 		"van-sticky":"vant/sticky/index",
 		"van-slider": "vant/slider/index",
     "van-overlay": "vant/overlay/index",
-    "l-album":"lin/album/index",
-    "avatar": "lin/avatar/index",
     "van-upload": "vant/uploader/index",
     "van-steps": "vant/steps/index",
     "van-transition": "vant/transition/index",

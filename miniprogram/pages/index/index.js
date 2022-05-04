@@ -19,6 +19,9 @@ Page({
 					barheight:app.globalData.CustomBar
 		},
 		onLoad() {
+					wx.showLoading({
+						title: '宝贝在路上',
+					})
 					this.getbanner();
 					this.getList();
 		},
@@ -101,12 +104,10 @@ Page({
 		//获取全部商品
 		getList() {
 					let that = this;
-					//一会儿加上本校区优选
 					db.collection('publish').where({
 								status: 0,
 					}).orderBy('creat', 'desc').limit(20).get({
 								success: function(res) {
-											wx.stopPullDownRefresh(); //暂停刷新动作
 											if (res.data.length == 0) {
 														that.setData({
 																	nomore: true,
@@ -120,13 +121,16 @@ Page({
 																	page: 0,
 																	list: res.data,
 														})
-											} else {
+											} 
+											else {
 														that.setData({
 																	page: 0,
 																	list: res.data,
 																	nomore: false,
 														})
 											}
+											wx.hideLoading();
+											wx.stopPullDownRefresh();
 								}
 					})
 		},

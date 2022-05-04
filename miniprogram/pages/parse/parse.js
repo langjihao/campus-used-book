@@ -116,5 +116,15 @@ Page({
             this.setData({
                   scrollTop: parseInt((e.scrollTop) * wx.getSystemInfoSync().pixelRatio)
             })
-      },
+			},
+			test(){
+				wx.cloud.callFunction({
+					name:"books",
+					data:{
+						isbn:"9787522111964"
+					},
+					success(res){console.log(res)}
+
+				})
+			}
 })

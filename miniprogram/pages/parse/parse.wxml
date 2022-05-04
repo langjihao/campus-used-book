@@ -1,4 +1,5 @@
 <wxs src="../../common.wxs" module="morejs" />
+<van-button bindtap="test">ceshi</van-button>
 <view class="contain">
       <view class="card">
             <view class="box1">

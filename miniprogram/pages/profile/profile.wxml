@@ -29,24 +29,29 @@
             <view>我想卖的</view>
       </view>
       <view class="center_1">
-            <image src="/images/want.png"></image>
-            <view>我想买的</view>
+            <image src="/images/want.png" bindtap="go" data-go="/pages/wantlist/wantlist"></image>
+            <view>我想买的todo</view>
       </view>
-      <view class="center_1" bindtap="go" data-go="/pages/help/help">
-            <image src="/images/help.png"></image>
-            <view>帮助中心</view>
+      <view class="center_1">
+            <image src="/images/collect.png" bindtap="go" data-go="/pages/cart/cart"></image>
+            <view>我收藏的todo</view>
       </view>
 </view>
 <view class="blank"></view>
 
 <!-- 列表功能分区 -->
 <view class="bottom_box">
-      <view class="bottom_card" bindtap="go" data-go="/pages/parse/parse">
+      <view class="bottom_card" bindtap="go" data-go="/pages/help/help">
+            <view class="bottom_1">
+                  <image src="/images/help.png"></image>
+                  <view>帮助中心</view>
+            </view>
+            <image src="/images/go.png"></image>
+      </view>
+			<view class="bottom_card" bindtap="go" data-go="/pages/parse/parse">
             <view class="bottom_1">
                   <image src="/images/carbon.png"></image>
                   <view>我的碳积分</view>
-                  <view class='top_1_2'>认领一棵自己的树</view>
-                  <image src="/images/tree.png"></image>
             </view>
             <image src="/images/go.png"></image>
       </view>
@@ -68,7 +73,7 @@
 </view>
 <view class="blank"></view>
 <view style="justify-content: center;">
-<van-button  round size='large' bindtap="loginout">退出登录</van-button>
+<van-button size='large' bindtap="loginout">退出登录</van-button>
 </view>
 
 

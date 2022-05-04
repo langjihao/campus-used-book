@@ -25,7 +25,7 @@
     <view class="count">{{count}}/66</view>
   </view>
   <view class="picarea">
-    <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" max-count="9" accept="image" bind:delete="delete"/>
+    <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" sizeType="compressed" max-count="9" accept="image" bind:delete="delete" upload-text="上传图片"/>
   </view>
   <view class="underarea">
     <view class="localarea">
@@ -114,8 +114,47 @@ use-button-slot
 <view wx:if="{{labels.length>0}}" class="box">
   <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
 </view>
+
+<!-- 弹窗确认联系方式 -->
+<van-dialog
+  use-slot
+  title="买家将通过如下联系方式找到您"
+  show="{{ confirm }}"
+  show-cancel-button
+  bind:confirm="check"
+  bind:close="showconfirm"
+>
+<van-cell-group>
+<van-cell icon="/images/contact.png">  <view slot="title">
+    <view class="van-cell-text">站内信</view>
+    <van-tag type="success" plain >Beta</van-tag>
+  </view>
+	<van-checkbox slot="right-icon" checked-color="#07c160" value="true"></van-checkbox></van-cell>
+<van-field 
+label="QQ"
+left-icon="/images/qq.png"
+value="{{QQ}}"
+placeholder="{{QQ}}"
+bind:change="qqInput"
+use-button-slot
+>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isQQ}}" bind:change="onQQ"></van-checkbox>
+</van-field>
+<van-field 
+label="微信"
+left-icon="/images/weixin.png"
+value="{{WX}}"
+placeholder="{{WX}}"
+bind:change="wxInput"
+use-button-slot
+>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isWX}}" bind:change="onWX"></van-checkbox>
+</van-field>
+
+</van-cell-group>
+</van-dialog>
 <view style="height: 20rpx;"></view>
-<van-button type="primary" round bindtap="check" size="large">发布</van-button>
+<van-button type="primary" round bindtap="showconfirm" size="large">发布</van-button>
 </view>
 </block>
 <!-- 成功页 -->

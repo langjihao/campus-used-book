@@ -46,6 +46,11 @@
   bind:close="showconfirm"
 >
 <van-cell-group>
+<van-cell icon="/images/contact.png">  <view slot="title">
+	<view class="van-cell-text">站内信</view>
+	<van-tag type="success" plain >Beta</van-tag>
+</view>
+<van-checkbox slot="right-icon" checked-color="#07c160" value="true"></van-checkbox></van-cell>
 <van-field 
 label="QQ"
 left-icon="/images/qq.png"

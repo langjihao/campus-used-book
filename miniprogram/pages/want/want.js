@@ -1,4 +1,5 @@
 // pages/quickpublish/quickpublish.js
+import Card from '../../palette/template';
 const db = wx.cloud.database();
 const app = getApp();
 const config = require("../../config.js");
@@ -6,11 +7,14 @@ Page({
   
   data: {
 		confirm:false,
+		showposter:false,
+		showmore:false,
     flag:1,
-    isbn:0,
+		isbn:0,
+		title:"",
     show:false,
-    isQQ:true,
-    isWX:true,
+    isQQ:false,
+    isWX:false,
     price:5,
     kind:0,
     sorted:"通用",
@@ -25,12 +29,11 @@ Page({
   //初始化重新发布
   initial(){
     this.setData({
+			showmore:false,
       title:"",
       flag:1,
       isbn:0,
       show:false,
-      isQQ:true,
-      isWX:true,
       price:5,
       kind:0,
       sorted:"通用",
@@ -56,7 +59,7 @@ Page({
       url: '/pages/detail/detail?scene=' + e.currentTarget.dataset.id,
 })
   },
-  //弹出层开关
+  //弹出分类界面
   showPopup() {
     this.setData({ show: !this.data.show });
   },
@@ -103,6 +106,42 @@ Page({
     WX:e.detail,
   })
   },
+  //切换取货方式
+  changemethod(e){
+  this.setData({
+    method: parseInt(e.detail),
+  });
+  },
+  //获取地理位置
+  getlocation(){
+          let that = this;
+          wx.getSetting({
+            withSubscriptions: true,
+            success(res){
+                  console.log(res)
+            }
+          })
+          wx.chooseLocation({
+
+            success(res){
+                  console.log(res)
+                  that.setData({
+                      place:res.name,
+                  })
+            },
+            fail(res){
+                  wx.showToast({
+                    title: '请选择或输入地址',
+                  })
+            }
+          })
+  },
+  //地址输入
+  placeInput(e) {
+        this.setData({
+              place:e.detail.value,
+        })
+  },
   //价格输入
   changeprice(e){
     this.setData({
@@ -114,7 +153,7 @@ Page({
     let that = this;
     console.log(event.detail)
     const { fileList = [] } = that.data;
-    fileList.push({url: event.detail.file.url });
+		fileList.push({url: event.detail.file.url});
     that.setData({ fileList });
   },
   //删除图片
@@ -132,14 +171,13 @@ Page({
   upload(){
     let that=this;
     const { fileList } = this.data;
-    if (!fileList.length) {
-			that.publish()
-  } else {
+		wx.showLoading({
+			title: '正在上传',
+		})    
     const uploadTasks = fileList.map((file) => 
     this.uploadFilePromise(that.data.userinfo.UID+new Date().getTime()+`item.png`, file));
     Promise.all(uploadTasks)
       .then(data => {
-        wx.showToast({ title: '上传成功', icon: 'none' });
         const newFileList = data.map(item => (item.fileID));
         that.setData({
           piclist:that.data.piclist.concat(newFileList)
@@ -148,10 +186,8 @@ Page({
 
       })
       .catch(e => {
-        wx.showToast({ title: '上传失败', icon: 'none' });
         console.log(e);
       });
-  }
   },
   //上传图片
   uploadFilePromise(fileName, chooseResult) {
@@ -160,81 +196,76 @@ Page({
     filePath: chooseResult.url
   });
   },
-  //发布求购信息
+  //发布商品,上传数据库
   publish() {
     let that = this;
     db.collection('publish').add({
           data: {
 								creat: new Date().getTime(),
-								type:1,
+								type:1, 
 								status: 0, 
-								isbn:0,
 								isQQ:that.data.isQQ,
-								QQ:that.data.userinfo.QQ,
-								method:2,
-								WX:that.data.userinfo.WX,
 								isWX:that.data.isWX,
+								QQ:that.data.QQ,
+								WX:that.data.WX,
                 price: that.data.price, 
                 kind: that.data.kind, 
-								title:that.data.title,
-								place:that.data.userinfo.campus,
-								isauth:that.data.userinfo.isauth,
+                method: that.data.method,
+                place: that.data.place,
+                title:that.data.title,
+                isbn:that.data.isbn,
                 piclist:that.data.piclist,
                 tag:that.data.labelsActive,
                 campus:that.data.userinfo.campus,
                 avatar:that.data.userinfo.avatarUrl,
                 nickName:that.data.userinfo.nickName,
+                isauth:that.data.userinfo.isauth,
                 },
           success(e) {
-                wx.showToast({
-                  title: '发布成功',
-                }),
+								wx.hideLoading()
                 that.setData({
                   flag:2,
                   id:e._id
                 })
-          },
-          fail(e){
-                console.log(e)}
-        })
+          },})
   },
   //检查信息是否完善,补齐一些信息
   check(){
+    if(this.data.method==2){
+      this.setData({
+        place:this.data.userinfo.campus
+      })
+		};
+		if(this.data.title==''){
+			wx.showToast({
+				title: '您还没有填写内容',
+			})
+			return
+		}
     if(!(this.data.isQQ||this.data.isWX)){
       wx.showToast({
-        title: '请至少选择一种联系方式',
+        title: 'QQ微信选一个呦',
       })
       return
     }
     else if(this.data.userinfo.QQ!=this.data.QQ||this.data.userinfo.WX!=this.data.WX){
-      let that=this;
-      db.collection('user').doc(that.data.userinfo._id).update({
-        data:{
-          QQ : that.data.QQ,
-          WX : that.data.WX
-        },
-        success(res){
-          that.upload();
-        }
-      })
+      this.setData({
+				findchange:true
+			})
+
     }
     else{
+      console.log(1)
       this.upload()
     }
   },
-  //获取输入的求购信息
+  //获取输入的商品信息
   infoInput(e){
     this.setData({
       title : e.detail.value,
       count : e.detail.value.length
     })
-	},
-	//弹出确认联系方式框
-  showconfirm() {
-    this.setData({confirm: !this.data.confirm });
-	},
-	//修改校区
-	changecampus(){},
+  },
   //获取推荐标签
   gettag(){
     let that=this;
@@ -247,23 +278,12 @@ Page({
       }
     })
     //获取学生专业年级等标签
-    // let school = {name:that.data.userinfo.school,active:false};
-    // let major={name:that.data.userinfo.major+'专业教材',active:false};
-    // let gradenum=22-that.data.userinfo.grade;
-    // if(gradenum==1){
-    //   var grade="大一";
-    // }else if(gradenum==2){
-    //   var grade="大二";
-    // }else if(gradenum==3){
-    //   var grade="大三";
-    // }else{
-    //   var grade="大四";
-    // }
-    // let gradetag={name:grade,active:false};
-    // let tags=[school,gradetag,major]
-    // that.setData({
-    //   labels:that.data.labels.concat(tags)
-    // })
+    let school = {name:that.data.userinfo.school,active:false};
+    let major={name:that.data.userinfo.major,active:false};
+    let tags=[school,major]
+    that.setData({
+      labels:that.data.labels.concat(tags)
+    })
   },
   //读取用户选择的标签
   onTagTap(event) {
@@ -289,28 +309,60 @@ Page({
     labels.forEach(item => {
       if (item.active) {
         labelsActive.push(item.name)
+        //这里可改成子标签
+        // if (!item.allowed_anon) {
+        //   canAnon = false
+        // }
       }
     })
     this.setData({
       labels: labels,
       labelsActive: labelsActive,
     })
-  },
-
+	},
+	
   onLoad() {
-    let user =wx.getStorageSync('userinfo')
+		let user =wx.getStorageSync('userinfo')
     this.setData({
-      userinfo:user,
-      islogin:false
-    })
-    if(this.data.userinfo!=''){
-          this.setData({
-                islogin:true,
-                QQ:this.data.userinfo.QQ,
-                WX:this.data.userinfo.WX,
-    })
-  }
-
-  },
-
+			userinfo:user,
+			QQ:user.QQ,
+			WX:user.WX,
+			isQQ:user.QQ!='',
+			isWX:user.WX!=''
+		})
+    this.gettag();
+	},
+	//生成海报
+	makecanvas(){
+		wx.showLoading()
+		let params={
+			"avatar": this.data.userinfo.avatarUrl,      
+			"nickname": this.data.userinfo.nickName,      
+			"title": this.data.title,      
+		};
+		this.setData({
+			template: new Card().palette(params)
+		})
+	},
+	//海报生成成功
+	onImgOK(e){
+		this.setData({
+			shareImage:e.detail.path,
+			showposter:true
+		});
+		wx.hideLoading({})},
+	//长按保存海报
+	savepic(){
+		wx.saveImageToPhotosAlbum({
+				filePath: this.data.shareImage,
+				success: (res) => {
+						wx.showToast({
+								title: '已保存到相册',
+						})
+					}})
+	},
+	//弹出确认联系方式框
+	showconfirm() {
+		this.setData({confirm: !this.data.confirm });
+	},
 })

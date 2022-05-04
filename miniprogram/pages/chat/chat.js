@@ -1,0 +1,104 @@
+const app = getApp()
+const db = wx.cloud.database();
+const _ = db.command;
+
+Page({
+  data: {
+    InputBottom: 0
+	},
+	//键盘弹起，输入框调节
+  InputFocus(e) {
+    this.setData({
+      InputBottom: e.detail.height
+    })
+	},
+	//键盘关闭
+  InputBlur(e) {
+    this.setData({
+      InputBottom: 0
+    })
+	},
+	async	onLoad(e){
+			this.setData({
+				roomId:e.scene
+			})
+			let iteminfo = await db.collection("chatlist").doc(e.scene).get();
+			this.setData({
+				iteminfo:iteminfo.data,
+			})
+		
+		
+	},
+	//选择图片
+	selectImg() {
+    var that = this;
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: res => {
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res => { //成功的回调
+						var bufferData = res.data;
+            wx.showLoading()
+            wx.cloud.callFunction({
+              name: 'chatpush',
+              data: {
+                roomId:that.data.roomId,
+                msgType: 'image',
+                content: bufferData
+              },
+              success: res => {
+                console.log(res)
+                if (res.result.code == 300) {
+                  that.setData({
+                    errMsg: res.result.msg
+                  })
+                }
+              },
+              fail: res => {
+                console.log(res)
+              },
+              complete: res => {
+                this.setData({
+                  content: ''
+                })
+                wx.hideLoading();
+              }
+            })
+          }
+        })
+      }
+    })
+  },
+	//发送
+  async submit() {
+    var that = this;
+      wx.cloud.callFunction({
+        name: 'chatpush',
+        data: {
+          roomId:that.data.roomId,
+          msgType: 'text',
+          content: that.data.content
+        },
+        success: res => {
+          if (res.result.code == 300) {
+            that.setData({
+              errMsg: res.result.msg
+            })
+          }
+        },
+        complete: res => {
+          this.setData({
+            content: ''
+          })
+        }
+      })
+	},
+	//返回上一层
+	back(){
+		wx.navigateBack()
+	}
+})

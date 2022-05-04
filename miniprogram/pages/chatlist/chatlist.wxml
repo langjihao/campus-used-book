@@ -1,0 +1,54 @@
+
+<!-- 聊天列表页 -->
+<view wx:if="{{list.length>0}}">
+	<view class="cu-list menu-avatar">
+			<!-- 我是买家 -->
+			<block wx:for="{{list}}" >
+			<block wx:if='{{item.buyeropenid==userinfo._openid}}'>
+			<view class="cu-item" bindtap="gochat" data-id="{{item._id}}">
+				<view class="cu-avatar round lg" style="background-image:url('{{item.selleravatar}}');"></view>
+				<view class="content">
+					<view class="text-grey">{{item.sellernickName}}</view>
+					<view class="text-gray text-sm">
+						<text class="cuIcon-infofill text-red"></text>显示最近一条消息</view>
+				</view>
+				<view class="action">
+					<view class="text-grey text-xs">22:20</view>
+					<view class="cu-tag round bg-grey sm">5</view>
+				</view>
+				</view>
+				</block>
+						<!-- 我是卖家 -->
+			<block wx:if='{{item.selleropenid==userinfo._openid}}'>
+			<view class="cu-item" bindtap="gochat" data-id="{{item._id}}">
+				<view class="cu-avatar round lg" style="background-image:url('{{item.buyeravatar}}');"></view>
+				<view class="content">
+					<view class="text-grey">{{item.buyernickName}}</view>
+					<view class="text-gray text-sm">
+						<text class="cuIcon-infofill text-red"></text>显示最近一条消息</view>
+				</view>
+				<view class="action">
+					<view class="text-grey text-xs">22:20</view>
+					<view class="cu-tag round bg-grey sm">5</view>
+				</view>
+				</view>
+				</block>
+				</block>
+			</view>
+</view>
+<!--无内容显示-->
+<view class="nocontent" wx:if="{{list.length==0}}">
+      <image src="/images/blank.png"></image>
+      <view class="blank_text">这里空空如也~</view>
+</view>
+<!-- 加载更多 -->
+<block wx:if="{{list.length>10}}">
+      <import src="/common.wxml" />
+      <template is="loadmore" data="{{nomore}}" />
+</block>
+<!-- 回顶部 -->
+<van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">
+      <view class="totop" bindtap="gotop">
+            <image src="/images/top.png"></image>
+      </view>
+</van-transition>

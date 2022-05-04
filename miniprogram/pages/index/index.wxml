@@ -1,4 +1,20 @@
 <wxs src="../../common.wxs" module="morejs" />
+<wxs  module="pic">
+	var colnum=function(piclist){
+		if(piclist.length==2||piclist.length==4){
+			return("col-2 grid-square")}
+		else if(piclist.length==1){
+			return("col-1")
+		}
+		else{
+			return("col-3 grid-square")
+		}
+
+	}
+	module.exports={
+		colnum:colnum
+	}
+</wxs>
 <van-sticky>
 <view style="height:{{barheight-30}}px;background-color:#39b54a;top:0px"></view>
 </van-sticky>
@@ -76,16 +92,17 @@
 						<view style="right:5rpx;display:flex;flex-direction: column;">
 						<van-tag round wx:if="{{item.type==0||item.type==2}}" color="#F7D6E0" plain>出闲置</van-tag>
 						<van-tag round wx:else color="#B2F7EF" plain>求购</van-tag>
-						
 						<van-tag round wx:if="{{item.type==2||item.type==3}}" plain catchtap="showtip">!提示</van-tag>
 						</view>
 					</view>
 				</view>
-				<view class="text-content">
+				<view class="text-xl  padding">
 					{{item.title}}
 				</view>
-				<view style="padding-left: 50rpx;">
-				<l-album  urls='{{item.piclist}}'></l-album>
+				<view  class="grid flex-sub padding-lr {{pic.colnum(item.piclist)}}">
+				<view class= "bg-img" wx:for="{{item.piclist}}">
+					<image  mode="aspectFill" src="{{item}}"></image>
+				</view>
 				</view>
 				<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
 				<!-- <van-tag type="info" size="small" wx:if="{{item.kind!=0}}">{{sort[item.kind]}}</van-tag> -->
@@ -93,7 +110,7 @@
 				</view>
 				<!-- 浏览量记录区 -->
 				<view class="text-gray text-sm text-right padding">
-					<text class="cuIcon-attentionfill margin-lr-xs"></text>{{item.likes.length}}
+					<text class="cuIcon-attentionfill margin-lr-xs"></text>{{item.view}}
 				</view>
 			</view>
 			</view>
@@ -128,7 +145,7 @@
   show-cancel-button
   bind:confirm="showtip"
 >
-<view>该交易信息爬取自互助群，其时效性可能无法保证</view>
+<view style="padding: 20rpx 20rpx;">该交易信息爬取自互助群，其时效性可能无法保证</view>
 </van-dialog>
 </view>
 <van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">

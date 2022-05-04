@@ -14,7 +14,7 @@ Page({
             islogin:false,
             morepub:false
       },
-      onLoad(e) {
+      onLoad(e){
 					let user =wx.getStorageSync('userinfo')
 					if(user){
 					this.setData({
@@ -23,14 +23,20 @@ Page({
 						})
 						}
 					this.data.id = e.scene;
+					this.incview();
 					this.getPublish(e.scene);
       },
-      changeTitle(e) {
-            let that = this;
-            that.setData({
-                  first_title: e.currentTarget.dataset.id
-            })
-      },
+			//浏览量+1
+			incview(){
+				wx.cloud.callFunction({
+					name:"view",
+					data:{
+						id:this.data.id
+					},
+					complete(res){
+						console.log(res)
+					}})
+			},
       //获取发布信息
       getPublish(e) {
             let that = this;
@@ -189,7 +195,8 @@ Page({
                         itemid : this.data.id,
                         pic : this.data.iteminfo.piclist[0],
                         sellerpic : this.data.iteminfo.avatar,
-                        sellername: this.data.iteminfo.nickName,
+												sellername: this.data.iteminfo.nickName,
+												selleropenid:this.data.iteminfo._openid,
                         price : this.data.iteminfo.price,
 												title : this.data.iteminfo.title,
                         creat : new Date().getTime()
@@ -250,7 +257,27 @@ Page({
                   title: this.data.iteminfo.title,
                   path: '/pages/detail/detail?scene=' + this.data.iteminfo._id,
             }
-      },
+			},
+			//聊一聊
+			startchat(){
+				let that=this;
+				wx.cloud.callFunction({
+					name:"chat",
+					data:{
+						id:that.data.id,
+						selleropenid:that.data.iteminfo._openid,
+					},
+					success(res){
+						console.log(res)
+						wx.navigateTo({
+							url: '/pages/chat/chat?scene='+res.result
+						})
+					},
+					fail(res){
+						console.log(res)
+					}
+				})
+			},
       onShow(){
 				this.judgecart();
       }

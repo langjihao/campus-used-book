@@ -5,36 +5,9 @@ const _ = db.command;
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-		Tab:["宝贝","聊天"],
-		TabCur: 0,
-    scrollLeft:0,
     nomore:false,
     islogin:false
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    let user =wx.getStorageSync('userinfo')
-    if(user){
-    this.setData({
-      userinfo:user,
-      islogin:true,
-    })}
-
-  },
-
-	//页面切换
-	tabSelect(e) {
-    this.setData({
-      TabCur: e.currentTarget.dataset.id,
-      scrollLeft: (e.currentTarget.dataset.id-1)*60
-    })
   },
 
   //获取用户加购的商品
@@ -150,40 +123,25 @@ Page({
   }
     })
 	},
-	//获取聊天列表
-	getchatlist(){
-	},
-	// ListTouch触摸开始
-  ListTouchStart(e) {
-    this.setData({
-      ListTouchStart: e.touches[0].pageX
-    })
-  },
-
-  // ListTouch计算方向
-  ListTouchMove(e) {
-    this.setData({
-      ListTouchDirection: e.touches[0].pageX - this.data.ListTouchStart > 0 ? 'right' : 'left'
-    })
-  },
-
-  // ListTouch计算滚动
-  ListTouchEnd(e) {
-    if (this.data.ListTouchDirection =='left'){
-      this.setData({
-        modalName: e.currentTarget.dataset.target
-      })
-    } else {
-      this.setData({
-        modalName: null
-      })
-    }
-    this.setData({
-      ListTouchDirection: null
-    })
-  },
-	// 创建聊天房间
+	//开始聊天
 	startchat(e){
-		console.log(e)
+		let that=this;
+		let iteminfo = e.currentTarget.dataset.detail;
+		wx.cloud.callFunction({
+			name:"chat",
+			data:{
+				id:iteminfo.itemid,
+				selleropenid:iteminfo.selleropenid,
+			},
+			success(res){
+				console.log(res)
+				wx.navigateTo({
+					url: '/pages/chat/chat?scene='+res.result
+				})
+			},
+			fail(res){
+				console.log(res)
+			}
+		})
 	}
 })
