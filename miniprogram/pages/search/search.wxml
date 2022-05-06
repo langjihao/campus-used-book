@@ -1,4 +1,20 @@
 <wxs src="../../common.wxs" module="morejs" />
+<wxs  module="pic">
+	var colnum=function(piclist){
+		if(piclist.length==2||piclist.length==4){
+			return("col-2 grid-square")}
+		else if(piclist.length==1){
+			return("col-1")
+		}
+		else{
+			return("col-3 grid-square")
+		}
+
+	}
+	module.exports={
+		colnum:colnum
+	}
+</wxs>
 <!-- 搜索栏 -->
 <van-search-bar 
       value = "{{value}}"
@@ -102,16 +118,17 @@
     <view class="text-content">
       {{item.title}}
     </view>
-		<view style="padding-left: 50rpx;">
-		<l-album  urls='{{item.piclist}}'></l-album>
+		<view  class="grid flex-sub padding-lr {{pic.colnum(item.piclist)}}">
+			<view class= "bg-img" wx:for="{{item.piclist}}">
+				<image  mode="aspectFill" src="{{item}}"></image>
+			</view>
 		</view>
 		<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
-		<!-- <van-tag type="info" size="small" wx:if="{{item.kind!=0}}">{{sort[item.kind]}}</van-tag> -->
 		<van-tag plain round type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag>
 		</view>
     <view class="text-gray text-sm text-right padding">
       <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-      <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+      <text class="cuIcon-appreciatefill margin-lr-xs"></text>{{item.view}}
     </view>
   </view>
 			</view>

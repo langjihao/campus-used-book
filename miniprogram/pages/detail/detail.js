@@ -8,23 +8,12 @@ Page({
        * 页面的初始数据
        */
       data: {
-            show:false,
-            first_title: true,
-            place: '',
-            islogin:false,
             morepub:false
       },
       onLoad(e){
-					let user =wx.getStorageSync('userinfo')
-					if(user){
-					this.setData({
-						userinfo:user,
-						islogin:true,
-						})
-						}
 					this.data.id = e.scene;
-					this.incview();
 					this.getPublish(e.scene);
+					this.incview();
       },
 			//浏览量+1
 			incview(){
@@ -32,10 +21,7 @@ Page({
 					name:"view",
 					data:{
 						id:this.data.id
-					},
-					complete(res){
-						console.log(res)
-					}})
+					},})
 			},
       //获取发布信息
       getPublish(e) {
@@ -70,39 +56,6 @@ Page({
                   }
             })
       },
-      //获取卖家信息
-      getSeller() {
-            let that = this;
-            let data = that.data.iteminfo;
-            let actions0 = [
-              {
-                name: '站内信',
-                subname: '暂未开通',
-              },
-            ];
-            db.collection('user').where({
-                  _openid:data._openid
-            }).get({
-                  success(res){
-                        if (data.isQQ){
-                          var actions1 = actions0.concat({name:'QQ'})
-                        }
-                        else{
-                          var actions1 = actions0
-                        }
-                        if (data.isWX){
-                          var actions2 = actions1.concat({name:'微信'})
-                        }
-                        else{
-                          var actions2 = actions1
-                        }
-                        that.setData({
-                          selleruserinfo: res.data[0],
-                          actions:actions2
-                    })
-                  }
-            })
-			},
 			//复制联系方式
 			copy(e){
 				var Q=e.currentTarget.dataset.detail.toString()
@@ -141,18 +94,28 @@ Page({
             })
       },
       //获取该发布人更多商品
-      getmorepub(openid){
+      getmorepub(e){
             let that = this;
             db.collection('publish').where({
-                  _openid: openid
+                  _openid: e
             }).limit(6).get({
                   success(res) {
                         if(res.data.length===0){}
                         else{
-                              that.setData({
-                              morepublist: res.data,
-                              morepub:true
-                        })}
+													let list=res.data;
+													//用于去掉本商品
+													console.log(list)
+													for(var i=0;i<list.length;i++){
+														if(list[i]._id==that.data.id){
+															console.log(1)
+														 list.splice(i,1)
+														}
+													}
+													that.setData({
+													morepublist: list,
+													morepub:true
+												})
+											}
                   },
                   fail(res){
                         console.log(res)
@@ -279,6 +242,16 @@ Page({
 				})
 			},
       onShow(){
+				this.setData({
+					userinfo : wx.getStorageSync('userinfo'),
+					})
+				if(this.data.userinfo){
 				this.judgecart();
-      }
+			}},
+			//修改
+			modify(){
+        wx.navigateTo({
+          url: '/pages/modify/modify?scene=' + this.data.id
+        })
+      },
     })

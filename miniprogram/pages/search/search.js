@@ -14,14 +14,6 @@ Page({
             key:"",
             blank: false,
             nomore:false,
-            switchTitle1: '全部商品',
-            switchTitle2: '排序',
-            itemTitle: '筛选',
-            option1: [
-              { text: '崂山校区', value: 0 },
-              { text: '四方校区', value: 1 },
-            ],
-            value1: 0,
       },
       onShow(e){
         this.gethistory();
@@ -63,7 +55,17 @@ Page({
                   })
             }).orderBy('creat', 'desc').limit(20).get({
                   success(e) {
-                        console.log(e)
+											if (res.data.length == 0) {
+											that.setData({
+														nomore: true
+											})
+											return false;
+											}
+											if (res.data.length < 20) {
+														that.setData({
+																	nomore: true
+														})
+											}
                         wx.hideLoading();
                         that.setData({
                               blank: true,
@@ -110,7 +112,7 @@ Page({
             })
       },
       //监测屏幕滚动
-      onPageScroll: function (e) {
+      onPageScroll(e){
             this.setData({
                   scrollTop: parseInt((e.scrollTop) * wx.getSystemInfoSync().pixelRatio)
             })

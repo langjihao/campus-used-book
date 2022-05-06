@@ -1,10 +1,12 @@
 const app = getApp()
 const db = wx.cloud.database();
 const _ = db.command;
+const config = require("../../config.js");
 
 Page({
   data: {
-    InputBottom: 0
+		InputBottom: 0,
+		showusual:false
 	},
 	//键盘弹起，输入框调节
   InputFocus(e) {
@@ -23,11 +25,16 @@ Page({
 				roomId:e.scene
 			})
 			let iteminfo = await db.collection("chatlist").doc(e.scene).get();
+			if(iteminfo.buyeropenid==wx.getStorageSync('openid')){
+				var usual = JSON.parse(config.data).buy;
+			}
+			else{
+				var usual = JSON.parse(config.data).sell
+			}
 			this.setData({
 				iteminfo:iteminfo.data,
+				usual:usual,
 			})
-		
-		
 	},
 	//选择图片
 	selectImg() {
@@ -100,5 +107,19 @@ Page({
 	//返回上一层
 	back(){
 		wx.navigateBack()
+	},
+	//弹出常用语选择框
+	showusual(){
+		this.setData({
+			showusual:!this.data.showusual
+		})
+	},
+	//点击常用语发送
+	OnSelect(e){
+		console.log(e)
+		this.setData({
+			content:e.detail.name
+		})
+		this.submit()
 	}
 })

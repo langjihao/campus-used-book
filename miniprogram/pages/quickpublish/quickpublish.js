@@ -422,7 +422,7 @@ Page({
 		wx.showLoading()
 		let params={
 			"avatar": this.data.userinfo.avatarUrl,      
-			"nickname": this.data.userinfo.nickName,      
+			"nickName": this.data.userinfo.nickName,      
 			"title": this.data.title,      
 		};
 		this.setData({

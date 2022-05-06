@@ -1,5 +1,4 @@
 <!--pages/profile/profile.wxml-->
-<!-- 已登录状态 -->
 <!-- 顶部信息栏 -->
 <view class="profile-card">
   <!-- 封面 -->

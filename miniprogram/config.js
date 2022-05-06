@@ -69,7 +69,10 @@ var data = {
 									id: 8
             },
 
-      ],
+			],
+			//聊天常用语
+			sell:[{name:'啥时候方便取一下'},{name:'我可以给你送过去'}],
+			buy:[{name:'能便宜点嘛？'},{name:'东西还在吗？'},{name:'在哪取比较方便?'},{name:'在哪买的？'}]
 }
 //下面的就别动了
 function formTime(creatTime) {

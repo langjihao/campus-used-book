@@ -18,7 +18,7 @@
 				</view>
 				</view>
 				</block>
-						<!-- 我是卖家 -->
+			<!-- 我是卖家 -->
 			<block wx:if='{{item.selleropenid==userinfo._openid}}'>
 			<view class="cu-item" bindtap="gochat" data-id="{{item._id}}">
 				<view class="cu-avatar round lg" style="background-image:url('{{item.buyeravatar}}');"></view>
@@ -33,7 +33,7 @@
 				</view>
 				</view>
 				</block>
-				</block>
+			</block>
 			</view>
 </view>
 <!--无内容显示-->

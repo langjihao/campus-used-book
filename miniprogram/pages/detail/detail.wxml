@@ -50,10 +50,14 @@
 			<van-button size="small" type="primary" plain bindtap="copy" data-detail="{{iteminfo.WX}}">点击复制</van-button>
 		</view>
 		</van-cell>
+		<van-cell wx:if="{{(iteminfo.type==0||iteminfo.type==1)&&userinfo&&userinfo._openid!=iteminfo._openid}}" title="站内信" icon="/images/contact.png">
+		<view slot="right-icon">
+			<van-button size="small" type="primary" plain bindtap="startchat">点我私聊</van-button>
+		</view>
+		</van-cell>
 		</van-cell-group>
     <view class="text-gray text-sm text-right padding">
-      <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-      <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+      <text class="cuIcon-attentionfill margin-lr-xs"></text> {{iteminfo.like}}
     </view>
   </view>
 </view>
@@ -63,13 +67,14 @@
 
 <!-- 底栏导航 -->
 <view class="foot">
-<van-goods-action>
+<van-goods-action wx:if="{{userinfo&&(iteminfo.type==0||iteminfo.type==1)}}">
   <van-goods-action-icon icon="wap-home-o" bind:click='home' />
   <van-goods-action-icon icon="{{iscart?'cart':'cart-o'}}"  info="{{cartnum}}" bind:click="navitocart"/>
   <van-goods-action-icon icon="share-o" open-type="share"/>
-  <van-goods-action-button text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}"/>
-	<van-goods-action-button  wx:if="{{}}" text="{{iscart?'已加购':'加入购物车'}}" type="warning" bind:click="{{iscart?'delete':'add'}}"/>
+	<van-goods-action-button  wx:if="{{userinfo._openid!=iteminfo._openid}}" text="{{iscart?'已加购':'加入购物车'}}" type="primary" bind:click="{{iscart?'delete':'add'}}"/>
+	<van-goods-action-button  wx:else text="编辑" type="primary" bind:click="modify"/>
 </van-goods-action>
+<navigator wx:if="{{!userinfo}}" url="/pages/wxlogin/wxlogin">点我去登录使用全部功能</navigator>
 </view>
 <!-- 选用板块 -->
 <!-- 该用户还发布了 -->
@@ -95,9 +100,3 @@
 </block>
 <!-- 该书更多版本 -->
 <block wx:if='{{isbn!=0}}'></block>
-<!-- 聊天浮窗 -->
-<van-transition wx:if="{{iteminfo.type==0||iteminfo.type==1}}" custom-class="block" duration="600">
-      <view class="totop" bindtap="startchat">
-            <image  lazy-load src="/images/contact.png"></image>
-      </view>
-</van-transition>

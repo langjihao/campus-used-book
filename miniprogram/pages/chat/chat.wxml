@@ -13,6 +13,16 @@
 <view style="padding-bottom: 150rpx;">
 <chat-box roomId="{{roomId}}"></chat-box>
 </view>
+<!-- 常用语弹窗 -->
+<van-action-sheet
+	description="点击发送常用语"		
+  show="{{ showusual }}"
+  actions="{{usual}}"
+  bind:close="showusual"
+  bind:select="OnSelect"
+	cancel-text="取消"
+	close-on-click-overlay
+/>
 
 <!-- 输入框 -->
 <view class="cu-bar foot input {{InputBottom!=0?'cur':''}}" style="bottom:{{InputBottom}}px">
@@ -20,5 +30,8 @@
     <text class="cuIcon-add text-grey" bindtap="selectImg"></text>
   </view>
   <input class="solid-bottom" bindfocus="InputFocus" bindblur="InputBlur" model:value="{{content}}" adjust-position="{{true}}" focus="{{false}}" maxlength="300" cursor-spacing="10"></input>
+	<view class="action">
+    <text class="cuIcon-message text-grey" bindtap="showusual"></text>
+  </view>
   <button class="cu-btn bg-green shadow" bindtap="submit">发送</button>
 </view>

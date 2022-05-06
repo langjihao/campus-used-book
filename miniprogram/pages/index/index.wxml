@@ -127,7 +127,7 @@
       <view class="blank_text">这里空空如也~</view>
 </view>
 <!-- 未登录提示 -->
-<navigator url='/pages/wxlogin/wxlogin' class="nologin" wx:if="{{!islogin}}" >
+<navigator url='/pages/wxlogin/wxlogin' class="nologin" wx:if="{{!userinfo}}" >
       <button style='position:fixed;width:100%;bottom:0'>当前未登录,点我去登陆</button>
 </navigator>
 

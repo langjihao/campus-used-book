@@ -14,9 +14,6 @@ Page({
             nomore: false,
       },
 
-      /**
-       * 生命周期函数--监听页面加载
-       */
       onLoad: function(options) {
             wx.showLoading({
                   title: '加载中',
@@ -30,7 +27,8 @@ Page({
       getList() {
             let that = this;
             db.collection('publish').where({
-                  _openid: that.data._openid
+									_openid: that.data._openid,
+									type:0
             }).orderBy('creat', 'desc').limit(20).get({
                   success: function(res) {
                         wx.hideLoading();
@@ -214,7 +212,8 @@ Page({
             }
             let page = that.data.page + 1;
             db.collection('publish').where({
-                  _openid: that.data._openid
+									_openid: that.data._openid,
+									type:0
             }).orderBy('creat', 'desc').skip(page * 20).limit(20).get({
                   success: function(res) {
                         if (res.data.length == 0) {
