@@ -1,23 +1,5 @@
 <!--pages/quickpublish/quickpublish.wxml-->
 <block wx:if="{{flag==1}}">
-<!-- 标准化信息框 -->
-<block wx:if="{{isbn!=0}}">
-  <view class="contain">
-            <view class="top">
-                  <view class="poster">
-                        <image src="{{bookinfo.pic}}" />
-                  </view>
-                  <view class="content">
-                        <view class="title text-cut">{{bookinfo.title}}</view>
-                        <view class="dcontain">
-                              <view class="author text-cut">{{bookinfo.author}}</view>
-                        </view>
-                        <view class="des">{{bookinfo.summary}}
-                        </view>
-                  </view>
-            </view>
-      </view>
-</block>
 <!-- 发布闲置主信息框 -->
 <view class="box">
   <view class="input">

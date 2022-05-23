@@ -1,4 +1,4 @@
-
+<wxs src="../../common.wxs" module="morejs" />
 <!-- 聊天列表页 -->
 <view wx:if="{{list.length>0}}">
 	<view class="cu-list menu-avatar">
@@ -8,13 +8,11 @@
 			<view class="cu-item" bindtap="gochat" data-id="{{item._id}}">
 				<view class="cu-avatar round lg" style="background-image:url('{{item.selleravatar}}');"></view>
 				<view class="content">
-					<view class="text-grey">{{item.sellernickName}}</view>
-					<view class="text-gray text-sm">
-						<text class="cuIcon-infofill text-red"></text>显示最近一条消息</view>
+					<view class="text-black">{{item.sellernickName}}</view>
+					<view class="text-gray text-sm">[{{morejs.timelog(item.update)}}] {{item.lastmsg}}</view>
 				</view>
 				<view class="action">
-					<view class="text-grey text-xs">22:20</view>
-					<view class="cu-tag round bg-grey sm">5</view>
+					<image class="cu-avatar" src="{{item.itempic}}"></image>
 				</view>
 				</view>
 				</block>
@@ -23,13 +21,11 @@
 			<view class="cu-item" bindtap="gochat" data-id="{{item._id}}">
 				<view class="cu-avatar round lg" style="background-image:url('{{item.buyeravatar}}');"></view>
 				<view class="content">
-					<view class="text-grey">{{item.buyernickName}}</view>
-					<view class="text-gray text-sm">
-						<text class="cuIcon-infofill text-red"></text>显示最近一条消息</view>
+					<view class="text-black">{{item.buyernickName}}</view>
+					<view class="text-gray text-sm">[{{morejs.timelog(item.update)}}] {{item.lastmsg}}</view>
 				</view>
 				<view class="action">
-					<view class="text-grey text-xs">22:20</view>
-					<view class="cu-tag round bg-grey sm">5</view>
+					<image class="cu-avatar" src="{{item.itempic}}"></image>
 				</view>
 				</view>
 				</block>

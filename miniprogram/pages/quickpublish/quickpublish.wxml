@@ -33,8 +33,7 @@
       <text>{{userinfo.campus}}</text>
     </view>
     <view class="scan" bindtap="scan">
-      <image src="/images/scan.png"></image>
-      <text>点击扫码,自动填写</text>
+      <text class="cuIcon-scan lg text-xxl">点击扫码,自动填写</text>
     </view>
 	</view>
 	<view style="height:20rpx"></view>

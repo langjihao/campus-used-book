@@ -92,7 +92,20 @@ use-button-slot
             <view class="see" bindtap="detail" data-id="{{id}}" >查看详情</view>
   </view>
 	<view style="padding:20rpx;justify-content: center;">
-  <van-button size="large" type="primary" round bindtap="initial">在收一本</van-button>
+  <van-button size="large" type="primary" round bindtap="initial">再收一本</van-button>
 	<view style="height:20rpx"></view>
+  <van-button size="large" type="primary" round  bindtap="makecanvas">生成海报</van-button>
 	</view>
 </block>
+
+<!-- 海报 -->
+<painter palette="{{template}}" 
+	bind:imgOK="onImgOK" 
+	bind:imgErr="onImgErr"  
+/>
+<van-overlay show="{{ showposter }}" bind:click="onClickHide">
+	<view class="wrapper">
+  <image class="block" mode="aspectFit" bindlongpress="savepic" src="{{shareImage}}"></image>
+	<view style="color: aliceblue;">长按保存</view>
+	</view>
+</van-overlay>

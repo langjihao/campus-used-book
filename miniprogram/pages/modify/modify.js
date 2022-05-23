@@ -140,8 +140,11 @@ Page({
     let that=this;
     const { fileList } = this.data;
     for(var i=0;i<fileList.length;i++){
-      if(fileList[i].name==1){
-        fileList.splice(i,1);
+      if(fileList[i].type==0){
+				fileList.splice(i,1);
+				that.setData({
+					piclist:that.data.piclist.concat([fileList[i].url])
+				})
       }
     }
     if (!fileList.length&&!that.data.originpic.length) {
@@ -192,18 +195,20 @@ Page({
     filePath: chooseResult.url
   });
   },
-  //发布商品,上传数据库
+  //更新数据库
   publish() {
     let that = this;
     db.collection('publish').doc(that.data.id).update({
           data: {
+								type:that.data.type,
                 creat: new Date().getTime(),
                 status: 0, 
-                isQQ:that.data.isQQ,
+								isQQ:that.data.isQQ,
+								QQ:that.data.QQ,
+								WX:that.data.WX,
                 isWX:that.data.isWX,
                 price: that.data.price, 
                 kind: that.data.kind, 
-                sort:that.data.sorted,
                 method: that.data.method,
                 place: that.data.place,
                 title:that.data.title,
@@ -213,7 +218,6 @@ Page({
                 campus:that.data.userinfo.campus,
                 avatar:that.data.userinfo.avatarUrl,
                 nickName:that.data.userinfo.nickName,
-                isauth:that.data.userinfo.isauth,
                 },
           success(e) {
                 wx.showToast({
@@ -230,7 +234,9 @@ Page({
   },
   //检查信息是否完善,补齐一些信息
   check(){
-    console.log(6)
+    wx.showLoading({
+			title: '正在上传',
+		})
     if(this.data.method==2){
       this.setData({
         place:this.data.userinfo.campus
@@ -242,18 +248,6 @@ Page({
       })
       return
     }
-    else if(this.data.userinfo.QQ!=this.data.QQ||this.data.userinfo.WX!=this.data.WX){
-      let that=this;
-      db.collection('user').doc(that.data.userinfo._id).update({
-        data:{
-          QQ : that.data.QQ,
-          WX : that.data.WX
-        },
-        success(res){
-          that.upload();
-        }
-      })
-    }
     else{
       this.upload()
     }
@@ -263,7 +257,7 @@ Page({
     let opic=this.data.originpic;
     var pic=[]
     for(var i=0;i<opic.length;i++){
-    pic=pic.push({url:opic[i]})
+    pic.push({url:opic[i],type:0})
     }
     this.setData({
       fileList:pic
@@ -350,20 +344,21 @@ Page({
       QQ:user.QQ,
       WX:user.WX,
       id:e.scene
-    })
+		})
+		let sort1=JSON.parse(config.data).sort1
     let that=this;
-
     db.collection('publish').doc(e.scene).get({
       success(res){
         let data=res.data;
         that.setData({
+					type:data.type,
           title:data.title,
           isbn:data.isbn,
           isQQ:data.isQQ,
           isWX:data.isWX,
           price:data.price,
-          kind:data.kind,
-          sorted:data.sort,
+					kind:data.kind,
+					sorted:sort1[data.kind],
           originpic:data.piclist,
           labelsActive: [], // 选中的标签
         })

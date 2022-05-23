@@ -1,12 +1,12 @@
 <!-- 标题与导航区 -->
 <cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">聊天</view></cu-custom>
 <!-- 商品详情区 -->
-<view class="top">
+<view class="top" bindtap="detail">
 			<view class="poster">
 						<image src="{{iteminfo.itempic}}" />
 			</view>
 			<view class="right">
-						<view class="title text-cut">{{iteminfo.itemtitle}}</view>
+						<view class="title">{{iteminfo.itemtitle}}</view>
 			</view>
 </view>
 <!-- 聊天记录区，调用组件 -->
@@ -29,7 +29,7 @@
   <view class="action">
     <text class="cuIcon-add text-grey" bindtap="selectImg"></text>
   </view>
-  <input class="solid-bottom" bindfocus="InputFocus" bindblur="InputBlur" model:value="{{content}}" adjust-position="{{true}}" focus="{{false}}" maxlength="300" cursor-spacing="10"></input>
+  <input class="solid-bottom" bindfocus="InputFocus" hold-keyboard="{{true}}" bindblur="InputBlur" model:value="{{content}}" adjust-position="{{false}}" focus="{{focus}}" maxlength="300" cursor-spacing="10"></input>
 	<view class="action">
     <text class="cuIcon-message text-grey" bindtap="showusual"></text>
   </view>

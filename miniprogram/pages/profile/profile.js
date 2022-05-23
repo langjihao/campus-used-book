@@ -2,37 +2,19 @@
 const app = getApp()
 const db = wx.cloud.database();
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    islogin:false
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-    onLoad(){
-      let user = wx.getStorageSync('userinfo')
-      console.log(user)
-      this.setData({
-        userinfo:user,
-        islogin:true
-      })
-      },
+		onLoad(){
+			let user =wx.getStorageSync('userinfo')
+			this.setData({
+				userinfo:user,
+				campus:user.campus
+			})
+		},
     onShow(){
       let user =wx.getStorageSync('userinfo')
-      console.log(user)
       this.setData({
         userinfo:user,
-        islogin:false
+				campus:user.campus
       })
-      if(this.data.userinfo!=''){
-            this.setData({
-                  islogin:true
-      })
-  }
     },
     loginout(){
       wx.setStorageSync('userinfo', '')
@@ -48,7 +30,7 @@ Page({
   })
     },
     go(e) {
-      if (!this.data.islogin) {
+      if (!this.data.userinfo) {
         wx.showModal({
               title: '温馨提示',
               content: '该功能需要登录方可使用，是否马上去登录',

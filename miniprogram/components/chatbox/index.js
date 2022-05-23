@@ -1,13 +1,8 @@
-// release/components/chatbox
+
 const app = getApp();
-// 获取数据读取
 const db = wx.cloud.database();
-// 获取命令行符号
 const _ = db.command;
-// 配置消息侦听器
 var messageWatcher = null;
-// 时间工具类
-const timeutil = require('./timeutil');
 Component({
   /**
    * 组件的一些选项
@@ -167,7 +162,6 @@ Component({
 			var that = this;
       this.messageWatcher = db.collection('chat').where({
 				roomId: that.properties.roomId,
-				_createTime: _.gte(timeutil.TimeCode())
       }).watch({
         onChange: function (snapshot) {
 					//只打印变动的信息

@@ -1,0 +1,43 @@
+<wxs src="../../common.wxs" module="morejs" />
+<wxs  module="pic">
+	var colnum=function(piclist){
+		if(piclist.length==2||piclist.length==4){
+			return("col-2 grid-square")}
+		else if(piclist.length==1){
+			return("col-1 grid-square")
+		}
+		else{
+			return("col-3 grid-square")
+		}
+
+	}
+	module.exports={
+		colnum:colnum
+	}
+</wxs>
+<!-- 以书为中心 -->
+<block wx:if="{{type==1}}">
+	<book isbn="{{isbn}}"></book>
+</block>
+<!-- 标签展示 -->
+<block wx:if="{{type==2}}">
+	<view class="box">
+  <view class="cu-bar bg-white">
+    <view class="action sub-title">
+      <text class="text-xxl text-bold text-green">#{{tag}}</text>
+      <text class="bg-green"></text>
+    </view>
+  </view>
+	</view>
+</block>
+<!-- 人的展示 -->
+<block wx:if="{{type==3}}">
+	<view class="box flex">
+      <view class="cu-avatar round lg" style="background-image:url({{avatarUrl}});"></view>
+      <view class="text-l padding">
+        <text class="text-black">这些都是我发布的，打包带走吧</text>
+      </view>
+</view>
+</block>
+<waterfall list = "{{list}}" showtype = "{{showtype}}"></waterfall>
+

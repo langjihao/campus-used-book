@@ -1,5 +1,4 @@
-/* pages/quickpublish/quickpublish.wxss */
-@import '../../common.wxss';
+
 .box {
   border-radius: 32rpx;
   width: 100%;

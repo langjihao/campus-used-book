@@ -4,7 +4,7 @@
 		if(piclist.length==2||piclist.length==4){
 			return("col-2 grid-square")}
 		else if(piclist.length==1){
-			return("col-1")
+			return("col-1 grid-square")
 		}
 		else{
 			return("col-3 grid-square")
@@ -101,7 +101,7 @@
     <view class="cu-list menu-avatar"  >
       <view class="cu-item">
         <view class="cu-avatar round lg" style="background-image:url({{item.avatar}});"></view>
-        <view class="content flex-sub">
+        <view class="timeline_content flex-sub">
           <view>{{item.nickName}}</view>
           <view class="text-gray text-sm flex justify-between">
             {{morejs.timelog(item.creat)}}

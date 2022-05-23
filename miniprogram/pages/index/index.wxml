@@ -4,7 +4,7 @@
 		if(piclist.length==2||piclist.length==4){
 			return("col-2 grid-square")}
 		else if(piclist.length==1){
-			return("col-1")
+			return("col-1 grid-square")
 		}
 		else{
 			return("col-3 grid-square")
@@ -51,91 +51,12 @@
 </van-tabs>
 </van-sticky>
 <view style="height: 20rpx"></view>
-<!-- 有内容展示,有两种信息排布方式 -->
-<block wx:if="{{list.length>0}}" class="contain">
-  <!--瀑布流布局-->
-  <block wx:if="{{showtype==1}}">
-        <view class="waterfall_grid">
-              <block wx:for="{{list}}" wx:key="_id">
-                    <view wx:if="{{item.piclist[0]}}" class="waterfall_one" bindtap="detail" data-id="{{item._id}}">
-                          <image lazy-load class='mainpic' mode="aspectFill" src="{{item.piclist[0]}}"></image>
-                          <view class="waterfall_title text-cut">{{item.title}}
-                          </view>
-                          <view class="waterfall_between">
-														<image class="cu-avatar sm round" mode="scaleToFill" src="{{item.avatar}}"></image>
-                            <view class="waterfall_author text-cut">{{item.nickName}}
-                            </view>
-                            <view wx:if='{{item.price}}' class="waterfall_price">￥{{item.price}}</view>
-
-                          </view>
-                    </view>
-              </block>
-        </view>
-  </block>
-  <!-- 朋友圈布局 -->
-  <block wx:if="{{showtype==0}}">
-		<block wx:for="{{list}}">
-		<block wx:if="{{!onlysell||(item.type==0||item.type==2)}}">
-		<block wx:if="{{!onlycampus||item.campus==userinfo.campus}}">
-			<view class="cu-card dynamic" bindtap="detail" data-id='{{item._id}}'>
-			<view class="cu-item shadow">
-				<view style="background-color:{{(item.type==0||item.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
-				<view class="cu-list menu-avatar"  >
-					<view class="cu-item">
-						<view class="cu-avatar round lg" style="background-image:url({{item.avatar}});"></view>
-						<view class="content flex-sub">
-							<view>{{item.nickName}}</view>
-							<view class="text-gray text-sm flex justify-between">
-								{{morejs.timelog(item.creat)}}
-							</view>
-						</view>
-						<view style="right:5rpx;display:flex;flex-direction: column;">
-						<van-tag round wx:if="{{item.type==0||item.type==2}}" color="#F7D6E0" plain>出闲置</van-tag>
-						<van-tag round wx:else color="#B2F7EF" plain>求购</van-tag>
-						<van-tag round wx:if="{{item.type==2||item.type==3}}" plain catchtap="showtip">!提示</van-tag>
-						</view>
-					</view>
-				</view>
-				<view class="text-xl  padding">
-					{{item.title}}
-				</view>
-				<view  class="grid flex-sub padding-lr {{pic.colnum(item.piclist)}}">
-				<view class= "bg-img" wx:for="{{item.piclist}}">
-					<image  mode="aspectFill" src="{{item}}"></image>
-				</view>
-				</view>
-				<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
-				<!-- <van-tag type="info" size="small" wx:if="{{item.kind!=0}}">{{sort[item.kind]}}</van-tag> -->
-				<van-tag plain round type="success" wx:for="{{item.tag}}" size="small">{{item}}</van-tag>
-				</view>
-				<!-- 浏览量记录区 -->
-				<view class="text-gray text-sm text-right padding">
-					<text class="cuIcon-attentionfill margin-lr-xs"></text>{{item.view}}
-				</view>
-			</view>
-			</view>
-		</block>
-		</block>
-		</block>
-	</block>
-
-</block>
-
-<!--无内容显示-->
-<view class="nocontent" wx:if="{{list.length==0}}">
-      <image lazy-load src="/images/blank.png"></image>
-      <view class="blank_text">这里空空如也~</view>
-</view>
+<!-- 商品显示组件 -->
+<waterfall list="{{list}}" showtype="{{showtype}}" nomore="{{nomore}}"></waterfall>
 <!-- 未登录提示 -->
 <navigator url='/pages/wxlogin/wxlogin' class="nologin" wx:if="{{!userinfo}}" >
       <button style='position:fixed;width:100%;bottom:0'>当前未登录,点我去登陆</button>
 </navigator>
-
-<block wx:if="{{list.length>10}}">
-      <import src="/common.wxml" />
-      <template is="loadmore" data="{{nomore}}" />
-</block>
-
 <!-- 弹窗说明 -->
 <view style="z-index: 99999;position: absolute;">
 <van-dialog

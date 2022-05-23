@@ -15,17 +15,15 @@ page {
       padding: 50rpx 60rpx;
       box-sizing: border-box;
       box-shadow: 0 0 20rpx #eee;
-    }
+}
 .shadow {
       box-shadow: 0 0 18rpx rgb(236, 236, 236);
 }
-
 .text-cut {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
 }
-
 .loadmore {
       width: 100%;
       display: flex;
@@ -33,12 +31,10 @@ page {
       align-items: center;
       padding: 30rpx 0;
 }
-
 .loadmore image {
       width: 50rpx;
       height: 50rpx;
 }
-
 .loadmore view {
       font-size: 28rpx;
       color: #b2b2b2;
@@ -49,7 +45,6 @@ page {
       right: 30rpx;
       bottom: 80rpx;
 }
-
 .totop image {
       width: 100rpx;
       height: 100rpx;
@@ -57,30 +52,18 @@ page {
 }
 .container{
 	justify-content: center;
-	padding: 0 20rpx 20rpx 20rpx;
+	padding: 20rpx 20rpx 20rpx 20rpx;
 	justify-items: center;
 }
 .container image{
 	justify-self: center;
 }
-.nocontent {
+.contain{
+	padding: 32rpx;
 	width: 100%;
-	height: calc(100% - 400rpx);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	box-sizing: border-box;
-}
-
-.nocontent image {
-	width: 340rpx;
-	height: 272rpx;
-}
-
-.blank_text {
-	padding-top: 40rpx;
-	font-size: 32rpx;
-	letter-spacing: 2rpx;
-	color: #c6c6c8;
+	height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: #fff;
 }

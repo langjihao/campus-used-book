@@ -6,9 +6,9 @@
 		<view style="background-color:{{(iteminfo.type==0||iteminfo.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
     <view class="cu-list menu-avatar"  >
       <view class="cu-item">
-        <view class="cu-avatar round lg" style="background-image:url({{iteminfo.avatar}});"></view>
-        <view class="content flex-sub">
-          <view>{{iteminfo.nickName}}</view>
+        <view class="cu-avatar round lg" style="background-image:url({{iteminfo.avatar}});" bindtap="gouser"></view>
+        <view class="namearea flex-sub">
+          <view class="text-xl text-bold">{{iteminfo.nickName}}</view>
           <view class="text-gray text-sm flex justify-between">
             {{morejs.timelog(iteminfo.creat)}}
           </view>
@@ -25,6 +25,7 @@
 		<view wx:if="{{iteminfo.price}}" class="solid-bottom text-xxl padding">
         <text class="text-price text-red">{{iteminfo.price}}</text>
     </view>
+		<!-- 商品图片轮播 -->
 		<view wx:if="{{iteminfo.piclist.length!=0}}" style="padding: 10rpx;">
 			<swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
       <block wx:for="{{iteminfo.piclist}}" wx:key="id">
@@ -37,7 +38,7 @@
 		</view>
 		<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
 		<!-- <van-tag type="info" size="small" wx:if="{{iteminfo.kind!=0}}">{{sort[iteminfo.kind]}}</van-tag> -->
-		<van-tag plain round type="success" wx:for="{{iteminfo.tag}}" size="small">{{item}}</van-tag>
+		<van-tag plain round type="success" wx:for="{{iteminfo.tag}}" size="large" bindtap="gotag" data-tag="{{item}}">{{item}}</van-tag>
 		</view>
 		<van-cell-group>
 		<van-cell wx:if='{{iteminfo.isQQ}}' title="QQ:{{iteminfo.QQ}}" icon="/images/qq.png">
@@ -62,24 +63,32 @@
   </view>
 </view>
 <view wx:if="{{!iteminfo.price}}" class="solid-bottom text-l padding">
-        <text class="padding">提示:该信息来自于互助群，相关信息可能不准确或者已经过期，请联系发布者询问</text>
+        <text>提示:该信息来自于互助群，相关信息可能不准确或者已经过期，请联系发布者询问</text>
 </view>
 
 <!-- 底栏导航 -->
-<view class="foot">
-<van-goods-action wx:if="{{userinfo&&(iteminfo.type==0||iteminfo.type==1)}}">
+<view class="foot" wx:if="{{userinfo&&(iteminfo.type==0||iteminfo.type==1)}}">
+<van-goods-action>
   <van-goods-action-icon icon="wap-home-o" bind:click='home' />
   <van-goods-action-icon icon="{{iscart?'cart':'cart-o'}}"  info="{{cartnum}}" bind:click="navitocart"/>
   <van-goods-action-icon icon="share-o" open-type="share"/>
 	<van-goods-action-button  wx:if="{{userinfo._openid!=iteminfo._openid}}" text="{{iscart?'已加购':'加入购物车'}}" type="primary" bind:click="{{iscart?'delete':'add'}}"/>
 	<van-goods-action-button  wx:else text="编辑" type="primary" bind:click="modify"/>
 </van-goods-action>
-<navigator wx:if="{{!userinfo}}" url="/pages/wxlogin/wxlogin">点我去登录使用全部功能</navigator>
 </view>
+<navigator wx:if="{{!userinfo}}" url="/pages/wxlogin/wxlogin">点我去登录使用全部功能</navigator>
 <!-- 选用板块 -->
-<!-- 该用户还发布了 -->
+<!-- 该书更多版本 -->
+<view wx:if='{{iteminfo.isbn}}'>
+	<view class="divtitle"  bindtap="gobook">
+			<image src="/images/recommend.png"></image>
+			<view>同款书，比比价</view>
+  </view>
+	<book isbn='{{iteminfo.isbn}}'></book>
+</view>
+<!--该用户还发布了-->
 <block wx:if='{{morepub}}'>
-	<view class="divtitle">
+	<view class="divtitle" bindtap="gouser">
 			<image src="/images/recommend.png"></image>
 			<view>该用户还发布了</view>
   </view>
@@ -98,5 +107,4 @@
             </block>
       </view>
 </block>
-<!-- 该书更多版本 -->
-<block wx:if='{{isbn!=0}}'></block>
+

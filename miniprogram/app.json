@@ -5,8 +5,6 @@
     "pages/cart/cart",
 		"pages/detail/detail",
 		"pages/publish/publish",
-    "pages/orderdetail/orderdetail",
-    "pages/orderlist/orderlist",
     "pages/help/help",
     "pages/kefu/kefu",
     "pages/parse/parse",
@@ -20,7 +18,7 @@
     "pages/sell/list",
     "pages/modify/modify",
 		"pages/profile/profile",
-		"pages/collection/collecttion",
+		"pages/collection/collection",
 		"pages/want/want",
 		"pages/wantlist/wantlist",
 		"pages/chat/chat",
@@ -78,8 +76,11 @@
         "selectedIconPath": "/images/tabbar/my-selected.png"
       }
     ]
-  },
+	},
+	"lazyCodeLoading": "requiredComponents",
   "usingComponents": {
+		"book":"components/book/index",
+		"waterfall":"components/waterfall/waterfall",
 		"chat-box":"components/chatbox/index",
 		"cu-custom": "colorui/components/cu-custom",
 		"painter":"components/painter/painter",

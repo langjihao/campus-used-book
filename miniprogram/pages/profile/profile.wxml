@@ -2,11 +2,11 @@
 <!-- 顶部信息栏 -->
 <view class="profile-card">
   <!-- 封面 -->
-  <image class="poster" src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/banner/640.jpg" mode="aspectFill" />
+  <image class="poster" src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/campus/{{campus}}.jpg" mode="aspectFill" />
 
   <!-- 用户 -->
   <view class="user-info">
-    <view class="avatar-info" bindtap="{{userinfo?'e':'login'}}">
+    <view class="avatar-info" bindtap="{{userinfo?'edit':'login'}}">
       <image wx:if="{{userinfo}}" class="avatar" src="{{userinfo.avatarUrl}}"/>
       <image wx:if="{{!userinfo}}" class="avatar" src="/images/avator.png"/>
     </view>
@@ -16,7 +16,6 @@
     </view>
     <text wx:if="{{userinfo}}" class="nickname">{{userinfo.nickName}}</text>
     <text wx:if="{{!userinfo}}" class="nickname" bindtap="login">点击登录</text>
-    <text class="signature">用户签名区</text>
   </view>
 </view>
 <view class="blank"></view>

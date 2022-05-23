@@ -1,35 +1,39 @@
-
-<view class="top-bg"></view>
 <view class="contain">
-      <view class="card">
-            <view class="title">修改资料</view>
-            <button class="phone" bindtap="navitoauth">
-                  <block wx:if="{{!userinfo.isauth}}" > 请点击去实名认证页</block>
-                  <block wx:if="{{userinfo.isauth}}">您已实名</block>
-                  <image wx:if="{{!userinfo.isauth}}" class="right" src="/images/enter.png" />
-            </button>
-            <picker bindchange="choose" value="{{ids}}" range="{{campus}}" range-key="name">
-                  <view class="campus">
-                        <block wx:if="{{ids!==-1}}">当前选择：{{campus[ids].name}}</block>
-                        <block wx:if="{{ids==-1}}">请选择您所在校区</block>
-                        <image class="right" src="/images/enter.png" />
-                  </view>
-            </picker>
-             <view class="contact">
-                  TEL：
-                  <input bindinput="telInput" value="{{tel}}" maxlength="30" placeholder-class="pache" placeholder="输入您的手机号码" />
-                  <radio checked='{{check}}'  bindtap='same'>微信同号</radio>
-            </view>
-            <block wx:if="{{!check}}">
-            <view class="contact">
-                  <input bindinput="wxInput" value="{{wxnum}}" maxlength="30" placeholder-class="pache" placeholder="输入您的微信号(选填)" />
-            </view>
-            </block>
-            <view class="contact">
-            QQ:
-                  <input type="number" bindinput="qqInput" value="{{qqnum}}" maxlength="20" placeholder-class="pache" placeholder="输入您的QQ号(选填)" />
-            </view>
+<!-- 自同步区域 -->
+<view class="box" style="display: flex;">
+      <view class="cu-avatar round lg" style="background-image:url({{avatarUrl}});"></view>
+      <view class="text-xl padding">
+        <text class="text-black text-bold">{{nickName}}</text>
       </view>
-      <!--底部确认-->
-      <button class="confirm" bindtap="check">提交修改</button>
+			<van-button style="justify-self: right;align-self: center;" size="small" round bindtap="getUserProfile">点击更新</van-button>
+</view>
+<view style="height:20rpx"></view>
+<!-- 其他信息框 -->
+<van-cell-group class="box">
+<van-cell title="校区" is-link icon="/images/sort.png" bind:click="showPopup"value="{{campus}}">
+</van-cell>
+<van-popup show="{{show}}" bind:close="showPopup" round position="bottom">
+  <van-picker columns="{{campuslist}}" show-toolbar
+  title="选择类别" bind:cancel="showPopup" bind:confirm = "showPopup"
+  bind:change="choose"/>
+</van-popup>
+
+<van-field 
+label="QQ"
+left-icon="/images/QQ.png"
+value="{{QQ}}"
+placeholder="{{QQ}}"
+bind:change="qqInput">
+</van-field>
+<van-field 
+label="微信"
+left-icon="/images/weixin.png"
+value="{{WX}}"
+placeholder="{{WX}}"
+bind:change="wxInput"
+>
+</van-field>
+</van-cell-group>
+<view style="height: 20rpx;"></view>
+<van-button type="primary" round bindtap="check" size="large">确认修改</van-button>
 </view>

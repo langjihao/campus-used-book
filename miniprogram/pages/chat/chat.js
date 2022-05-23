@@ -6,35 +6,49 @@ const config = require("../../config.js");
 Page({
   data: {
 		InputBottom: 0,
-		showusual:false
+		showusual:false,
+		focus:false
 	},
 	//键盘弹起，输入框调节
   InputFocus(e) {
     this.setData({
-      InputBottom: e.detail.height
+			InputBottom: e.detail.height,
+			focus:true
     })
 	},
+		//跳转详情
+		detail(e) {
+			wx.navigateTo({
+						url: '/pages/detail/detail?scene=' + this.data.iteminfo.itemid,
+			})
+		},
 	//键盘关闭
   InputBlur(e) {
     this.setData({
-      InputBottom: 0
+			InputBottom: 0,
+			focus:false
     })
 	},
-	async	onLoad(e){
+	onLoad(e){
+		let that = this;
 			this.setData({
 				roomId:e.scene
 			})
-			let iteminfo = await db.collection("chatlist").doc(e.scene).get();
-			if(iteminfo.buyeropenid==wx.getStorageSync('openid')){
-				var usual = JSON.parse(config.data).buy;
-			}
-			else{
-				var usual = JSON.parse(config.data).sell
-			}
-			this.setData({
-				iteminfo:iteminfo.data,
-				usual:usual,
-			})
+			db.collection("chatlist").doc(e.scene).get({
+				success(res){
+					if(res.data.buyeropenid==wx.getStorageSync('openid')){
+						var usual = JSON.parse(config.data).buy;
+					}
+					else{
+						var usual = JSON.parse(config.data).sell
+					}
+					that.setData({
+						iteminfo:iteminfo.data,
+						usual:usual,
+					})
+				}
+			});
+			
 	},
 	//选择图片
 	selectImg() {
@@ -82,7 +96,10 @@ Page({
   },
 	//发送
   async submit() {
-    var that = this;
+		var that = this;
+		this.setData({
+			focus:true
+		})
       wx.cloud.callFunction({
         name: 'chatpush',
         data: {

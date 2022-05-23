@@ -1,0 +1,9 @@
+{
+	"triggers": [
+    {
+      "name": "every",
+      "type": "timer",
+      "config": "0 31 * * * * *"
+		}
+	]
+}

@@ -1,48 +1,38 @@
-<wxs src="../../common.wxs" module="morejs" />
-<van-button bindtap="test">ceshi</van-button>
-<view class="contain">
-      <view class="card">
-            <view class="box1">
-                  <view class="box1_1">
-                        <view class="box_1_1"></view>
-                        <view class="box_1_2">{{num}}.00</view>
-                  </view>
-                  <view class="box1_2"></view>
-            </view>
-            <view class="box2">
-                  <view class="box2_1">
-                        <view class="box2_1_1" catchtap="go" data-go="/pages/recharge/recharge">充值</view>
-                        <view class="box2_1_2" catchtap="go" data-go="/pages/reflect/reflect">提现</view>
-                  </view>
-            </view>
+<cu-custom isBack="{{true}}"><view bindtap="back" slot="backText">返回</view><view slot="content">我的碳积分</view></cu-custom>
+<image class='bg' src='cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/src/carbon.jpg'></image>
+<view class="UCenter-bg">
+    <image src="{{avatarUrl}}" class="cu-avatar xl round"></image>
+		<view class="box">
+			<view class="text-xl padding">
+        <text class="text-black text-bold">我已经累计减碳{{num}}g</text>
       </view>
+			<van-cell title="数据说明" is-link bind:click="showPopup" data-id='{{1}}'>
+			</van-cell>
+			<van-cell title="碳积分有什么用？" is-link bind:click="showPopup" data-id='{{2}}'>
+			</van-cell>
+			<van-cell title="获得更多碳积分"is-link bind:click="gotopub">
+			</van-cell>
+		</view>
 </view>
-
-<!-- <view class="listContain">
-      <view class="title">--交易明细--</view>
-      <block wx:for="{{list}}" wx:key="_id">
-            <view class="list">
-                  <view class="list_1">
-                        <view class="list_1_1">{{item.name}}</view>
-                        <view class="list_1_2">{{morejs.format(item.stamp)}}</view>
-                  </view>
-                  <view class="list_2 {{item.type==1?'green':'red'}}">{{item.type==1?'+':'-'}}{{item.num}} 元</view>
-            </view>
-      </block>
-</view> -->
-<block wx:if="{{list.length>20}}">
-      <import src="/common.wxml" />
-      <template is="loadmore" data="{{nomore}}" />
-</block>
-<van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">
-      <view class="totop" bindtap="gotop">
-            <image src="/images/top.png"></image>
-      </view>
-</van-transition>
-
-
-<!--无内容显示-->
-<!-- <view class="nocontent" wx:if="{{list.length==0}}">
-      <image src="/images/blank.png"></image>
-      <view class="blank_text">这里空空如也~</view>
-</view> -->
+<!-- 提示框 -->
+<van-dialog
+			use-slot
+			title="数据说明"
+			show="{{show==1}}"
+			bind:confirm="close">
+		<view style="padding: 20rpx 20rpx;">根据北京绿交所数据，每千克纸制品产生碳排放约3500g，按照每本书重200g计算，每本二手交易书籍可以减少700g碳排放</view>
+</van-dialog>
+<van-dialog
+			use-slot
+			title="碳积分有什么用？"
+			show="{{show==2}}"
+			bind:confirm="close">
+		<view class="text-blue" style="padding: 20rpx 20rpx;" bindtap="showPopup" data-id ='{{3}}'>没什么用,但是</view>
+</van-dialog>
+<van-dialog
+			use-slot
+			title="不白折腾"
+			show="{{show==3}}"
+			bind:confirm="close">
+		<view style="padding: 20rpx 20rpx;">等开发者以后赚钱了会替你买下学校所有花草树木的冠名权</view>
+</van-dialog>

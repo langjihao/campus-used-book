@@ -38,7 +38,8 @@ Page({
             }
             wx.setNavigationBarTitle({
                   title:'"'+ that.data.key + '"的搜索结果',
-            })
+						})
+						//写入历史记录
             let history = that.data.hislist.concat(that.data.key);
             //去重
             var his = history.filter(function(element,index,self){
@@ -54,11 +55,12 @@ Page({
                         options: 'i',
                   })
             }).orderBy('creat', 'desc').limit(20).get({
-                  success(e) {
+                  success(res) {
 											if (res.data.length == 0) {
 											that.setData({
 														nomore: true
 											})
+											wx.hideLoading();
 											return false;
 											}
 											if (res.data.length < 20) {
@@ -70,12 +72,10 @@ Page({
                         that.setData({
                               blank: true,
                               page: 0,
-                              list: e.data,
+                              list: res.data,
                               nomore: false,
                         })
-                  },
-                  fail(res){console.log(res)}
-            })
+                  },})
       },
       //删除所有历史记录
       deleteall(e){
@@ -103,7 +103,10 @@ Page({
       },
       //获取输入的关键词
       keyInput(e) {
-            this.data.key = e.detail
+						this.data.key = e.detail
+						this.setData({
+							list:[]
+						})
       },
       //至顶
       gotop() {
@@ -124,11 +127,6 @@ Page({
                   return false
             }
             let page = that.data.page + 1;
-            if (that.data.sortCur == -2) {
-                  var sortid = _.neq(-2); //除-2之外所有
-            } else {
-                  var sortid = that.data.sortCur + '' //小程序搜索必须对应格式
-            }
             db.collection('publish').where({
                   status: 0,
                   key: db.RegExp({

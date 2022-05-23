@@ -1,0 +1,91 @@
+/* 无内容显示 */
+.nocontent {
+	width: 100%;
+	height: calc(100% - 400rpx);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+.nocontent image {
+	width: 340rpx;
+	height: 272rpx;
+}
+.blank_text {
+	padding-top: 40rpx;
+	font-size: 32rpx;
+	letter-spacing: 2rpx;
+	color: #c6c6c8;
+}
+
+/* 瀑布流布局 */
+.waterfall_grid {
+  padding: 25rpx 25rpx;
+  width: 100%;
+  display: flex;
+  justify-content:  space-between;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+.waterfall_one {
+      background-color: #fff;
+      border-radius: 10rpx;
+      margin-top: 20rpx;
+      width: 48%;
+      padding: 5rpx 5rpx;
+      display: flex;
+      box-sizing: content-box;
+      flex-direction: column;
+			align-items: center;
+}
+.waterfall_mainpic {
+  border-radius: 10rpx 10rpx 0 0;
+  width: 330rpx;
+  height: 365rpx;
+}
+.waterfall_title {
+      width: 100%;
+      font-size: 30rpx;
+      letter-spacing: 3rpx;
+      margin-top: 20rpx;
+      line-height: 45rpx;
+}
+.waterfall_author {
+      margin-left: 10rpx;
+      width: 100%;
+      font-size: 26rpx;
+      letter-spacing: 3rpx;
+      color: rgb(129, 129, 129);
+}
+.waterfall_between {
+      margin-top: 5rpx;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+}
+.waterfall_price {
+      font-size: 33rpx;
+      font-weight: bold;
+      color: rgb(255, 0, 0);
+}
+.waterfall_avatar {
+			border-radius: 50%;
+      width: 100rpx;
+}
+.waterfall_buttonarea{
+	justify-content:space-around;
+	width:100%;
+	display: flex;
+	height: 110rpx;
+	align-items: center;
+}
+
+/* 以下为朋友圈布局 */
+.timeline_content{
+	margin-left:120rpx;
+	padding: 0 30rpx;
+	display: flex;
+	box-sizing: border-box;
+	flex-direction: column;
+}

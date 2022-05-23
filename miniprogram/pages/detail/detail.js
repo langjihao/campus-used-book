@@ -35,7 +35,6 @@ Page({
 													that.getmorepub(res.data._openid)
 												}
                   },
-                  //主要是购物车跳转 但原商品已经被删除的情况，或许以后得加上清除购物车记录或者改变商品状态标记
                   fail(res){
                         wx.showModal({
                               cancelColor: 'cancelColor',
@@ -100,14 +99,12 @@ Page({
                   _openid: e
             }).limit(6).get({
                   success(res) {
-                        if(res.data.length===0){}
+                        if(res.data.length<=1){}
                         else{
 													let list=res.data;
 													//用于去掉本商品
-													console.log(list)
 													for(var i=0;i<list.length;i++){
 														if(list[i]._id==that.data.id){
-															console.log(1)
 														 list.splice(i,1)
 														}
 													}
@@ -121,17 +118,11 @@ Page({
                         console.log(res)
                   }
             })
-      },
+			},
       //跳转到购物车页面
       navitocart(){
             wx.switchTab({
                   url: '/pages/cart/cart',
-            })
-      },
-      //获取卖家联系方式
-      contact(){
-            this.setData({
-                  show:true
             })
       },
       //展示用户实名状态
@@ -247,11 +238,25 @@ Page({
 					})
 				if(this.data.userinfo){
 				this.judgecart();
-			}},
+			}
+		  },
 			//修改
 			modify(){
         wx.navigateTo({
           url: '/pages/modify/modify?scene=' + this.data.id
         })
-      },
+			},
+			//查看发布者更多商品
+			gouser(){
+				wx.navigateTo({
+					url: '/pages/collection/collection?type=3&openid='+this.data.iteminfo._openid
+				})
+			},
+			//查看标签更多商品
+			gotag(e){
+				console.log(e)
+				wx.navigateTo({
+					url: '/pages/collection/collection?type=2&tag='+e.currentTarget.dataset.tag
+				})
+			},
     })

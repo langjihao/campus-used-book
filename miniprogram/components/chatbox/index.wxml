@@ -1,5 +1,6 @@
+<wxs src="../../common.wxs" module="morejs" />
 <scroll-view class="cu-chat" scroll-y="true" enable-back-to-top enable-flex scroll-into-view="{{scrollId}}"
-  style="height:{{systemInfo.windowHeight - 50}}px;margin-top: 230rpx;" bindscrolltoupper="tapTop">
+  style="height:{{systemInfo.windowHeight - 50}}px;margin-top: 300rpx;" bindscrolltoupper="tapTop">
   <view wx:for="{{chatList}}" wx:key="index" wx:for-item="item">
     <!--对方发送的信息-->
     <view class="cu-item" wx:if="{{item.openid != openid && item.msgType == 'text'}}" id="msg-{{index}}">
@@ -9,7 +10,7 @@
           <text>{{item.content}}</text>
         </view>
       </view>
-      <view class="date">{{item._createTime}}</view>
+      <view class="date">{{morejs.timelog(item.creat)}}</view>
     </view>
     <view class="cu-item" wx:if="{{item.openid != openid && item.msgType == 'image'}}" id="msg-{{index}}">
       <view class="cu-avatar radius" style="background-image:url({{item.avatar}});"></view>
@@ -26,7 +27,7 @@
         </view>
       </view>
       <view class="cu-avatar radius" style="background-image:url({{item.avatar}});"></view>
-      <view class="date">{{item._createTime}}</view>
+      <view class="date">{{morejs.timelog(item.creat)}}</view>
     </view>
     <view class="cu-item self" wx:if="{{item.openid == openid && item.msgType == 'image'}}" id="msg-{{index}}">
       <view class="main" bindtap="viewImage" data-url="{{item.content}}">

@@ -5,8 +5,7 @@ cloud.init({
 })
 const db = cloud.database();
 const _ = db.command;
-// 时间工具类
-const timeutil = require('./timeutil');
+
 
 // 云函数入口函数 
 exports.main = async (event, context) => {
@@ -14,7 +13,6 @@ exports.main = async (event, context) => {
   // 获取用户唯一身份识别ID
   let openid = wxContext.OPENID || event.openid;
 	let _userInfo_ = await db.collection("user").doc(openid).get();
-	console.log(_userInfo_)
   // 获取用户信息
 	let avatar = _userInfo_.data.avatarUrl;
 	let nickName = _userInfo_.data.nickName;
@@ -25,8 +23,15 @@ exports.main = async (event, context) => {
   // 根据消息类型 -- 进行不同逻辑处理
   switch (msgType) {
     case 'text': {
-      // 获取消息主体内容
-      let content = event.content;
+			// 获取消息主体内容
+			console.log(event)
+			let content = event.content;
+			console.log(roomId)
+			let remind = await db.collection("chatlist").doc(roomId).update({
+				data:	{	lastmsg:content,
+				update:new Date().getTime(),}
+			});
+			console.log(remind)
 			return await db.collection("chat").add({
 				data: {
 					roomId,
@@ -35,7 +40,7 @@ exports.main = async (event, context) => {
 					content,
 					avatar:avatar,
 					nickName:nickName,
-					_createTime: timeutil.TimeCode()
+					creat: new Date().getTime()
 				}
 			})
       } 
@@ -48,7 +53,11 @@ exports.main = async (event, context) => {
         cloudPath: 'cloud-chat/'+md5+'.png',
         fileContent: Buffer.from(content,'base64')
       })
-      let fileID = upData.fileID;
+			let fileID = upData.fileID;
+			await db.collection("chatlist").doc(roomId).update({
+				data:{lastmsg:"[图片消息]",
+				update:new Date().getTime(),}
+			})
 			return await db.collection("chat").add({
 				data: {
 					roomId,
@@ -57,7 +66,7 @@ exports.main = async (event, context) => {
 					content:fileID,
 					avatar:avatar,
 					nickName:nickName,
-					_createTime: timeutil.TimeCode()
+					creat: new Date().getTime()
 				}
 			})
       }

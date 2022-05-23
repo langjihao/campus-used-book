@@ -1,0 +1,32 @@
+<!-- <view class="contain">
+	<view class="box flex" bindtap="gobook">
+					<view class="poster">
+								<image src="{{bookinfo.pic}}" />
+					</view>
+					<view class="content">
+								<view class="title text-cut">{{bookinfo.title}}</view>
+								<view class="dcontain">
+											<view class="author text-cut">{{bookinfo.author}}</view>
+								</view>
+								<view class="des">{{bookinfo.summary}}
+								</view>
+					</view>
+	</view>
+</view> -->
+<view class="cu-card article" bindtap="gobook">
+  <view class="cu-item shadow">
+    <view class="title">
+      <view class="text-cut">《{{bookinfo.title}}》</view>
+    </view>
+    <view class="content">
+      <image src="{{bookinfo.pic}}" mode="heightFix"></image>
+      <view class="desc">
+        <view class="text-content">{{bookinfo.summary}}</view>
+        <view>
+          <view class="cu-tag bg-red light sm round">正义天使</view>
+          <view class="cu-tag bg-green light sm round">史诗</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

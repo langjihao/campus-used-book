@@ -162,13 +162,6 @@
           "query": "",
           "launchMode": "default",
           "scene": null
-        },
-        {
-          "name": "求购大厅",
-          "pathName": "pages/wanthall/wanthall",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
         }
       ]
     }
