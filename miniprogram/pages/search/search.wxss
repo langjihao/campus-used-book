@@ -30,7 +30,8 @@
       align-items: center;
       border-bottom: 1rpx solid #eee;
       width: 100%;
-      padding: 20rpx 0;
+			padding: 20rpx 0;
+			word-wrap:break-word;
 }
 
 .a image {
@@ -40,6 +41,7 @@
       padding-right: 20rpx;
 }
 .a view{
+	word-wrap:break-word;
   font-size: 30rpx;
   letter-spacing: 2rpx;
 }

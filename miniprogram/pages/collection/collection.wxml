@@ -39,5 +39,5 @@
       </view>
 </view>
 </block>
-<waterfall list = "{{list}}" showtype = "{{showtype}}"></waterfall>
+<waterfall list = "{{list}}" nomore = "{{nomore}}"></waterfall>
 

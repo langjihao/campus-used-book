@@ -1,34 +1,18 @@
-<wxs src="../../common.wxs" module="morejs" />
-<wxs  module="pic">
-	var colnum=function(piclist){
-		if(piclist.length==2||piclist.length==4){
-			return("col-2 grid-square")}
-		else if(piclist.length==1){
-			return("col-1 grid-square")
-		}
-		else{
-			return("col-3 grid-square")
-		}
 
-	}
-	module.exports={
-		colnum:colnum
-	}
-</wxs>
-<van-sticky>
-<view style="height:{{barheight-30}}px;background-color:#39b54a;top:0px"></view>
-</van-sticky>
-<view class="top-bg"></view>
-<!-- 搜索栏 -->
-<van-sticky offset-top="{{30}}" >
-<view class="cu-bar search bg-green" bindtap="gotoserach">
-    <image src='{{showtype==1?"/images/card.png":"/images/friend.png"}}' style="height: 60rpx;width: 60rpx;margin-left: 20rpx;" catch:tap="changeshowtype"></image>
-    <view class="search-form round" >
+<view class="navigation-container" style="height:{{navigationBarAndStatusBarHeight}}px;background-color: #39b54a;">
+    <!--空白来占位状态栏-->
+    <view style="height:{{statusBarHeight}}px"></view>
+
+		<view class="cu-bar search bg-green" bindtap="gotoserach" style="height:{{navigationBarHeight}}px">
+    <view class="search-form round findbar"  >
       <text class="cuIcon-search"></text>
-      <input type="text" placeholder="搜索图书、作者、适用课程" bindtap = "gotosearch" confirm-type="gotosearch"></input>
+      <input type="text" placeholder="搜索" bindtap = "gotosearch" confirm-type="gotosearch"></input>
     </view>
-  </view>
-</van-sticky>
+  </view>    
+</view>
+<!--空白占位fixed空出的位置-->
+<view style="height:{{navigationBarAndStatusBarHeight}}px; background:#39b54a"></view>
+<view class="top-bg"></view>
 <!-- banner配置 -->
 <view class='banner_warp'>
 <swiper class='banner'  circular="true" autoplay="true"  duration="500">
@@ -40,35 +24,17 @@
 </swiper>
 </view>
 <!--分类导航-->
-<van-sticky offset-top="{{barheight}}" >
-<!-- 条件筛选区 -->
-<view class="checkarea">
-	<van-checkbox  checked-color="#07c160" value="{{onlycampus}}" bind:change="onlycampus">只看本校区</van-checkbox>
-	<van-checkbox  checked-color="#07c160" value="{{onlysell}}" bind:change="onlysell">不看求购</van-checkbox>
-</view>
-<van-tabs  swipeable color = "#39b54a"  active="{{active}}" bind:click = "gettab">
-      <van-tab wx:for="{{sort}}" wx:key='id' title = "{{item.name}}"></van-tab>
+<van-tabs sticky offset-top="{{navigationBarAndStatusBarHeight}}"  swipeable color = "#39b54a"  active="{{active}}" bindchange="gettab" bind:click = "gettab">
+      <van-tab wx:for="{{sort}}" wx:key='id' title = "{{item.name}}">
+			<!-- 商品显示组件 -->
+<waterfall list="{{list}}" nomore="{{nomore}}"></waterfall></van-tab>
 </van-tabs>
-</van-sticky>
 <view style="height: 20rpx"></view>
-<!-- 商品显示组件 -->
-<waterfall list="{{list}}" showtype="{{showtype}}" nomore="{{nomore}}"></waterfall>
+
 <!-- 未登录提示 -->
 <navigator url='/pages/wxlogin/wxlogin' class="nologin" wx:if="{{!userinfo}}" >
       <button style='position:fixed;width:100%;bottom:0'>当前未登录,点我去登陆</button>
 </navigator>
-<!-- 弹窗说明 -->
-<view style="z-index: 99999;position: absolute;">
-<van-dialog
-  use-slot
-  title="信息说明"
-  show="{{ showtip }}"
-  show-cancel-button
-  bind:confirm="showtip"
->
-<view style="padding: 20rpx 20rpx;">该交易信息爬取自互助群，其时效性可能无法保证</view>
-</van-dialog>
-</view>
 <van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">
       <view class="totop" bindtap="gotop">
             <image  lazy-load src="/images/top.png"></image>

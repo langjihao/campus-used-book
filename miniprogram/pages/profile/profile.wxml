@@ -2,12 +2,12 @@
 <!-- 顶部信息栏 -->
 <view class="profile-card">
   <!-- 封面 -->
-  <image class="poster" src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/campus/{{campus}}.jpg" mode="aspectFill" />
+  <image class="poster" lazy-load src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/campus/{{campus}}.jpg" mode="aspectFill" />
 
   <!-- 用户 -->
   <view class="user-info">
     <view class="avatar-info" bindtap="{{userinfo?'edit':'login'}}">
-      <image wx:if="{{userinfo}}" class="avatar" src="{{userinfo.avatarUrl}}"/>
+      <image wx:if="{{userinfo}}" class="avatar" lazy-load src="{{userinfo.avatarUrl}}"/>
       <image wx:if="{{!userinfo}}" class="avatar" src="/images/avator.png"/>
     </view>
     <view class="btn-group">
@@ -28,11 +28,11 @@
       </view>
       <view class="center_1">
             <image src="/images/want.png" bindtap="go" data-go="/pages/wantlist/wantlist"></image>
-            <view>我想买的todo</view>
+            <view>我想买的</view>
       </view>
       <view class="center_1">
             <image src="/images/collect.png" bindtap="go" data-go="/pages/cart/cart"></image>
-            <view>我收藏的todo</view>
+            <view>我收藏的</view>
       </view>
 </view>
 <view class="blank"></view>
@@ -44,28 +44,36 @@
                   <image src="/images/help.png"></image>
                   <view>帮助中心</view>
             </view>
-            <image src="/images/go.png"></image>
+						<view class="solid-bottom text-xl padding">
+        			<text class=" cuIcon-right"></text>
+      			</view>
       </view>
 			<view class="bottom_card" bindtap="go" data-go="/pages/parse/parse">
             <view class="bottom_1">
                   <image src="/images/carbon.png"></image>
                   <view>我的碳积分</view>
             </view>
-            <image src="/images/go.png"></image>
+            						<view class="solid-bottom text-xl padding">
+        			<text class=" cuIcon-right"></text>
+      			</view>
       </view>
       <view class="bottom_card" bindtap="go" data-go="/pages/kefu/kefu">
             <view class="bottom_1">
                   <image src="/images/kefu.png"></image>
                   <view>联系客服</view>
             </view>
-            <image src="/images/go.png"></image>
+            						<view class="solid-bottom text-xl padding">
+        			<text class=" cuIcon-right"></text>
+      			</view>
       </view>
       <view class="bottom_card">
             <view class="bottom_1">
                   <image src="/images/feedback.png"></image>
                   <view>问题反馈</view>
             </view>
-            <image src="/images/go.png"></image>
+            						<view class="solid-bottom text-xl padding">
+        			<text class=" cuIcon-right"></text>
+      			</view>
             <button open-type="feedback"></button>
       </view>
 </view>

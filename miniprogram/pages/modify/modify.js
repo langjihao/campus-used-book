@@ -49,7 +49,7 @@ Page({
       this.setData({
       isQQ:!this.data.isQQ
     })}else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: 'QQ为空',
       })
     }
@@ -59,7 +59,7 @@ Page({
       this.setData({
       isWX:!this.data.isWX
     })}else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '微信为空',
       })}
   },
@@ -99,7 +99,7 @@ Page({
                   })
             },
             fail(res){
-                  wx.showToast({
+                  wx.showToast({icon:"none",
                     title: '请选择或输入地址',
                   })
             }
@@ -139,14 +139,6 @@ Page({
   upload(){
     let that=this;
     const { fileList } = this.data;
-    for(var i=0;i<fileList.length;i++){
-      if(fileList[i].type==0){
-				fileList.splice(i,1);
-				that.setData({
-					piclist:that.data.piclist.concat([fileList[i].url])
-				})
-      }
-    }
     if (!fileList.length&&!that.data.originpic.length) {
     wx.showModal({
       title:"提示",
@@ -174,7 +166,7 @@ Page({
     this.uploadFilePromise(that.data.userinfo.UID+new Date().getTime()+`item.png`, file));
     Promise.all(uploadTasks)
       .then(data => {
-        wx.showToast({ title: '上传成功', icon: 'none' });
+        wx.showToast({icon:"none", title: '上传成功', icon: 'none' });
         const newFileList = data.map(item => (item.fileID));
         that.setData({
           piclist:that.data.piclist.concat(newFileList)
@@ -183,17 +175,20 @@ Page({
 
       })
       .catch(e => {
-        wx.showToast({ title: '上传失败', icon: 'none' });
+        wx.showToast({icon:"none", title: '上传失败', icon: 'none' });
         console.log(e);
       });
   }
   },
   //上传图片
   uploadFilePromise(fileName, chooseResult) {
+		if(chooseResult.type==0){
+			return({fileID:chooseResult.url})
+		}else{
   return wx.cloud.uploadFile({
     cloudPath: fileName,
     filePath: chooseResult.url
-  });
+  });}
   },
   //更新数据库
   publish() {
@@ -220,7 +215,7 @@ Page({
                 nickName:that.data.userinfo.nickName,
                 },
           success(e) {
-                wx.showToast({
+                wx.showToast({icon:"none",
                   title: '发布成功',
                 }),
                 that.setData({
@@ -243,7 +238,7 @@ Page({
       })
     };
     if(!(this.data.isQQ||this.data.isWX)){
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '请至少选择一种联系方式',
       })
       return
@@ -314,7 +309,7 @@ Page({
     })
 
     if (!label.active && labelsActive.length >= 3) {
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '最多选择三个标签',
       })
       return

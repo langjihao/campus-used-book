@@ -37,8 +37,6 @@ Component({
     attached() {
       var that = this;
       that.initMessageHistory();
-      //初始化监听器
-      // that.initWatcher();
       wx.getSystemInfo({
         success: function (res) {
           that.setData({
@@ -120,7 +118,7 @@ Component({
           if (newsLen == 0) {
             //查无数据
             setTimeout(function () {
-              wx.showToast({
+              wx.showToast({icon:"none",
                 title: '到顶了',
                 icon: 'none'
               })

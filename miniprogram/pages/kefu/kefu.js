@@ -22,7 +22,7 @@ Page({
             wx.setClipboardData({
                   data: e.currentTarget.dataset.copy,
                   success: res => {
-                        wx.showToast({
+                        wx.showToast({icon:"none",
                               title: '复制' + e.currentTarget.dataset.name+'成功',
                               icon: 'success',
                               duration: 1000,

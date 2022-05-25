@@ -8,7 +8,8 @@ Page({
        * 页面的初始数据
        */
       data: {
-            morepub:false
+						morepub:false,
+						height:[]
       },
       onLoad(e){
 					this.data.id = e.scene;
@@ -61,7 +62,7 @@ Page({
 				wx.setClipboardData({
 					data: Q,
 					success: res => {
-								wx.showToast({
+								wx.showToast({icon:"none",
 											title: '复制成功',
 											icon: 'success',
 											duration: 1000,
@@ -127,7 +128,7 @@ Page({
       },
       //展示用户实名状态
       showauth(){
-            wx.showToast({
+            wx.showToast({icon:"none",
               title: '该用户已实名认证',
             })
       },
@@ -156,7 +157,7 @@ Page({
                         creat : new Date().getTime()
                   },
                   success(res){
-                        wx.showToast({
+                        wx.showToast({icon:"none",
                           title: '添加成功',
                         })
                   },
@@ -259,4 +260,23 @@ Page({
 					url: '/pages/collection/collection?type=2&tag='+e.currentTarget.dataset.tag
 				})
 			},
+			
+			goheight(e){
+					const { height } = this.data;
+					var width = wx.getSystemInfoSync().windowWidth
+					var imgheight = e.detail.height
+					var imgwidth = e.detail.width
+					var he = width * imgheight / imgwidth
+					height.push(he)
+					this.setData({
+						swiperheight:this.data.height[0]
+					})
+			},
+			
+			changeheight(e){
+				this.setData({
+					swiperheight:this.data.height[e.detail.current]
+				})
+	}
+
     })

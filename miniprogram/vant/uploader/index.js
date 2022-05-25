@@ -120,7 +120,7 @@ VantComponent({
                 urls: lists.filter((item) => isImageFile(item)).map((item) => item.url),
                 current: item.url,
                 fail() {
-                    wx.showToast({ title: '预览图片失败', icon: 'none' });
+                    wx.showToast({icon:"none", title: '预览图片失败', icon: 'none' });
                 },
             });
         },
@@ -135,7 +135,7 @@ VantComponent({
                     .map((item) => (Object.assign(Object.assign({}, item), { type: 'video' }))),
                 current: index,
                 fail() {
-                    wx.showToast({ title: '预览视频失败', icon: 'none' });
+                    wx.showToast({icon:"none", title: '预览视频失败', icon: 'none' });
                 },
             });
         },

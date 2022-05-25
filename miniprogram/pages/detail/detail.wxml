@@ -8,12 +8,12 @@
       <view class="cu-item">
         <view class="cu-avatar round lg" style="background-image:url({{iteminfo.avatar}});" bindtap="gouser"></view>
         <view class="namearea flex-sub">
-          <view class="text-xl text-bold">{{iteminfo.nickName}}</view>
+          <view class="text-xl">{{iteminfo.nickName}}</view>
           <view class="text-gray text-sm flex justify-between">
             {{morejs.timelog(iteminfo.creat)}}
           </view>
         </view>
-				<view style="right:5rpx;display:flex;flex-direction: column;">
+				<view style="right:35rpx;display:flex;flex-direction: column;">
 				<van-tag round wx:if="{{iteminfo.type==0||iteminfo.type==2}}" color="#F7D6E0" plain>出闲置</van-tag>
 				<van-tag round wx:else color="#B2F7EF" plain>求购</van-tag>
 				</view>
@@ -22,23 +22,28 @@
     <view class="text-xl text-bold padding">
       {{iteminfo.title}}
     </view>
+		<!-- 标签区域 -->
+		<view class="padding-sm flex flex-wrap" wx:if="{{iteminfo.tag.length>0}}">
+		<view class="padding-xs" wx:for="{{iteminfo.tag}}">
+			<view class="cu-tag radius" catchtap="gotag" data-tag="{{item}}">{{item}}</view>
+		</view>
+		</view>
 		<view wx:if="{{iteminfo.price}}" class="solid-bottom text-xxl padding">
         <text class="text-price text-red">{{iteminfo.price}}</text>
     </view>
+		<view class="solid-bottom text-xl padding" wx:if="{{iteminfo.place}}" >
+        <text class="cuIcon-locationfill"></text>{{iteminfo.place}}
+    </view>
 		<!-- 商品图片轮播 -->
-		<view wx:if="{{iteminfo.piclist.length!=0}}" style="padding: 10rpx;">
-			<swiper indicator-dots class="swiper" indicator-active-color="#39b54a" circular>
+		<view wx:if="{{iteminfo.piclist.length!=0}}" style="padding: 20rpx;">
+			<swiper indicator-dots  indicator-active-color="#39b54a" circular style="height:{{swiperheight}}px;" bindchange="changeheight">
       <block wx:for="{{iteminfo.piclist}}" wx:key="id">
-            <swiper-item class="top_img" style="width: 100%;box-sizing: content-box;">
+            <swiper-item class="top_img" >
                   <image
-                  src = "{{item}}" mode="aspectFit" data-list="{{iteminfo.piclist}}" data-src="{{item}}"  bindtap='picview'/>
+                  src = "{{item}}" mode="widthFix" bindload='goheight' data-list="{{iteminfo.piclist}}" data-src="{{item}}"  bindtap='picview'/>
             </swiper-item>
       </block>
 </swiper>
-		</view>
-		<view style = "padding-top:10rpx;padding-left:10rpx;display:flex;">
-		<!-- <van-tag type="info" size="small" wx:if="{{iteminfo.kind!=0}}">{{sort[iteminfo.kind]}}</van-tag> -->
-		<van-tag plain round type="success" wx:for="{{iteminfo.tag}}" size="large" bindtap="gotag" data-tag="{{item}}">{{item}}</van-tag>
 		</view>
 		<van-cell-group>
 		<van-cell wx:if='{{iteminfo.isQQ}}' title="QQ:{{iteminfo.QQ}}" icon="/images/qq.png">
@@ -57,8 +62,7 @@
 		</view>
 		</van-cell>
 		</van-cell-group>
-    <view class="text-gray text-sm text-right padding">
-      <text class="cuIcon-attentionfill margin-lr-xs"></text> {{iteminfo.like}}
+    <view class="text-gray text-l text-right padding">{{iteminfo.view}}人看过
     </view>
   </view>
 </view>
@@ -72,11 +76,12 @@
   <van-goods-action-icon icon="wap-home-o" bind:click='home' />
   <van-goods-action-icon icon="{{iscart?'cart':'cart-o'}}"  info="{{cartnum}}" bind:click="navitocart"/>
   <van-goods-action-icon icon="share-o" open-type="share"/>
-	<van-goods-action-button  wx:if="{{userinfo._openid!=iteminfo._openid}}" text="{{iscart?'已加购':'加入购物车'}}" type="primary" bind:click="{{iscart?'delete':'add'}}"/>
-	<van-goods-action-button  wx:else text="编辑" type="primary" bind:click="modify"/>
+	<van-goods-action-button  wx:if="{{userinfo._openid!=iteminfo._openid&&iteminfo.status==0}}" text="{{iscart?'已加购':'加入购物车'}}" type="{{iscart?'default':'primary'}}" bind:click="{{iscart?'delete':'add'}}"/>
+	<van-goods-action-button  wx:if="{{userinfo._openid==iteminfo._openid}}" text="编辑" type="primary" bind:click="modify"/>
+	<van-goods-action-button  wx:if="{{userinfo._openid!=iteminfo._openid&&iteminfo.status!=0}}" text="来晚啦" type="primary" disabled/>
 </van-goods-action>
 </view>
-<navigator wx:if="{{!userinfo}}" url="/pages/wxlogin/wxlogin">点我去登录使用全部功能</navigator>
+<navigator class="foot" wx:if="{{!userinfo}}" url="/pages/wxlogin/wxlogin">点我去登录使用全部功能</navigator>
 <!-- 选用板块 -->
 <!-- 该书更多版本 -->
 <view wx:if='{{iteminfo.isbn}}'>

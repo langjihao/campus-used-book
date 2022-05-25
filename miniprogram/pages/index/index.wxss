@@ -25,12 +25,11 @@
 	z-index: 99999;
 	top:0px;
 }
-.checkarea{
-	align-items: center;
-	height: 50rpx;
-	display: flex;
-	background-color: #fff;
-	justify-content: space-around;
+
+.findbar{
+	width:400rpx;
+	position: fixed;
+	left:40rpx
 }
 ::-webkit-scrollbar {
       width: 0;
@@ -44,3 +43,44 @@
       background: #eee;
 }
 
+
+/* navigationBar.wxss */
+.navigation-container {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+}
+.navigation-bar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.navigation-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 15px;
+  background-color: transparent;
+}
+.nav-img{
+  height: 16px;
+  width: 16px;
+}
+.navigation-title {
+  position: absolute;
+  left: 104px;
+  right: 104px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -5,12 +5,9 @@
 	padding: 10rpx;
 	box-sizing: content-box;
 }
-.swiper {
-	height:750rpx
-}
 
 .top_img image {
-	height: 100%;
+	box-sizing: content-box;
 	width: 100%;
 }
 

@@ -1,7 +1,7 @@
 /* 无内容显示 */
 .nocontent {
 	width: 100%;
-	height: calc(100% - 400rpx);
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -10,14 +10,9 @@
 }
 .nocontent image {
 	width: 340rpx;
-	height: 272rpx;
+	height: 400rpx;
 }
-.blank_text {
-	padding-top: 40rpx;
-	font-size: 32rpx;
-	letter-spacing: 2rpx;
-	color: #c6c6c8;
-}
+
 
 /* 瀑布流布局 */
 .waterfall_grid {
@@ -88,4 +83,12 @@
 	display: flex;
 	box-sizing: border-box;
 	flex-direction: column;
+}
+.checkarea{
+	margin-top:20rpx;
+	align-items: center;
+	height: 50rpx;
+	display: flex;
+	background-color: #fff;
+	justify-content: space-around;
 }

@@ -37,17 +37,20 @@ Component({
    * 组件的方法列表
    */
   methods: {
-		//获取图书详情
-		querybook(e){
-			console.log(e)
+		//查询书籍详情
+		querybook(isbn) {
 			let that = this;
-			db.collection('books').where({
-				isbn:e
-			}).get().then(res=>{
-				that.setData({
-					bookinfo:res.data[0]
-				})
-				})
+			wx.cloud.callFunction({
+				name:"books",
+				data:{
+					isbn:isbn
+				},
+				success(res){
+					that.setData({
+						bookinfo:res.result
+					})
+				}
+			})
 		},
 		//跳转该书合集
 		gobook(){
@@ -55,5 +58,5 @@ Component({
 				url: '/pages/collection/collection?type=1&isbn='+this.properties.isbn
 			})
 		}
-		},
+	},
 })

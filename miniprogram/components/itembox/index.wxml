@@ -1,0 +1,17 @@
+
+<view class="cu-card article" bindtap="detail">
+  <view class="cu-item shadow">
+    <view class="content">
+      <image src="{{iteminfo.pic}}" mode="heightFix"></image>
+      <view class="title">
+        <view class="text-cut">{{iteminfo.title}}</view>
+        <view>
+          <view class="cu-tag bg-green light sm round">{{iteminfo.author}}</view>
+					<view  class="solid-bottom text-xl padding">
+        	<text class="text-price text-red">{{iteminfo.price}}</text>
+    			</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,10 +1,10 @@
 /* pages/verify/verify.wxss */
-.contain {
-  top: 176rpx;
-  left: 0rpx;
+.inputbox {
   width: 100%;
   padding: 0rpx 40rpx 0rpx 40rpx;
-  box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .title {
@@ -15,34 +15,18 @@
   letter-spacing: 6rpx;
 }
 .inputbar {
-  margin-top: 24rpx;
-  width: 100%;
-  height: 92rpx;
+	margin-top: 32rpx;
+	width: 100%;
+	height: 100rpx;
   background: #f1f3f8;
   border-radius: 10rpx;
   text-align: left;
   padding: 0 36rpx;
   box-sizing: border-box;
   font-size: 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   color: #0e0e0f;
 }
-.contact input {
-  width: 100%;
-  height: 100%;
-}
-.avatar {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 50%;
-  overflow: hidden;
-} 
-.pache {
-  font-size: 32rpx;
-  color: #030303;
-}
+
 .loginbutton{
   display: flex;
   justify-content: center;
@@ -69,7 +53,6 @@
   width: 145rpx;
   height: 184rpx;
 }
-
 .success text{
   font-size: 40rpx;
   font-weight: 600;

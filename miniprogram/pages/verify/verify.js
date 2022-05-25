@@ -30,9 +30,6 @@ Page({
   uidinput(e){
     this.data.UID = e.detail.value
   },
-  // telinput(e){
-  //   this.data.TEL = e.detail.value
-  // },
   wxinput(e){
     this.data.WX = e.detail.value
   },
@@ -48,7 +45,7 @@ Page({
     //校检学号(尚未考虑教工的情况)
     let UID = that.data.UID;
     if (UID == '') {
-          wx.showToast({
+          wx.showToast({icon:"none",
                 title: '请输入您的学号',
                 icon: 'none',
                 duration: 2000
@@ -65,7 +62,7 @@ Page({
                         active:1}
 								)},
 					fail(res) {
-						wx.showToast({
+						wx.showToast({icon:"none",
 							title: '没有找到您的班级',
 						})
 					}
@@ -111,7 +108,7 @@ Page({
           that.login()
         }})}
     else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '验证码错误，请重新输入',
       })
     }
@@ -120,7 +117,7 @@ Page({
   otherinfoconfirm(){
     //两种联系方式不能均为空
     if(this.data.QQ==''&&this.data.WX==''){
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '两种联系方式不能均为空',
         duration:2000
       })

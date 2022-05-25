@@ -35,14 +35,14 @@ Page({
               fail: function(res) {
                     console.log(res)
                     wx.hideLoading();
-                    wx.showToast({
+                    wx.showToast({icon:"none",
                           title: '注册失败，请重新提交',
                           icon: 'none',
                     })
               
         },
   })       
-            wx.showToast({
+            wx.showToast({icon:"none",
               title: '授权成功，正在前往实名认证界面',
             })
             wx.navigateTo({
@@ -50,7 +50,7 @@ Page({
             })
           }
           else if(!res.data[0].isauth){
-            wx.showToast({
+            wx.showToast({icon:"none",
               title: '您尚未实名认证，正在前往实名认证页面',
             })
             wx.navigateTo({
@@ -58,7 +58,7 @@ Page({
             })
           } 
           else{
-            wx.showToast({
+            wx.showToast({icon:"none",
               title: '欢迎回来',
             });
             wx.setStorageSync('userinfo',res.data[0])

@@ -34,8 +34,8 @@ Page({
 			this.setData({
 				roomId:e.scene
 			})
-			db.collection("chatlist").doc(e.scene).get({
-				success(res){
+			db.collection("chatlist").doc(e.scene).get().then(res=>{
+					console.log(res)
 					if(res.data.buyeropenid==wx.getStorageSync('openid')){
 						var usual = JSON.parse(config.data).buy;
 					}
@@ -43,11 +43,11 @@ Page({
 						var usual = JSON.parse(config.data).sell
 					}
 					that.setData({
-						iteminfo:iteminfo.data,
+						iteminfo:res.data,
 						usual:usual,
 					})
 				}
-			});
+			);
 			
 	},
 	//选择图片

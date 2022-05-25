@@ -66,7 +66,7 @@ Page({
 
 								},
 								fail(res){
-											wx.showToast({
+											wx.showToast({icon:"none",
 												title: '更新失败',
 											})
 								}
@@ -93,7 +93,7 @@ Page({
 														success: function(res) {
 																	wx.setStorageSync('userinfo',res.data)
 																	wx.hideLoading();
-																	wx.showToast({
+																	wx.showToast({icon:"none",
 																				title: '修改成功',
 																				icon: 'success'
 																	})
@@ -103,7 +103,7 @@ Page({
 								fail(res) {
 											console.log(res)
 											wx.hideLoading();
-											wx.showToast({
+											wx.showToast({icon:"none",
 														title: '修改失败，请重新提交',
 														icon: 'none',
 											})

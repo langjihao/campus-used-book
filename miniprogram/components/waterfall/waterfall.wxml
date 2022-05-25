@@ -15,14 +15,27 @@
 		colnum:colnum
 	}
 </wxs>
+<!-- 条件筛选与显示控制区 -->
+<view class="checkarea" wx:if="{{list.length!=0}}">
+	<!-- <image src='{{showtype==1?"/images/card.png":"/images/friend.png"}}' style="height: 50rpx;width: 50rpx" catch:tap="changeshowtype"></image> -->
+	<view class="text-xl flex" bindtap="changeshowtype">
+	<text class="{{showtype==1?'cuIcon-cascades':'cuIcon-discoverfill'}}"></text>
+	<view class="text-lg"><text>{{showtype==1?'瀑布流':'动态卡片'}}</text></view>
+	</view>
+
+	<van-checkbox  checked-color="#07c160" value="{{onlycampus}}" bind:change="onlycampus">只看本校区</van-checkbox>
+	<van-checkbox  checked-color="#07c160" value="{{onlysell}}" bind:change="onlysell">不看求购</van-checkbox>
+</view>
 <!-- 商品显示区 -->
 <block wx:if="{{list.length>0}}" class="contain">
   <!--瀑布流布局-->
   <block wx:if="{{showtype==1}}">
         <view class="waterfall_grid">
               <block wx:for="{{list}}" wx:key="_id">
-                    <view wx:if="{{item.piclist[0]}}" class="waterfall_one" bindtap="detail" data-id="{{item._id}}">
-                          <image lazy-load class='waterfall_mainpic' mode="aspectFill" src="{{item.piclist[0]}}"></image>
+								<block wx:if="{{!onlysell||(item.type==0||item.type==2)}}">
+								<block wx:if="{{!onlycampus||item.campus==userinfo.campus}}">
+                    <view  class="waterfall_one" bindtap="detail" data-id="{{item._id}}">
+                          <image lazy-load class='waterfall_mainpic' mode="aspectFill" src="{{item.piclist[0]?item.piclist[0]:'cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'}}"></image>
                           <view class="waterfall_title text-cut">{{item.title}}
                           </view>
                           <view class="waterfall_between">
@@ -32,12 +45,16 @@
                             <view wx:if='{{item.price}}' class="waterfall_price">￥{{item.price}}</view>
                           </view>
                     </view>
+								</block>
+								</block>
               </block>
         </view>
   </block>
 	<!-- 朋友圈布局 -->
   <block wx:if="{{showtype==0}}">
 		<block wx:for="{{list}}" wx:key="id">
+			<block wx:if="{{!onlysell||(item.type==0||item.type==2)}}">
+			<block wx:if="{{!onlycampus||item.campus==userinfo.campus}}">
 			<view class="cu-card dynamic" bindtap="detail" data-id='{{item._id}}'>
 			<view class="cu-item shadow">
 				<view style="background-color:{{(item.type==0||item.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
@@ -65,7 +82,11 @@
 				</view>
 				</view>
 				<view style = "padding-top:10rpx;padding-left:20rpx;display:flex;">
-				<van-tag plain round type="success" wx:for="{{item.tag}}" wx:key="id" size="large">{{item}}</van-tag>
+				<view class="padding-sm flex flex-wrap" wx:if="{{item.tag.length>0}}">
+				<view class="padding-xs" wx:for="{{item.tag}}">
+					<view class="cu-tag radius" catchtap="gotag" data-tag="{{item}}">{{item}}</view>
+				</view>
+				</view>
 				</view>
 				<!-- 浏览量记录区 -->
 				<view class="text-gray text-sm text-right padding">
@@ -73,17 +94,18 @@
 				</view>
 			</view>
 			</view>
-
+			</block>
+			</block>
 		</block>
 	</block>
 </block>
 <!--无内容显示-->
 <view class="nocontent" wx:if="{{list.length==0}}">
-      <image lazy-load src="/images/blank.png"></image>
-      <view class="blank_text">这里空空如也~</view>
+      <image  src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/src/blank.png"></image>
+
 </view>
 <!-- 触底加载区 -->
-<block wx:if="{{list.length>10}}">
+<block wx:if="{{list!=0}}">
       <import src="/common.wxml" />
       <template is="loadmore" data="{{nomore}}" />
 </block>

@@ -4,47 +4,44 @@ const config = require("../../config.js");
 const _ = db.command;
 Page({
 
-      /**
-       * 页面的初始数据
-       */
-      data: {
-            list: [],
-            page: 1,
-            scrollTop: 0,
-            nomore: false,
-      },
-
-      /**
-       * 生命周期函数--监听页面加载
-       */
-      onLoad: function(options) {
-            wx.showLoading({
-                  title: '加载中',
-            })
-            let openid = wx.getStorageSync('openid');
-            this.setData(
-                  {_openid:openid}
-            )
-            this.getList();
-      },
-      getList() {
-            let that = this;
-            db.collection('publish').where({
-									_openid: that.data._openid,
-									type:1
-            }).orderBy('creat', 'desc').limit(20).get({
-                  success: function(res) {
-                        wx.hideLoading();
-                        wx.stopPullDownRefresh(); //暂停刷新动作
-                        that.setData({
-                              list: res.data,
-                              nomore: false,
-                              page: 0,
-                        })
-                        console.log(res.data)
-                  }
-            })
-      },
+			data: {
+				list: [],
+				skip: 0,
+				scrollTop: 0,
+				nomore: false,
+				query:{
+					_openid:wx.getStorageSync('openid'),
+					type:1
+				}
+			},
+			async onShow(){
+				await this.querylist();
+			},
+			//调用查询云函数
+			querylist(){
+			let that=this;
+			wx.cloud.callFunction({
+				name:"querylist",
+				data:{
+					skip:that.data.skip,
+					query:that.data.query,
+				},
+				success(res){
+					console.log(res)
+					that.setData({
+						list:that.data.list.concat(res.result.data)
+					})
+					if(res.result.data.length<20){
+						that.setData({
+							nomore:true
+						})
+					}
+				},
+				fail(err){
+					console.log(err)
+				}
+			})
+			},
       //删除
       del(e) {
             let that = this;
@@ -60,14 +57,17 @@ Page({
                               db.collection('publish').doc(del._id).remove({
                                     success() {
                                           wx.hideLoading();
-                                          wx.showToast({
+                                          wx.showToast({icon:"none",
                                                 title: '成功删除',
                                           })
-                                          that.editcart(del._id,4)
+																					that.setData({
+																						list:[]
+																					})
+																					that.querylist()
                                     },
                                     fail() {
                                           wx.hideLoading();
-                                          wx.showToast({
+                                          wx.showToast({icon:"none",
                                                 title: '删除失败',
                                                 icon: 'none'
                                           })
@@ -95,14 +95,17 @@ Page({
                                     },
                                     success() {
                                           wx.hideLoading();
-                                          wx.showToast({
+                                          wx.showToast({icon:"none",
                                                 title: '成功擦亮',
                                           })
-                                          that.getList();
+																					that.setData({
+																						list:[]
+																					})
+																					that.querylist()
                                     },
                                     fail() {
                                           wx.hideLoading();
-                                          wx.showToast({
+                                          wx.showToast({icon:"none",
                                                 title: '操作失败',
                                                 icon: 'none'
                                           })
@@ -130,14 +133,17 @@ Page({
                                     },
                                     success() {
                                           wx.hideLoading();
-                                          wx.showToast({
+                                          wx.showToast({icon:"none",
                                                 title: '成功',
                                           })
-                                          that.editcart(crash._id,2)
+                                          that.setData({
+																						list:[]
+																					})
+																					that.querylist()
                                     },
                                     fail() {
                                           wx.hideLoading();
-                                          wx.showToast({
+                                          wx.showToast({icon:"none",
                                                 title: '操作失败',
                                                 icon: 'none'
                                           })
@@ -146,23 +152,6 @@ Page({
                         }
                   }
             })
-      },
-      //售出\删除后对购物车记录进行修改
-      editcart(id,flag){
-        let that =this;
-        db.collection('cart').where({
-          itemid : id,
-          }).update({
-            data:{status:flag},
-          success(res){
-            console.log(res)
-            that.getList();
-          },
-          fail(res){
-            console.log(res)
-            that.getList();
-          }
-        })
       },
       //查看详情
       detail(e) {
@@ -184,7 +173,10 @@ Page({
       },
       //下拉刷新
       onPullDownRefresh() {
-            this.getList();
+				this.setData({
+					list:[]
+				})
+				this.queryist();
       },
       //至顶
       gotop() {
@@ -199,42 +191,14 @@ Page({
             })
       },
       onReachBottom() {
-            this.more();
-      },
-      //加载更多
-      more() {
-            let that = this;
-            if (that.data.nomore || that.data.list.length < 20) {
-                  return false
-            }
-            let page = that.data.page + 1;
-            db.collection('publish').where({
-									_openid: that.data._openid,
-									
-            }).orderBy('creat', 'desc').skip(page * 20).limit(20).get({
-                  success: function(res) {
-                        if (res.data.length == 0) {
-                              that.setData({
-                                    nomore: true
-                              })
-                              return false;
-                        }
-                        if (res.data.length < 20) {
-                              that.setData({
-                                    nomore: true
-                              })
-                        }
-                        that.setData({
-                              page: page,
-                              list: that.data.list.concat(res.data)
-                        })
-                  },
-                  fail() {
-                        wx.showToast({
-                              title: '获取失败',
-                              icon: 'none'
-                        })
-                  }
-            })
-      },
+				if(!this.data.nomore){
+					this.setData({
+						skip:this.data.skip+1
+					})
+					this.querylist()
+				}
+				else{
+					return
+				}
+		},
 })

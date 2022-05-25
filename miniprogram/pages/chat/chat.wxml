@@ -1,8 +1,8 @@
 <!-- 标题与导航区 -->
-<cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">聊天</view></cu-custom>
+<!-- <cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">聊天</view></cu-custom> -->
 <!-- 商品详情区 -->
-<view class="top" bindtap="detail">
-			<view class="poster">
+<view class="top" >
+	<view class="poster">
 						<image src="{{iteminfo.itempic}}" />
 			</view>
 			<view class="right">

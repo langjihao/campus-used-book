@@ -2,12 +2,11 @@
 <van-steps steps="{{steps}}" active="{{active}}" active-icon="success" active-color="#07c160"/>
 
 <van-transition show="{{step1}}" name="fade-right" custom-class="block">
-  <view class="contain">
+  <view class="inputbox">
       <view class="title">欢迎您</view>
       <view class="title">仅需输入学号，快速完善您的信息</view>           
       <input class="inputbar" bindinput="uidinput" value="{{UID}}" maxlength="11" placeholder-class="pache" placeholder="请输入您的学号"/>
-    <view class='des'>用于快速匹配校区专业等信息，若您担心隐私问题则可只输入前八位</view>
-    </view>
+  </view>
     <view class="distance"></view>
     <view class="loginbutton">
       <image  bindtap="match" src="/images/login.png"></image>
@@ -16,7 +15,7 @@
 
 <van-transition show="{{step2}}"
 name="fade-right" custom-class="block">
-  <view class="contain">
+  <view class="inputbox">
       <view class="title">检查补充信息</view>           
       <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="校区：{{stuinfo.Distinct}}"/>
       <input class="inputbar"  maxlength="11" placeholder-class="pache" placeholder="班级：{{stuinfo.Class}}"/>

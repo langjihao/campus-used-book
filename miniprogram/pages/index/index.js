@@ -4,18 +4,24 @@ const config = require("../../config.js");
 const _ = db.command;
 Page({
 		data: {
-					onlycampus:false,
-					onlysell:false,
-					showtip:false,
+					// 状态栏高度
+				statusBarHeight: wx.getStorageSync('statusBarHeight') ,
+				// 导航栏高度
+				navigationBarHeight: wx.getStorageSync('navigationBarHeight'),
+				// 胶囊按钮高度
+				menuButtonHeight: wx.getStorageSync('menuButtonHeight'),
+				// 导航栏和状态栏高度
+				navigationBarAndStatusBarHeight:
+					wx.getStorageSync('statusBarHeight') +
+					wx.getStorageSync('navigationBarHeight')
+					,
+
 					sort: JSON.parse(config.data).sort,
 					scrollTop: 0,
 					nomore: false,
 					list: [],
-					userinfo:'',
-					islogin:false,
 					currentList : 0,
 					showtype:0,
-					barheight:app.globalData.CustomBar,
 					query:{
 						status:0
 					},
@@ -33,19 +39,6 @@ Page({
 					this.setData({
 								scrollTop: parseInt((e.scrollTop) * wx.getSystemInfoSync().pixelRatio)
 					})
-		},
-		//改变显示布局
-		changeshowtype(){
-			if(this.data.showtype==0){
-				this.setData({
-					showtype:1
-				})
-			}
-			else{
-				this.setData({
-					showtype:0
-				})
-			}
 		},
 		onShow(){
 			this.setData({
@@ -160,22 +153,4 @@ Page({
 								path: '/pages/index/index'
 					}
 		},
-		//展示提示
-		showtip(){
-			this.setData({
-				showtip:!this.data.showtip
-			})
-		},
-		//只看本校区
-		onlycampus(){
-			this.setData({
-				onlycampus:!this.data.onlycampus
-			})
-		},
-		//不看求购
-		onlysell(){
-			this.setData({
-				onlysell:!this.data.onlysell
-			})
-		}
 })

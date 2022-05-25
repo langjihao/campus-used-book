@@ -80,7 +80,7 @@ Page({
       this.setData({
       isQQ:!this.data.isQQ
     })}else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: 'QQ为空',
       })
     }
@@ -90,7 +90,7 @@ Page({
       this.setData({
       isWX:!this.data.isWX
     })}else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '微信为空',
       })}
   },
@@ -130,7 +130,7 @@ Page({
                   })
             },
             fail(res){
-                  wx.showToast({
+                  wx.showToast({icon:"none",
                     title: '请选择或输入地址',
                   })
             }
@@ -237,13 +237,13 @@ Page({
       })
 		};
 		if(this.data.title==''){
-			wx.showToast({
+			wx.showToast({icon:"none",
 				title: '您还没有填写内容',
 			})
 			return
 		}
     if(!(this.data.isQQ||this.data.isWX)){
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: 'QQ微信选一个呦',
       })
       return
@@ -297,7 +297,7 @@ Page({
     })
 
     if (!label.active && labelsActive.length >= 3) {
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '最多选择三个标签',
       })
       return
@@ -356,7 +356,7 @@ Page({
 		wx.saveImageToPhotosAlbum({
 				filePath: this.data.shareImage,
 				success: (res) => {
-						wx.showToast({
+						wx.showToast({icon:"none",
 								title: '已保存到相册',
 						})
 					}})

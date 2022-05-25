@@ -1,23 +1,7 @@
 <!--pages/quickpublish/quickpublish.wxml-->
 <block wx:if="{{flag==1}}">
 <!-- 标准化信息框 -->
-<block wx:if="{{isbn!=0}}">
-  <view class="contain">
-            <view class="top">
-                  <view class="poster">
-                        <image src="{{bookinfo.pic}}" />
-                  </view>
-                  <view class="content">
-                        <view class="title text-cut">{{bookinfo.title}}</view>
-                        <view class="dcontain">
-                              <view class="author text-cut">{{bookinfo.author}}</view>
-                        </view>
-                        <view class="des">{{bookinfo.summary}}
-                        </view>
-                  </view>
-            </view>
-      </view>
-</block>
+<book wx:if="{{isbn!=0}}" isbn="{{isbn}}"></book>
 <!-- 发布闲置主信息框 -->
 <view class="box">
   <view class="input">
@@ -28,14 +12,19 @@
     <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" sizeType="compressed" max-count="9" accept="image" bind:delete="delete" upload-text="上传图片"/>
   </view>
   <view class="underarea">
-    <view class="localarea">
+    <view class="localarea" bindtap="showcampus">
       <image src="/images/campus.png"></image>
-      <text>{{userinfo.campus}}</text>
+      <text>{{campus}}</text>
     </view>
     <view class="scan" bindtap="scan">
       <text class="cuIcon-scan lg text-xxl">点击扫码,自动填写</text>
     </view>
 	</view>
+	<van-popup show="{{showcampus}}" bind:close="showcampus" round position="bottom">
+		<van-picker columns="{{campuslist}}" show-toolbar
+		title="选择校区" bind:cancel="showcampus" bind:confirm = "confirmcampus"
+		bind:change="choosecampus"/>
+	</van-popup>
 	<view style="height:20rpx"></view>
 </view>
 <!-- 下部所有 -->

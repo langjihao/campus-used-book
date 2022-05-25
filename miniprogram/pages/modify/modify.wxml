@@ -13,10 +13,6 @@
 <view style="height: 20rpx;"></view>
 <!-- 下部所有 -->
 <view class="contain">
-<!-- 标签区域 -->
-<view wx:if="{{labels.length>0}}" class="box">
-  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
-</view>
 <view style="height: 20rpx;"></view>
 <!-- 其他信息框 -->
 <van-cell-group class="box">
@@ -75,6 +71,10 @@ use-button-slot
 </van-field>
 </van-cell-group>
 <view style="height: 20rpx;"></view>
+<!-- 标签区域 -->
+<view wx:if="{{labels.length>0}}" class="box">
+  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
+</view>
 <van-button type="primary" round bindtap="check" size="large">确认修改</van-button>
 </view>
 </block>

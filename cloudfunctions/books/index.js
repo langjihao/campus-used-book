@@ -12,11 +12,10 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async(event, context) => {
-		let isbn = event.isbn;
-		let query =await db.collection("books").where({
-			isbn:isbn
+		let isbn = parseInt(event.isbn);
+		let query =await db.collection("book").where({
+			_id:isbn
 		}).get();
-		console.log(query)
 		if(query.data.length==0){
 			var rp_options=
 			{ url: 'https://api.jisuapi.com/isbn/query?appkey=' + appkey + '&isbn=' + event.isbn,
@@ -24,16 +23,17 @@ exports.main = async(event, context) => {
 				json: true,
 			};
 			let book = await rp(rp_options).then(async function(bookdata){
-				console.log(bookdata)
-				if(bookdata.result.pic==''){
-					bookdata.result.pic='cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'
+
+				let bookinfo = bookdata.result;
+				bookinfo['_id'] = isbn;
+				if(bookinfo.pic==''){
+					bookinfo.pic='cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'
 				}
-				await db.collection('books').add({
-								data: bookdata.result,
+				await db.collection('book').add({
+								data: bookinfo,
 						});
 				return(bookdata.result)
 		})
-		console.log(book)
 		return(book)
 		}
 		else{

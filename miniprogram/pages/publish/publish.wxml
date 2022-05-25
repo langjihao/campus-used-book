@@ -1,5 +1,43 @@
 <!--pages/publish/publish.wxml-->
-<image style="width: 100%;padding-bottom: 150rpx;" src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/如何发布图书.png" mode="widthFix"></image>
+<view class="cu-timeline" style="width: 100%;padding-bottom: 150rpx;" >
+	<view class="cu-time">如何发布</view>
+  <view class="cu-item">
+    <view class="content">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan">step</view>
+        <view class="cu-tag line-cyan">1</view>
+      </view>
+      <view class="margin-top">想卖点击左下角，想买请点右下角</view>
+    </view>
+  </view>
+	<view class="cu-item">
+    <view class="content">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan">step</view>
+        <view class="cu-tag line-cyan">2</view>
+      </view>
+      <view class="margin-top">填写商品或需求信息，上传图片，完善价格类别等必要配置，点击发布</view>
+    </view>
+  </view>
+	<view class="cu-item">
+    <view class="content">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan">step</view>
+        <view class="cu-tag line-cyan">3</view>
+      </view>
+      <view class="margin-top">核验联系方式，发布成功！</view>
+    </view>
+  </view>
+	<view class="cu-item">
+    <view class="content">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan">step</view>
+        <view class="cu-tag line-cyan">4</view>
+      </view>
+      <view class="margin-top">继续发布或为当前商品生成海报</view>
+    </view>
+  </view>
+</view>
 <view class="buttonarea">
 <block wx:if="{{userinfo}}">
 <van-button size="normal" round type="primary" bindtap="navitopub" >我要卖</van-button>

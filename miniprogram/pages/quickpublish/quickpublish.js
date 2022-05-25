@@ -6,6 +6,7 @@ const config = require("../../config.js");
 Page({
   
   data: {
+		showcampus:false,
 		confirm:false,
 		showposter:false,
 		showmore:false,
@@ -24,7 +25,8 @@ Page({
     piclist:[],//实际上传的fileid列表
     labels: [],//默认标签+专业标签+课程标签
     labelsActive: [], // 选中的标签
-    sort:JSON.parse(config.data).sort1
+		sort:JSON.parse(config.data).sort1,
+		campuslist:JSON.parse(config.data).campus
   },
   //初始化重新发布
   initial(){
@@ -41,7 +43,6 @@ Page({
       count:0,
       fileList: [], //预览图列表
       piclist:[],//实际上传的fileid列表
-      labels: [],//默认标签+专业标签+课程标签
       labelsActive: [], // 选中的标签
       sort:JSON.parse(config.data).sort1
     })
@@ -69,18 +70,21 @@ Page({
       sorted:e.detail.value,
       kind:e.detail.index
     })
-  },
-  //确认类别
-  confirmsort(){
-    this.showPopup()
-  },
+	},
+	confirmsort(e){
+		this.setData({
+			sorted:e.detail.value,
+			kind:e.detail.index,
+			show: !this.data.show
+	})  	
+	},
   //是否勾选联系方式
   onQQ(e){
     if(this.data.userinfo.QQ||this.data.QQ){
       this.setData({
       isQQ:!this.data.isQQ
     })}else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: 'QQ为空',
       })
     }
@@ -90,7 +94,7 @@ Page({
       this.setData({
       isWX:!this.data.isWX
     })}else{
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '微信为空',
       })}
   },
@@ -105,13 +109,30 @@ Page({
     this.setData({
     WX:e.detail,
   })
-  },
+	},
+	//展示校区选项
+	showcampus(){
+		this.setData({ showcampus: !this.data.showcampus });
+	},
+	//改变校区
+	choosecampus(e){
+		this.setData({
+			campus:e.detail.value
+	})     
+
+	},
+	confirmcampus(e){
+		this.setData({
+			campus:e.detail.value,
+			showcampus: !this.data.showcampus
+	})   
+	},
   //切换取货方式
   changemethod(e){
   this.setData({
     method: parseInt(e.detail),
   });
-  },
+	},
   //获取地理位置
   getlocation(){
           let that = this;
@@ -130,7 +151,7 @@ Page({
                   })
             },
             fail(res){
-                  wx.showToast({
+                  wx.showToast({icon:"none",
                     title: '请选择或输入地址',
                   })
             }
@@ -151,9 +172,8 @@ Page({
   //每次上传图片后，缓存图片
   afterRead(event) {
     let that = this;
-    console.log(event.detail)
     const { fileList = [] } = that.data;
-		fileList.push({url: event.detail.file.url});
+		fileList.push({url: event.detail.file.url,sign:1});
     that.setData({ fileList });
   },
   //删除图片
@@ -171,14 +191,14 @@ Page({
   upload(){
     let that=this;
     const { fileList } = this.data;
-    if (!fileList.length&&!that.data.piclist.length) {
+    if (!fileList.length) {
     wx.showModal({
       title:"提示",
       content:"上传宝贝图片更易卖出嗷",
       confirmText:'我意已决',
       cancelText:"容我想想",
       cancelColor: 'cancelColor',
-      success: function (res) {
+      success(res) {
         if (res.confirm) { 
 					wx.showLoading({
 						title: '正在上传',
@@ -209,11 +229,14 @@ Page({
   }
   },
   //上传图片
-  uploadFilePromise(fileName, chooseResult) {
+	uploadFilePromise(fileName, chooseResult) {
+		if(chooseResult.sign==0){
+			return({fileID:chooseResult.url})
+		}else{
   return wx.cloud.uploadFile({
     cloudPath: fileName,
     filePath: chooseResult.url
-  });
+  });}
   },
   //发布商品,上传数据库
   publish() {
@@ -235,10 +258,9 @@ Page({
                 isbn:that.data.isbn,
                 piclist:that.data.piclist,
                 tag:that.data.labelsActive,
-                campus:that.data.userinfo.campus,
+                campus:that.data.campus,
                 avatar:that.data.userinfo.avatarUrl,
                 nickName:that.data.userinfo.nickName,
-                isauth:that.data.userinfo.isauth,
                 },
           success(e) {
 								wx.hideLoading()
@@ -256,13 +278,13 @@ Page({
       })
 		};
 		if(this.data.title==''){
-			wx.showToast({
+			wx.showToast({icon:"none",
 				title: '您还没有填写内容',
 			})
 			return
 		}
     if(!(this.data.isQQ||this.data.isWX)){
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: 'QQ微信选一个呦',
       })
       return
@@ -309,14 +331,12 @@ Page({
     const labelname = event.currentTarget.dataset.label
     const labels = this.data.labels
     let labelsActive = this.data.labelsActive
-
     // 当前标签
     const label = labels.find(item => {
       return item.name === labelname
     })
-
     if (!label.active && labelsActive.length >= 3) {
-      wx.showToast({
+      wx.showToast({icon:"none",
         title: '最多选择三个标签',
       })
       return
@@ -346,7 +366,7 @@ Page({
           onlyFromCamera: false,
           scanType: ['barCode'],
           success: res => {
-                wx.showToast({
+                wx.showToast({icon:"none",
                       title: '扫码成功',
                       icon: 'success'
                 });
@@ -356,7 +376,7 @@ Page({
                 that.checkisbn();
           },
           fail() {
-                wx.showToast({
+                wx.showToast({icon:"none",
                       title: '扫码失败，请重新扫码',
                       icon: 'none'
                 })
@@ -368,7 +388,7 @@ Page({
       let that = this;
       let isbn = that.data.isbn;
       if (!(/978[0-9]{10}/.test(isbn))) {
-            wx.showToast({
+            wx.showToast({icon:"none",
                   title: '请检查您的isbn号',
                   icon: 'none'
             });
@@ -402,13 +422,14 @@ Page({
     this.setData({
       title:"出一本"+bookinfo.publisher+"的"+bookinfo.title+",第"+bookinfo.edition,
       price:0.5*parseFloat(bookinfo.price),
-      piclist:this.data.piclist.concat(bookinfo.pic)
+      fileList:this.data.fileList.concat({url:bookinfo.pic,sign:0})
 		})
 		wx.hideLoading()
 	},
   onLoad() {
 		let user =wx.getStorageSync('userinfo')
     this.setData({
+			campus:user.campus,
 			userinfo:user,
 			QQ:user.QQ,
 			WX:user.WX,
@@ -435,13 +456,14 @@ Page({
 			shareImage:e.detail.path,
 			showposter:true
 		});
-		wx.hideLoading({})},
+		wx.hideLoading({})
+	},
 	//长按保存海报
 	savepic(){
 		wx.saveImageToPhotosAlbum({
 				filePath: this.data.shareImage,
 				success: (res) => {
-						wx.showToast({
+						wx.showToast({icon:"none",
 								title: '已保存到相册',
 						})
 					}})

@@ -74,7 +74,7 @@ Page({
                 })
           },
           fail() {
-                wx.showToast({
+                wx.showToast({icon:"none",
                       title: '获取失败',
                       icon: 'none'
                 })
@@ -114,14 +114,14 @@ Page({
     console.log(e.currentTarget.dataset.detail)
     db.collection('cart').doc(e.currentTarget.dataset.detail).remove({
       success() {
-        wx.showToast({
+        wx.showToast({icon:"none",
               title: '成功删除',
         })
         that.getcartlist();
       },
       fail() {
         wx.hideLoading();
-        wx.showToast({
+        wx.showToast({icon:"none",
               title: '删除失败',
               icon: 'none'
         })

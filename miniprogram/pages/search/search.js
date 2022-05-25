@@ -9,11 +9,9 @@ Page({
        */
       data: {
             scrollTop: 0,
-            newlist: [],
             list: [],
-            key:"",
-            blank: false,
-            nomore:false,
+						nomore:false,
+						page:0,
       },
       onShow(e){
         this.gethistory();
@@ -30,7 +28,7 @@ Page({
             let that = this;
             let key = that.data.key;
             if (key == '') {
-                  wx.showToast({
+                  wx.showToast({icon:"none",
                         title: '请输入关键词',
                         icon: 'none',
                   })
@@ -73,7 +71,6 @@ Page({
                               blank: true,
                               page: 0,
                               list: res.data,
-                              nomore: false,
                         })
                   },})
       },
@@ -92,7 +89,6 @@ Page({
       },
       //点击历史记录直接搜索
       onTagTap(e){
-        console.log(e)
         this.setData({
           key:e.currentTarget.dataset.key
         })
@@ -105,7 +101,8 @@ Page({
       keyInput(e) {
 						this.data.key = e.detail
 						this.setData({
-							list:[]
+							list:[],
+							page:0
 						})
       },
       //至顶
@@ -123,7 +120,7 @@ Page({
       //加载更多
       more() {
             let that = this;
-            if (that.data.nomore || that.data.list.length < 20) {
+            if (that.data.nomore) {
                   return false
             }
             let page = that.data.page + 1;
@@ -152,7 +149,7 @@ Page({
                         })
                   },
                   fail() {
-                        wx.showToast({
+                        wx.showToast({icon:"none",
                               title: '获取失败',
                               icon: 'none'
                         })
