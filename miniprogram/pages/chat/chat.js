@@ -34,8 +34,8 @@ Page({
 			this.setData({
 				roomId:e.scene
 			})
-			db.collection("chatlist").doc(e.scene).get().then(res=>{
-					console.log(res)
+			db.collection("chatlist").doc(e.scene).get({
+				success(res){
 					if(res.data.buyeropenid==wx.getStorageSync('openid')){
 						var usual = JSON.parse(config.data).buy;
 					}
@@ -46,9 +46,7 @@ Page({
 						iteminfo:res.data,
 						usual:usual,
 					})
-				}
-			);
-			
+				}})
 	},
 	//选择图片
 	selectImg() {
@@ -133,7 +131,6 @@ Page({
 	},
 	//点击常用语发送
 	OnSelect(e){
-		console.log(e)
 		this.setData({
 			content:e.detail.name
 		})

@@ -1,17 +1,21 @@
 
-<view class="cu-card article" bindtap="detail">
-  <view class="cu-item shadow">
-    <view class="content">
-      <image src="{{iteminfo.pic}}" mode="heightFix"></image>
-      <view class="title">
-        <view class="text-cut">{{iteminfo.title}}</view>
-        <view>
-          <view class="cu-tag bg-green light sm round">{{iteminfo.author}}</view>
-					<view  class="solid-bottom text-xl padding">
-        	<text class="text-price text-red">{{iteminfo.price}}</text>
-    			</view>
-        </view>
-      </view>
-    </view>
-  </view>
+<view class="card" bindtap="detail" data-detail="{{iteminfo}}">
+			<view class="a">
+						<view class="a1 {{iteminfo.status==1?'text-red':''}}">
+									<image  wx:if="{{iteminfo.status==0}}" lazy-load src="/images/onsell.png"></image>
+									<image  wx:if="{{iteminfo.status==2}}" lazy-load src="/images/suc.png"></image>
+									{{iteminfo.status==0?'待出售':(iteminfo.status==1?'交易中':(iteminfo.status==2?'已完成':'交易取消'))}}
+						</view>
+						<view class="a2">{{morejs.timelog(iteminfo.creat)}}</view>
+			</view>
+			<view class="b">
+						<image lazy-load src="{{iteminfo.piclist[0]}}"></image>
+						<view class="b1">
+									<view class="b11">
+												<view class="b111 text-cut">{{iteminfo.title}}</view>
+												<view class="b112 text-cut">{{iteminfo.bookinfo.author}}</view>
+									</view>
+									<view class="b12">￥{{iteminfo.price}}</view>
+						</view>
+			</view>
 </view>

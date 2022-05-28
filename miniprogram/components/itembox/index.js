@@ -10,7 +10,7 @@ Component({
   },
 
   properties: {
-		id:String,
+		itemid:String,
 		islink:{
 			type:Boolean,
 			value:true
@@ -23,8 +23,7 @@ Component({
   },
   lifetimes: {
     attached() {
-			console.log(this.properties.id)
-			this.queryitem()
+			this.queryitem(this.properties.itemid)
     },
     detached() {
     }
@@ -39,9 +38,9 @@ Component({
    */
   methods: {
 		//获取商品详情
-		queryitem(){
+		queryitem(e){
 			let that = this;
-			db.collection('publish').doc(this.properties.id).get().then(res=>{
+			db.collection('publish').doc(e).get().then(res=>{
 				console.log(res)
 				that.setData({
 					iteminfo:res.data
@@ -51,7 +50,7 @@ Component({
 		//跳转详情
 		detail() {
 			wx.navigateTo({
-					url: '/pages/detail/detail?scene=' + this.properties.id,
+					url: '/pages/detail/detail?scene=' + this.properties.itemid,
 			})
 		},
 		},

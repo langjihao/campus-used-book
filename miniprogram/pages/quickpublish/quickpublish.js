@@ -342,16 +342,10 @@ Page({
       return
     }
     label.active = !label.active
-
-    // 激活的标签
     labelsActive = []
     labels.forEach(item => {
       if (item.active) {
         labelsActive.push(item.name)
-        //这里可改成子标签
-        // if (!item.allowed_anon) {
-        //   canAnon = false
-        // }
       }
     })
     this.setData({

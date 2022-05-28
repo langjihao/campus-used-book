@@ -48,7 +48,6 @@ Component({
     detached() {
       try {
 				this.messageWatcher.close()
-				console.log("关闭成功")
       } catch (error) {
         console.log('--消息监听器关闭失败--')
       }
@@ -72,7 +71,6 @@ Component({
   methods: {
     // 预览图片
     viewImage(e) {
-      // console.log(e)
       let url = e.currentTarget.dataset.url;
       wx.previewImage({
         urls: [url],
@@ -112,7 +110,6 @@ Component({
           roomId: that.properties.roomId
         },
         success: res => {
-					console.log(res)
           let tarr = res.result.data
           let newsLen = tarr.length
           if (newsLen == 0) {
@@ -156,7 +153,6 @@ Component({
     },
     //初始化聊天监听器
     initWatcher() {
-			console.log("开启监听")
 			var that = this;
       this.messageWatcher = db.collection('chat').where({
 				roomId: that.properties.roomId,
@@ -164,7 +160,6 @@ Component({
         onChange: function (snapshot) {
 					//只打印变动的信息
           if (snapshot.docChanges.length != 0) {
-						console.log(snapshot.docChanges)
             let tarr = []
             snapshot.docChanges.forEach(function (ele, index) {
               tarr.push(ele.doc)

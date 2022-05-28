@@ -10,7 +10,6 @@ Page({
 		list:[]
 	},
 	onLoad(e){
-		console.log(e)
 		if(e.type=="3"){
 			this.setData({
 				type:3,
@@ -27,7 +26,7 @@ Page({
 		}
 		else{
 			this.setData({
-				type:2,
+				type:1,
 				isbn:e.isbn
 			})
 			this.querybook()
@@ -44,18 +43,9 @@ Page({
 				isbn:this.data.isbn,
 				status:0
 			}
+		
 		})
-		db.collection('books').where({
-			isbn:this.data.isbn
-		}).get({
-			success(res){
-				console.log(res)
-				that.setData({
-					bookinfo:res.data[0]
-				})
-				that.querylist()
-			}
-		})
+		this.querylist()
 	},
 	//查询某用户的发布
 	queryuser(){
@@ -104,6 +94,7 @@ Page({
 				query:that.data.query,
 			},
 			success(res){
+				console.log(res)
 				that.setData({
 					list:that.data.list.concat(res.result.data)
 				})
@@ -138,5 +129,4 @@ Page({
 	sortby(){
 
 	}
-
 })

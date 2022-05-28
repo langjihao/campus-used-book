@@ -1,14 +1,9 @@
-<!-- 标题与导航区 -->
-<!-- <cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">聊天</view></cu-custom> -->
+
 <!-- 商品详情区 -->
-<view class="top" >
-	<view class="poster">
-						<image src="{{iteminfo.itempic}}" />
-			</view>
-			<view class="right">
-						<view class="title">{{iteminfo.itemtitle}}</view>
-			</view>
+<view wx:if="{{iteminfo.itemid}}" >
+	<itembox class="top" itemid='{{iteminfo.itemid}}'></itembox>
 </view>
+
 <!-- 聊天记录区，调用组件 -->
 <view style="padding-bottom: 150rpx;">
 <chat-box roomId="{{roomId}}"></chat-box>

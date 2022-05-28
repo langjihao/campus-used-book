@@ -260,7 +260,6 @@ Page({
 					url: '/pages/collection/collection?type=2&tag='+e.currentTarget.dataset.tag
 				})
 			},
-			
 			goheight(e){
 					const { height } = this.data;
 					var width = wx.getSystemInfoSync().windowWidth
@@ -272,7 +271,6 @@ Page({
 						swiperheight:this.data.height[0]
 					})
 			},
-			
 			changeheight(e){
 				this.setData({
 					swiperheight:this.data.height[e.detail.current]

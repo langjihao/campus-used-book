@@ -23,6 +23,7 @@ Component({
   },
   lifetimes: {
     attached() {
+			console.log(this.properties.isbn)
 			this.querybook(this.properties.isbn)
     },
     detached() {
