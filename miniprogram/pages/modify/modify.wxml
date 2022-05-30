@@ -1,4 +1,4 @@
-<!--pages/quickpublish/quickpublish.wxml-->
+<view class="contain">
 <block wx:if="{{flag==1}}">
 <!-- 发布闲置主信息框 -->
 <view class="box">
@@ -7,16 +7,27 @@
     <view class="count">{{count}}/66</view>
   </view>
   <view class="picarea">
-    <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" max-count="9" accept="image" bind:delete="delete"/>
+    <van-upload file-list="{{ fileList }}" bind:after-read="afterRead" sizeType="compressed" max-count="9" accept="image" bind:delete="delete" upload-text="上传图片"/>
   </view>
+  <view class="underarea">
+    <view class="localarea" bindtap="showcampus">
+      <image src="/images/campus.png"></image>
+      <text>{{campus}}</text>
+    </view>
+	</view>
+	<!-- 校区切换 -->
+	<van-popup show="{{showcampus}}" bind:close="showcampus" round position="bottom">
+		<van-picker columns="{{campuslist}}" show-toolbar
+		title="选择校区" bind:cancel="showcampus" bind:confirm = "confirmcampus"
+		bind:change="choosecampus"/>
+	</van-popup>
+	<view style="height:20rpx"></view>
 </view>
-<view style="height: 20rpx;"></view>
 <!-- 下部所有 -->
-<view class="contain">
-<view style="height: 20rpx;"></view>
+<view class="container">
 <!-- 其他信息框 -->
-<van-cell-group class="box">
-<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
+<van-cell-group>
+	<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
 </van-cell>
 <van-popup show="{{show}}" bind:close="showPopup" round
   position="bottom">
@@ -24,16 +35,27 @@
   title="选择类别" bind:cancel="showPopup"
   bind:confirm="confirmsort" bind:change="choosesort"/>
   </van-popup>
-<van-cell title="价格" icon="/images/price.png" required>
+<van-cell title="价格" icon="/images/price.png">
   <view slot="right-icon">
     <van-stepper value="{{price}}"  bind:change="changeprice" min="1" max="100" />
   </view>
 </van-cell>
+<van-cell title="标签" icon="fire-o" bindtap="showtag"></van-cell>
+<view class="padding-sm flex flex-wrap" wx:if="{{label.length!=0}}">
+  <view class="padding-xs" wx:for="{{tag}}" bindtap="showtag">
+    <view class="cu-tag radius bg-green light">
+      {{item}}
+    </view>
+  </view>
+</view>
+<van-popup show="{{showtag}}" bind:close="showcampus" round position="bottom">
+		<tagarea wx:if="{{showtag}}" tag="{{tag}}" word="{{title}}" bindsettag="settag"></tagarea>
+</van-popup>
 <van-cell title="交易方式" icon="/images/delivery.png">
   <view slot="right-icon">
     <van-radio-group value="{{methed}}"bind:change="changemethod" direction="horizontal">
-      <van-radio name="1"checked-color="#07c160">自提</van-radio>
-      <van-radio name="2"checked-color="#07c160">再议</van-radio>
+      <van-radio name='1' checked-color="#07c160">自提</van-radio>
+      <van-radio name='2' checked-color="#07c160">再议</van-radio>
 </van-radio-group>
   </view>
 </van-cell> 
@@ -51,7 +73,7 @@ use-button-slot
 <van-cell title="联系方式" icon="/images/contactar.png" value="勾选启用" required></van-cell>
 <van-field 
 label="QQ"
-left-icon="/images/QQ.png"
+left-icon="/images/qq.png"
 value="{{QQ}}"
 placeholder="{{userinfo.QQ}}"
 bind:change="qqInput"
@@ -70,19 +92,72 @@ use-button-slot
 <van-checkbox slot="button" checked-color="#07c160" value="{{isWX}}" bind:change="onWX"></van-checkbox>
 </van-field>
 </van-cell-group>
+
+
+<!-- 弹窗确认联系方式 -->
+<van-dialog
+  use-slot
+  title="买家将通过如下联系方式找到您"
+  show="{{ confirm }}"
+  show-cancel-button
+  bind:confirm="check"
+  bind:close="showconfirm"
+>
+<van-cell-group>
+<van-cell icon="/images/contact.png">  <view slot="title">
+    <view class="van-cell-text">站内信</view>
+  </view>
+	<van-checkbox slot="right-icon" checked-color="#07c160" value="true"></van-checkbox></van-cell>
+<van-field 
+label="QQ"
+left-icon="/images/qq.png"
+value="{{QQ}}"
+placeholder="{{QQ}}"
+bind:change="qqInput"
+use-button-slot
+>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isQQ}}" bind:change="onQQ"></van-checkbox>
+</van-field>
+<van-field 
+label="微信"
+left-icon="/images/weixin.png"
+value="{{WX}}"
+placeholder="{{WX}}"
+bind:change="wxInput"
+use-button-slot
+>
+<van-checkbox slot="button" checked-color="#07c160" value="{{isWX}}" bind:change="onWX"></van-checkbox>
+</van-field>
+
+</van-cell-group>
+</van-dialog>
 <view style="height: 20rpx;"></view>
-<!-- 标签区域 -->
-<view wx:if="{{labels.length>0}}" class="box">
-  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
-</view>
-<van-button type="primary" round bindtap="check" size="large">确认修改</van-button>
+<van-button type="primary" round bindtap="showconfirm" size="large">发布</van-button>
 </view>
 </block>
 <!-- 成功页 -->
 <block wx:if="{{flag==2}}">
   <view class="success">
             <image src="/images/success.png"></image>
-            <text>修改成功</text>
+            <text>恭喜您 修改成功</text>
             <view class="see" bindtap="detail" data-id="{{id}}" >查看详情</view>
   </view>
+	<view style="padding:20rpx;justify-content: center;">
+  <van-button size="large" type="primary" round bindtap="initial">再来一本</van-button>
+	<view style="height:20rpx"></view>
+  <van-button size="large" type="primary" round  bindtap="makecanvas">生成海报</van-button>
+	</view>
 </block>
+
+<!-- 海报 -->
+<painter palette="{{template}}" 
+	bind:imgOK="onImgOK" 
+	bind:imgErr="onImgErr"  
+/>
+<van-overlay show="{{ showposter }}" bind:click="onClickHide">
+	<view class="wrapper">
+  <image class="block" mode="aspectFit" bindlongpress="savepic" src="{{shareImage}}"></image>
+	<view style="color: aliceblue;">长按保存</view>
+	</view>
+</van-overlay>
+</view>

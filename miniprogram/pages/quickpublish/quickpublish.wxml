@@ -1,4 +1,4 @@
-<!--pages/quickpublish/quickpublish.wxml-->
+<view class="contain">
 <block wx:if="{{flag==1}}">
 <!-- 标准化信息框 -->
 <book wx:if="{{isbn!=0}}" isbn="{{isbn}}"></book>
@@ -20,6 +20,7 @@
       <text class="cuIcon-scan lg text-xxl">点击扫码,自动填写</text>
     </view>
 	</view>
+	<!-- 校区切换 -->
 	<van-popup show="{{showcampus}}" bind:close="showcampus" round position="bottom">
 		<van-picker columns="{{campuslist}}" show-toolbar
 		title="选择校区" bind:cancel="showcampus" bind:confirm = "confirmcampus"
@@ -27,8 +28,6 @@
 	</van-popup>
 	<view style="height:20rpx"></view>
 </view>
-<!-- 下部所有 -->
-<view class="container">
 <!-- 其他信息框 -->
 <van-cell-group>
 	<van-cell title="分类" is-link icon="/images/sort.png" bind:click="showPopup"value="{{sorted}}">
@@ -44,9 +43,20 @@
     <van-stepper value="{{price}}"  bind:change="changeprice" min="1" max="100" />
   </view>
 </van-cell>
+<van-cell title="标签" icon="fire-o" bindtap="showtag"></van-cell>
+<view class="padding-sm flex flex-wrap" wx:if="{{label.length!=0}}">
+  <view class="padding-xs" wx:for="{{tag}}" bindtap="showtag">
+    <view class="cu-tag radius bg-green light">
+      {{item}}
+    </view>
+  </view>
+</view>
+<van-popup show="{{showtag}}" bind:close="showcampus" round position="bottom">
+		<tagarea wx:if="{{showtag}}" tag="{{tag}}" word="{{title}}" bindsettag="settag"></tagarea>
+</van-popup>
 <view wx:if="{{!showmore}}" class="flex-sub text-center">
-      <view class="solid-bottom text-sm padding">
-        <text class="text-gray" bindtap="changeshowmore">点击设定地点、联系方式更多信息</text>
+      <view class="solid-bottom text-sm padding" bindtap="changeshowmore">
+        <text class="text-gray" >点击设定地点、联系方式更多信息</text>
       </view>
 </view>
 <block wx:if="{{showmore}}">
@@ -98,10 +108,6 @@ use-button-slot
 </block>
 </van-cell-group>
 
-<!-- 标签区域 -->
-<view wx:if="{{labels.length>0}}" class="box">
-  <van-tag round type="success" wx:for="{{labels}}" wx:key="index" plain="{{!item.active}}" size="medium" data-label="{{item.name}}" bindtap="onTagTap">#{{item.name}}</van-tag>
-</view>
 
 <!-- 弹窗确认联系方式 -->
 <van-dialog
@@ -115,7 +121,6 @@ use-button-slot
 <van-cell-group>
 <van-cell icon="/images/contact.png">  <view slot="title">
     <view class="van-cell-text">站内信</view>
-    <van-tag type="success" plain >Beta</van-tag>
   </view>
 	<van-checkbox slot="right-icon" checked-color="#07c160" value="true"></van-checkbox></van-cell>
 <van-field 
@@ -143,7 +148,7 @@ use-button-slot
 </van-dialog>
 <view style="height: 20rpx;"></view>
 <van-button type="primary" round bindtap="showconfirm" size="large">发布</van-button>
-</view>
+
 </block>
 <!-- 成功页 -->
 <block wx:if="{{flag==2}}">
@@ -158,7 +163,6 @@ use-button-slot
   <van-button size="large" type="primary" round  bindtap="makecanvas">生成海报</van-button>
 	</view>
 </block>
-
 <!-- 海报 -->
 <painter palette="{{template}}" 
 	bind:imgOK="onImgOK" 
@@ -170,3 +174,4 @@ use-button-slot
 	<view style="color: aliceblue;">长按保存</view>
 	</view>
 </van-overlay>
+</view>

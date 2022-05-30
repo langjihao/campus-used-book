@@ -34,7 +34,6 @@ exports.main = async(event, context) => {
 						});
 				return(bookdata.result)
 		})
-		return(book)
 		}
 		else{
 			return(query.data[0])

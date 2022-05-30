@@ -6,6 +6,9 @@ const config = require("../../config.js");
 Page({
   
   data: {
+		tag:[],
+		showtag:false,
+		showcampus:false,
 		confirm:false,
 		showposter:false,
 		showmore:false,
@@ -22,28 +25,33 @@ Page({
     count:0,
     fileList: [], //预览图列表
     piclist:[],//实际上传的fileid列表
-    labels: [],//默认标签+专业标签+课程标签
-    labelsActive: [], // 选中的标签
-    sort:JSON.parse(config.data).sort1
+		sort:JSON.parse(config.data).sort1,
+		campuslist:JSON.parse(config.data).campus
   },
   //初始化重新发布
   initial(){
     this.setData({
+			tag:[],
+			showtag:false,
+			showcampus:false,
+			confirm:false,
+			showposter:false,
 			showmore:false,
-      title:"",
-      flag:1,
-      isbn:0,
-      show:false,
-      price:5,
-      kind:0,
-      sorted:"通用",
-      method:2,
-      count:0,
-      fileList: [], //预览图列表
-      piclist:[],//实际上传的fileid列表
-      labels: [],//默认标签+专业标签+课程标签
-      labelsActive: [], // 选中的标签
-      sort:JSON.parse(config.data).sort1
+			flag:1,
+			isbn:0,
+			title:"",
+			show:false,
+			isQQ:false,
+			isWX:false,
+			price:5,
+			kind:0,
+			sorted:"通用",
+			method:2,
+			count:0,
+			fileList: [], //预览图列表
+			piclist:[],//实际上传的fileid列表
+			sort:JSON.parse(config.data).sort1,
+			campuslist:JSON.parse(config.data).campus
     })
 
 	},
@@ -69,11 +77,14 @@ Page({
       sorted:e.detail.value,
       kind:e.detail.index
     })
-  },
-  //确认类别
-  confirmsort(){
-    this.showPopup()
-  },
+	},
+	confirmsort(e){
+		this.setData({
+			sorted:e.detail.value,
+			kind:e.detail.index,
+			show: !this.data.show
+	})  	
+	},
   //是否勾选联系方式
   onQQ(e){
     if(this.data.userinfo.QQ||this.data.QQ){
@@ -105,13 +116,30 @@ Page({
     this.setData({
     WX:e.detail,
   })
-  },
+	},
+	//展示校区选项
+	showcampus(){
+		this.setData({ showcampus: !this.data.showcampus });
+	},
+	//改变校区
+	choosecampus(e){
+		this.setData({
+			campus:e.detail.value
+	})     
+
+	},
+	confirmcampus(e){
+		this.setData({
+			campus:e.detail.value,
+			showcampus: !this.data.showcampus
+	})   
+	},
   //切换取货方式
   changemethod(e){
   this.setData({
     method: parseInt(e.detail),
   });
-  },
+	},
   //获取地理位置
   getlocation(){
           let that = this;
@@ -151,9 +179,8 @@ Page({
   //每次上传图片后，缓存图片
   afterRead(event) {
     let that = this;
-    console.log(event.detail)
     const { fileList = [] } = that.data;
-		fileList.push({url: event.detail.file.url});
+		fileList.push({url: event.detail.file.url,sign:1});
     that.setData({ fileList });
   },
   //删除图片
@@ -171,6 +198,13 @@ Page({
   upload(){
     let that=this;
     const { fileList } = this.data;
+    if (!fileList.length) {
+					wx.showLoading({
+						title: '正在上传',
+					})    
+          that.publish();
+        }
+    else {
 		wx.showLoading({
 			title: '正在上传',
 		})    
@@ -188,13 +222,17 @@ Page({
       .catch(e => {
         console.log(e);
       });
+  }
   },
   //上传图片
-  uploadFilePromise(fileName, chooseResult) {
+	uploadFilePromise(fileName, chooseResult) {
+		if(chooseResult.sign==0){
+			return({fileID:chooseResult.url})
+		}else{
   return wx.cloud.uploadFile({
     cloudPath: fileName,
     filePath: chooseResult.url
-  });
+  });}
   },
   //发布商品,上传数据库
   publish() {
@@ -215,11 +253,10 @@ Page({
                 title:that.data.title,
                 isbn:that.data.isbn,
                 piclist:that.data.piclist,
-                tag:that.data.labelsActive,
-                campus:that.data.userinfo.campus,
+                tag:that.data.tag,
+                campus:that.data.campus,
                 avatar:that.data.userinfo.avatarUrl,
                 nickName:that.data.userinfo.nickName,
-                isauth:that.data.userinfo.isauth,
                 },
           success(e) {
 								wx.hideLoading()
@@ -266,78 +303,23 @@ Page({
       count : e.detail.value.length
     })
   },
-  //获取推荐标签
-  gettag(){
-    let that=this;
-    //获取库内常用标签
-    db.collection("tag").doc("book").get({
-      success(res){
-        that.setData({
-          labels:that.data.labels.concat(res.data.tag)
-        }) 
-      }
-    })
-    //获取学生专业年级等标签
-    let school = {name:that.data.userinfo.school,active:false};
-    let major={name:that.data.userinfo.major,active:false};
-    let tags=[school,major]
-    that.setData({
-      labels:that.data.labels.concat(tags)
-    })
-  },
-  //读取用户选择的标签
-  onTagTap(event) {
-    const labelname = event.currentTarget.dataset.label
-    const labels = this.data.labels
-    let labelsActive = this.data.labelsActive
-
-    // 当前标签
-    const label = labels.find(item => {
-      return item.name === labelname
-    })
-
-    if (!label.active && labelsActive.length >= 3) {
-      wx.showToast({icon:"none",
-        title: '最多选择三个标签',
-      })
-      return
-    }
-    label.active = !label.active
-
-    // 激活的标签
-    labelsActive = []
-    labels.forEach(item => {
-      if (item.active) {
-        labelsActive.push(item.name)
-        //这里可改成子标签
-        // if (!item.allowed_anon) {
-        //   canAnon = false
-        // }
-      }
-    })
-    this.setData({
-      labels: labels,
-      labelsActive: labelsActive,
-    })
-	},
-	
   onLoad() {
 		let user =wx.getStorageSync('userinfo')
     this.setData({
+			campus:user.campus,
 			userinfo:user,
 			QQ:user.QQ,
 			WX:user.WX,
 			isQQ:user.QQ!='',
 			isWX:user.WX!=''
 		})
-    this.gettag();
 	},
 	//生成海报
 	makecanvas(){
 		wx.showLoading()
 		let params={
 			"avatar": this.data.userinfo.avatarUrl,      
-			"nickname": this.data.userinfo.nickName,      
+			"nickName": this.data.userinfo.nickName,      
 			"title": this.data.title,      
 		};
 		this.setData({
@@ -350,7 +332,8 @@ Page({
 			shareImage:e.detail.path,
 			showposter:true
 		});
-		wx.hideLoading({})},
+		wx.hideLoading({})
+	},
 	//长按保存海报
 	savepic(){
 		wx.saveImageToPhotosAlbum({
@@ -365,4 +348,23 @@ Page({
 	showconfirm() {
 		this.setData({confirm: !this.data.confirm });
 	},
+	//确认标签
+	showtag(){
+		if(this.data.title==''){
+			wx.showToast({
+				icon:"none",
+				title:'请先输入商品信息',
+			})
+			return false
+		}
+		this.setData({
+			showtag:!this.data.showtag
+		})
+	},
+	settag(e){
+		this.setData({
+			tag:e.detail,
+			showtag:false
+		})
+	}
 })

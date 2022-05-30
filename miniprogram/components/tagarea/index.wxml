@@ -1,0 +1,40 @@
+<view class="cu-bar bg-white">
+    <view class="action border-title">
+      <text class="text-xl text-bold">推荐</text>
+      <text class="bg-grey" style="width:2rem"></text>
+    </view>
+</view>
+<view class="padding-sm flex flex-wrap">
+  <view class="padding-xs" wx:for="{{unselected}}">
+    <view class="cu-tag radius light" bindtap="select" data-key="{{item}}">{{item}}</view>
+  </view>
+</view>
+<van-field 
+value="{{key}}"
+placeholder="添加新标签"
+bind:change="tagInput"
+use-button-slot
+>
+<van-button slot="button"  plain bindtap="add" size="small" type="primary">
+  添加
+</van-button>
+</van-field>
+<view class="cu-bar bg-white">
+    <view class="action border-title">
+      <text class="text-xl text-bold">当前已选{{selected.length}}</text>
+      <text class="bg-grey" style="width:2rem"></text>
+    </view>
+</view>
+<view class="padding-sm flex flex-wrap">
+  <view class="padding-xs" wx:for="{{selected}}">
+		<view class="cu-capsule" bindtap="cancel" data-key="{{item}}">
+    <view class="cu-tag bg-green light">
+      {{item}}
+    </view>
+    <view class="cu-tag line-green light">
+      <text class="cuIcon-close"></text>
+    </view>
+  </view>
+  </view>
+</view>
+<van-button style="justify-self:center" round type="primary" size="large" bindtap="confirm">确定</van-button>

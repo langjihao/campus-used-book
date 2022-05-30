@@ -6,6 +6,8 @@ const config = require("../../config.js");
 Page({
   
   data: {
+		tag:[],
+		showtag:false,
 		showcampus:false,
 		confirm:false,
 		showposter:false,
@@ -23,28 +25,33 @@ Page({
     count:0,
     fileList: [], //预览图列表
     piclist:[],//实际上传的fileid列表
-    labels: [],//默认标签+专业标签+课程标签
-    labelsActive: [], // 选中的标签
 		sort:JSON.parse(config.data).sort1,
 		campuslist:JSON.parse(config.data).campus
   },
   //初始化重新发布
   initial(){
     this.setData({
+			tag:[],
+			showtag:false,
+			showcampus:false,
+			confirm:false,
+			showposter:false,
 			showmore:false,
-      title:"",
-      flag:1,
-      isbn:0,
-      show:false,
-      price:5,
-      kind:0,
-      sorted:"通用",
-      method:2,
-      count:0,
-      fileList: [], //预览图列表
-      piclist:[],//实际上传的fileid列表
-      labelsActive: [], // 选中的标签
-      sort:JSON.parse(config.data).sort1
+			flag:1,
+			isbn:0,
+			title:"",
+			show:false,
+			isQQ:false,
+			isWX:false,
+			price:5,
+			kind:0,
+			sorted:"通用",
+			method:2,
+			count:0,
+			fileList: [], //预览图列表
+			piclist:[],//实际上传的fileid列表
+			sort:JSON.parse(config.data).sort1,
+			campuslist:JSON.parse(config.data).campus
     })
 
 	},
@@ -257,7 +264,7 @@ Page({
                 title:that.data.title,
                 isbn:that.data.isbn,
                 piclist:that.data.piclist,
-                tag:that.data.labelsActive,
+                tag:that.data.tag,
                 campus:that.data.campus,
                 avatar:that.data.userinfo.avatarUrl,
                 nickName:that.data.userinfo.nickName,
@@ -305,52 +312,6 @@ Page({
     this.setData({
       title : e.detail.value,
       count : e.detail.value.length
-    })
-  },
-  //获取推荐标签
-  gettag(){
-    let that=this;
-    //获取库内常用标签
-    db.collection("tag").doc("book").get({
-      success(res){
-        that.setData({
-          labels:that.data.labels.concat(res.data.tag)
-        }) 
-      }
-    })
-    //获取学生专业年级等标签
-    let school = {name:that.data.userinfo.school,active:false};
-    let major={name:that.data.userinfo.major,active:false};
-    let tags=[school,major]
-    that.setData({
-      labels:that.data.labels.concat(tags)
-    })
-  },
-  //读取用户选择的标签
-  onTagTap(event) {
-    const labelname = event.currentTarget.dataset.label
-    const labels = this.data.labels
-    let labelsActive = this.data.labelsActive
-    // 当前标签
-    const label = labels.find(item => {
-      return item.name === labelname
-    })
-    if (!label.active && labelsActive.length >= 3) {
-      wx.showToast({icon:"none",
-        title: '最多选择三个标签',
-      })
-      return
-    }
-    label.active = !label.active
-    labelsActive = []
-    labels.forEach(item => {
-      if (item.active) {
-        labelsActive.push(item.name)
-      }
-    })
-    this.setData({
-      labels: labels,
-      labelsActive: labelsActive,
     })
   },
   //打开摄像头扫码isbn
@@ -430,7 +391,6 @@ Page({
 			isQQ:user.QQ!='',
 			isWX:user.WX!=''
 		})
-    this.gettag();
 	},
 	//生成海报
 	makecanvas(){
@@ -466,4 +426,23 @@ Page({
 	showconfirm() {
 		this.setData({confirm: !this.data.confirm });
 	},
+	//确认标签
+	showtag(){
+		if(this.data.title==''){
+			wx.showToast({
+				icon:"none",
+				title:'请先输入商品信息',
+			})
+			return false
+		}
+		this.setData({
+			showtag:!this.data.showtag
+		})
+	},
+	settag(e){
+		this.setData({
+			tag:e.detail,
+			showtag:false
+		})
+	}
 })

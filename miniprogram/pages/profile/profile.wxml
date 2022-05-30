@@ -44,7 +44,7 @@
                   <image src="/images/help.png"></image>
                   <view>帮助中心</view>
             </view>
-						<view class="solid-bottom text-xl padding">
+						<view class=" text-xl padding">
         			<text class=" cuIcon-right"></text>
       			</view>
       </view>
@@ -53,7 +53,7 @@
                   <image src="/images/carbon.png"></image>
                   <view>我的碳积分</view>
             </view>
-            						<view class="solid-bottom text-xl padding">
+            						<view class=" text-xl padding">
         			<text class=" cuIcon-right"></text>
       			</view>
       </view>
@@ -62,7 +62,7 @@
                   <image src="/images/kefu.png"></image>
                   <view>联系客服</view>
             </view>
-            						<view class="solid-bottom text-xl padding">
+            						<view class=" text-xl padding">
         			<text class=" cuIcon-right"></text>
       			</view>
       </view>
@@ -71,7 +71,7 @@
                   <image src="/images/feedback.png"></image>
                   <view>问题反馈</view>
             </view>
-            						<view class="solid-bottom text-xl padding">
+            						<view class=" text-xl padding">
         			<text class=" cuIcon-right"></text>
       			</view>
             <button open-type="feedback"></button>

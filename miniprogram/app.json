@@ -77,6 +77,7 @@
 	},
 	"lazyCodeLoading": "requiredComponents",
   "usingComponents": {
+		"tagarea":"components/tagarea/index",
 		"itembox":"components/itembox/index",
 		"book":"components/book/index",
 		"waterfall":"components/waterfall/waterfall",
