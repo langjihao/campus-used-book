@@ -267,7 +267,8 @@ Page({
                 tag:that.data.tag,
                 campus:that.data.campus,
                 avatar:that.data.userinfo.avatarUrl,
-                nickName:that.data.userinfo.nickName,
+								nickName:that.data.userinfo.nickName,
+								view:0,
                 },
           success(e) {
 								wx.hideLoading()
@@ -348,7 +349,10 @@ Page({
                   icon: 'none'
             });
             return false;
-      }
+			}
+			that.setData({
+				isscan:true
+			})
       that.get_book(isbn);
   },
 	//查询书籍详情
@@ -375,8 +379,8 @@ Page({
     let bookinfo=this.data.bookinfo;
     let userinfo=this.data.userinfo;
     this.setData({
-      title:"出一本"+bookinfo.publisher+"的"+bookinfo.title+",第"+bookinfo.edition,
-      price:0.5*parseFloat(bookinfo.price),
+      title:"出一本"+bookinfo.publisher+"的"+bookinfo.title,
+      price:0.5*parseFloat(bookinfo.price)+1,
       fileList:this.data.fileList.concat({url:bookinfo.pic,sign:0})
 		})
 		wx.hideLoading()

@@ -1,7 +1,7 @@
 <view class="contain">
 <block wx:if="{{flag==1}}">
 <!-- 标准化信息框 -->
-<book wx:if="{{isbn!=0}}" isbn="{{isbn}}"></book>
+<book wx:if="{{isscan}}" isbn="{{isbn}}"></book>
 <!-- 发布闲置主信息框 -->
 <view class="box">
   <view class="input">
@@ -51,7 +51,7 @@
     </view>
   </view>
 </view>
-<van-popup show="{{showtag}}" bind:close="showcampus" round position="bottom">
+<van-popup show="{{showtag}}" bind:close="showtag" round position="bottom">
 		<tagarea wx:if="{{showtag}}" tag="{{tag}}" word="{{title}}" bindsettag="settag"></tagarea>
 </van-popup>
 <view wx:if="{{!showmore}}" class="flex-sub text-center">

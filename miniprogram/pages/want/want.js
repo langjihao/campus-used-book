@@ -256,7 +256,8 @@ Page({
                 tag:that.data.tag,
                 campus:that.data.campus,
                 avatar:that.data.userinfo.avatarUrl,
-                nickName:that.data.userinfo.nickName,
+								nickName:that.data.userinfo.nickName,
+								view:0,
                 },
           success(e) {
 								wx.hideLoading()

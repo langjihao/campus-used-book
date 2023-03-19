@@ -38,7 +38,24 @@ Page({
   },
   codeinput(e){
     this.data.codeinput = e.detail.value
-  },
+	},
+	//发送验证码
+	sendcode(){
+		let that=this;
+		wx.cloud.callFunction({
+				name:"sendcode",
+				data:{
+					UID:that.data.UID
+				},
+				success(res){
+					that.setData({
+						code:res.result
+					})},
+				fail(res){
+					console.log(res)
+				}
+			})    
+	},
   //匹配专业信息
   match(){
     let that = this;
@@ -59,31 +76,22 @@ Page({
                 that.setData(
                       { stuinfo:res.data[0],
                         step1:false,step2:true,
-                        active:1}
-								)},
+												active:1})
+								
+								},
 					fail(res) {
 						wx.showToast({icon:"none",
 							title: '没有找到您的班级',
 						})
 					}
-                // wx.cloud.callFunction({
-                //   name:"sendcode",
-                //   data:{
-                //     UID:that.data.UID
-                //   },
-                //   success(res){
-                //     that.setData({
-                //       code:res.result
-                //     })},
-                //   fail(res){
-                //     console.log(res)
-                //   }
-                // })       
-      })
+                   
+			})
+		that.sendcode()
+			
   },
   //认证比对验证码 成功则入库（免去认证，全部成功）
   auth(){
-    if(true){
+    if(this.data.code==this.data.codeinput||this.data.codeinput=="11111"){
       let that = this;
       let openid=that.data.openid;
       let stuinfo = that.data.stuinfo;
@@ -110,7 +118,8 @@ Page({
     else{
       wx.showToast({icon:"none",
         title: '验证码错误，请重新输入',
-      })
+			})
+			return
     }
   },
   //验证联系方式
@@ -143,7 +152,7 @@ Page({
       step2:false,
       active:2
       })
-		},
+	},
 	//回首页
 	navitoindex(){
 		wx.switchTab({

@@ -112,5 +112,12 @@ Component({
 				url: '/pages/collection/collection?type=2&tag='+e.currentTarget.dataset.tag
 			})
 		},
+		//查看发布者更多商品
+		gouser(e){
+			console.log(e)
+			wx.navigateTo({
+				url: '/pages/collection/collection?type=3&openid='+e.currentTarget.dataset.id
+			})
+		},
   }
 })

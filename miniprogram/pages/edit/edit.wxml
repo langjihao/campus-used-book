@@ -10,17 +10,17 @@
 <view style="height:20rpx"></view>
 <!-- 其他信息框 -->
 <van-cell-group class="box">
-<van-cell title="校区" is-link icon="/images/sort.png" bind:click="showPopup"value="{{campus}}">
+<van-cell title="校区" is-link icon="/images/sort.png" bind:click="showcampus" value="{{campus}}">
 </van-cell>
-<van-popup show="{{show}}" bind:close="showPopup" round position="bottom">
+<van-popup show="{{showcampus}}" bind:close="showcampus" round position="bottom">
   <van-picker columns="{{campuslist}}" show-toolbar
-  title="选择类别" bind:cancel="showPopup" bind:confirm = "showPopup"
-  bind:change="choose"/>
+  title="选择类别" bind:cancel="showcampus" bind:confirm = "confirmcampus"
+  bind:change="choosecampus"/>
 </van-popup>
 
 <van-field 
 label="QQ"
-left-icon="/images/QQ.png"
+left-icon="/images/qq.png"
 value="{{QQ}}"
 placeholder="{{QQ}}"
 bind:change="qqInput">

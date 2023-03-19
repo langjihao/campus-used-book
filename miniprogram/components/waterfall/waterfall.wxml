@@ -17,7 +17,7 @@
 </wxs>
 <!-- 条件筛选与显示控制区 -->
 <view class="checkarea" wx:if="{{list.length!=0}}">
-	<!-- <image src='{{showtype==1?"/images/card.png":"/images/friend.png"}}' style="height: 50rpx;width: 50rpx" catch:tap="changeshowtype"></image> -->
+
 	<view class="text-xl flex" bindtap="changeshowtype">
 	<text class="{{showtype==1?'cuIcon-cascades':'cuIcon-discoverfill'}}"></text>
 	<view class="text-lg"><text>{{showtype==1?'瀑布流':'动态卡片'}}</text></view>
@@ -39,9 +39,11 @@
                           <view class="waterfall_title text-cut">{{item.title}}
                           </view>
                           <view class="waterfall_between">
-														<image class="cu-avatar sm round" mode="scaleToFill" src="{{item.avatar}}"></image>
+														<view class="waterfall_profile flex" catchtap="gouser" data-id="{{item._openid}}">
+														<image class="waterfall_avatar" src="{{item.avatar}}"></image>
                             <view class="waterfall_author text-cut">{{item.nickName}}
                             </view>
+													  </view>
                             <view wx:if='{{item.price}}' class="waterfall_price">￥{{item.price}}</view>
                           </view>
                     </view>
@@ -59,7 +61,7 @@
 			<view class="cu-item shadow">
 				<view style="background-color:{{(item.type==0||item.type==2)?'#F7D6E0':'#B2F7EF'}};height: 30rpx;"></view>
 				<view class="cu-list menu-avatar"  >
-					<view class="cu-item">
+					<view class="cu-item" catchtap="gouser" data-id="{{item._openid}}">
 						<view class="cu-avatar round lg" style="background-image:url({{item.avatar}});"></view>
 						<view class="timeline_content flex-sub">
 							<view>{{item.nickName}}</view>

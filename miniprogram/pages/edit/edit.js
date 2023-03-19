@@ -8,7 +8,7 @@ Page({
        */
       data: {
 						campuslist: JSON.parse(config.data).campus,
-						show:false
+						showcampus:false
       },
       //跳转到实名认证页
       navitoauth(){
@@ -16,22 +16,22 @@ Page({
                   url: '/pages/verify/verify'
                 })
       },
-      //校区选择
-      choose(e){
-            this.setData({
-                  campus:e.detail.value
-            })     
+			//展示校区选项
+			showcampus(){
+				this.setData({ showcampus: !this.data.showcampus });
 			},
-			//弹出层开关
-			showPopup() {
-				this.setData({ show: !this.data.show });
-			},
-			//切换商品类别
-			choosesort(e){
-				console.log(e)
+			//改变校区
+			choosecampus(e){
 				this.setData({
-				campus:e.detail.value,
-				})
+					campus:e.detail.value
+			})     
+
+			},
+			confirmcampus(e){
+				this.setData({
+					campus:e.detail.value,
+					showcampus: !this.data.showcampus
+			})   
 			},
       onLoad() {
             let user =wx.getStorageSync('userinfo');
@@ -97,6 +97,7 @@ Page({
 																				title: '修改成功',
 																				icon: 'success'
 																	})
+																	wx.navigateBack()
 														},
 											})
 								},

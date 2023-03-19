@@ -106,7 +106,6 @@
                         </view>
                         <view class="waterfall_between">
                         <view class="waterfall_price">￥{{item.price}}</view>
-
                         </view>
                   </view>
             </block>
