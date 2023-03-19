@@ -1,7 +1,7 @@
 const cloud = require('wx-server-sdk')
 const crypto = require('crypto');
 cloud.init({
-  env: 'cloud1-7gg95toua8c7bcf8'
+  env: ' your env id'
 })
 const db = cloud.database();
 const _ = db.command;

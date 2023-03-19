@@ -5,8 +5,8 @@ const tencentcloud = require("tencentcloud-sdk-nodejs");
 const NlpClient = tencentcloud.nlp.v20190408.Client;
 const clientConfig = {
   credential: {
-    secretId: "AKIDTjjSwIwoBTYOyHS6evvevvfAPbXBBQ9d",
-    secretKey: "NWCcm87qIRLzMTIzPYT8YiTzPYS6TbS4",
+    secretId: "",
+    secretKey: "",
   },
   region: "ap-guangzhou",
   profile: {

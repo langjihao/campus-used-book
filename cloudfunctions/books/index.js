@@ -1,12 +1,12 @@
 //第三方图书信息API秘钥
-const appkey = '220d737bc380667b'; 
+const appkey = ''; 
 
 const rp = require('request-promise')
 const cloud = require('wx-server-sdk')
 const TCB = require('tcb-router'); 
 const request = require('request');
 cloud.init({
-		env: 'cloud1-7gg95toua8c7bcf8'
+		env: ''
 	})
 const db = cloud.database()
 
@@ -28,7 +28,7 @@ exports.main = async(event, context) => {
 				let bookinfo = bookdata.result;
 				bookinfo['_id'] = isbn;
 				if(bookinfo.pic==''){
-					bookinfo.pic='cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/nopic.png'
+					bookinfo.pic='cloud:// your env id.636c- your env id-1256970835/nopic.png'
 				}
 				await db.collection('book').add({
 								data: bookinfo,

@@ -2,7 +2,7 @@
 <!-- 顶部信息栏 -->
 <view class="profile-card">
   <!-- 封面 -->
-  <image class="poster" lazy-load src="cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/campus/{{campus}}.jpg" mode="aspectFill" />
+  <image class="poster" lazy-load src="cloud:// your env id.636c- your env id-1256970835/campus/{{campus}}.jpg" mode="aspectFill" />
 
   <!-- 用户 -->
   <view class="user-info">

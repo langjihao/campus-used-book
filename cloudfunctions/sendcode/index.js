@@ -7,8 +7,8 @@ var config = {
   host: 'smtp.qq.com', 
   port: 465, 
   auth: {
-    user: '1574447086@qq.com', 
-    pass: 'kxzkyexsciflhaac' 
+    user: '', 
+    pass: '' 
   }
 };
 // 创建一个SMTP客户端对象

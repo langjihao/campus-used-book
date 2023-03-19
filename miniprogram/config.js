@@ -1,6 +1,6 @@
 var data = {
       //云开发环境id
-      env: 'cloud1-7gg95toua8c7bcf8',
+      env: ' your env id',
       //分享配置
       share_title: 'QUST二手交易',
       share_img: '/images/poster.jpg', //可以是网络地址，本地文件路径要填绝对位置

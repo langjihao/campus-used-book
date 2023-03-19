@@ -9,7 +9,7 @@
 "views": [
 	{
 		"type": "image",
-		"url": "cloud://cloud1-7gg95toua8c7bcf8.636c-cloud1-7gg95toua8c7bcf8-1256970835/海报.png",
+		"url": "cloud:// your env id.636c- your env id-1256970835/海报.png",
 		"css": {
 			"width": "799px",
 			"height": "1345px",
